@@ -14,7 +14,6 @@ classDiagram
     Term: id
     Term: +String phrase
     Term: calculate_certainty(term)
-    Term: list_searches()
     Term: list_unique_terms_with_counts()
     Term: uncategorized_term()
     Term: categorized_term()
