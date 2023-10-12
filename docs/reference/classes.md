@@ -3,31 +3,26 @@ classDiagram
   direction TB
   
   AdminUser --> User : Is a Type of
-  Term --> Search : Represents a common phrase in a set of
+  Term --> SearchEvent : has many
 
   User --> Categorization : Creates a
   User --> Category : Proposes a
-  Batch --> Search : Loads and Processes
   Categorization --> Term : Includes a
   Categorization --> Category : Includes a
 
   class Term
-    Term
     Term: id
+    Term: +String phrase
     Term: calculate_certainty(term)
-    Term: list_searches()
-    Term: list_unique_terms()
     Term: list_unique_terms_with_counts()
-    Term: unique_uncategorized_term()
-    Term: unique_categorized_term()
-    Term: 
+    Term: uncategorized_term()
+    Term: categorized_term()
 
-  class Search
-    Search: +Integer id
-    Search: +Integer term_id
-    Search: +Integer batch_id
-    Search: +Timestamp timestamp
-    Search: +String phrase
+  class SearchEvent
+    SearchEvent: +Integer id
+    SearchEvent: +Integer term_id
+    SearchEvent: +String source
+    SearchEvent: +Timestamp timestamp
 
   class User
     User: +String kerbid
@@ -41,14 +36,6 @@ classDiagram
     AdminUser: create_category()
     AdminUser: upload_batch()
     AdminUser: view_proposed_categories()
-
-  class Batch
-    Batch: +Integer id
-    Batch: +Integer user_id
-    Batch: +String source
-    Batch: +Timestamp timestamp
-    Batch: load_data(json_file)
-    Batch: process_searches(batch_id)
 
   class Category
     Category: +String name
