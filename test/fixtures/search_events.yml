@@ -1,0 +1,17 @@
+# == Schema Information
+#
+# Table name: search_events
+#
+#  id         :integer          not null, primary key
+#  term_id    :integer
+#  source     :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+timdex_cool:
+  term: cool
+  source: timdex
+bento_hi:
+  term: hi
+  source: bento

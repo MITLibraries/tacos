@@ -1,0 +1,15 @@
+# == Schema Information
+#
+# Table name: terms
+#
+#  id         :integer          not null, primary key
+#  phrase     :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+cool:
+  phrase: Super cool search
+
+hi:
+  phrase: hello world

@@ -54,6 +54,14 @@ group :development, :test do
 end
 
 group :development do
+  # Add annotations to model, test, fixtures when run
+  gem 'annotate'
+
+  # RuboCop is a Ruby static code analyzer (a.k.a. linter) and code formatter.
+  gem 'rubocop'
+  gem 'rubocop-capybara'
+  gem 'rubocop-rails'
+
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 
