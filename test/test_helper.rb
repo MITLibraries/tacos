@@ -1,6 +1,18 @@
-ENV["RAILS_ENV"] ||= "test"
-require_relative "../config/environment"
-require "rails/test_help"
+# frozen_string_literal: true
+
+require 'simplecov'
+require 'simplecov-lcov'
+SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
+SimpleCov::Formatter::LcovFormatter.config.lcov_file_name = 'coverage.lcov'
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
+]
+SimpleCov.start('rails')
+
+ENV['RAILS_ENV'] ||= 'test'
+require_relative '../config/environment'
+require 'rails/test_help'
 
 module ActiveSupport
   class TestCase
