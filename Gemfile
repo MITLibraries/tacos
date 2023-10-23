@@ -9,6 +9,9 @@ end
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
+# Ruby GraphQL implememntation [https://github.com/rmosolgo/graphql-ruby]
+gem 'graphql'
+
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem 'importmap-rails'
 
@@ -56,6 +59,9 @@ end
 group :development do
   # Add annotations to model, test, fixtures when run
   gem 'annotate'
+
+  # GraphQL query editor
+  gem "graphiql-rails"
 
   # RuboCop is a Ruby static code analyzer (a.k.a. linter) and code formatter.
   gem 'rubocop'
