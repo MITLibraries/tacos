@@ -32,5 +32,14 @@ module Types
       term = Term.create_or_find_by!(phrase: search_term)
       term.search_events.create!(source: source_system)
     end
+
+    field :lookup_term, TermType, null: true,
+                                  description: 'Lookup a term to return information about it (bypasses logging)' do
+      argument :search_term, String, required: true
+    end
+
+    def lookup_term(search_term:)
+      term = Term.find_by(phrase: search_term)
+    end
   end
 end
