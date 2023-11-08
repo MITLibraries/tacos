@@ -7,5 +7,9 @@ module Types
     field :source, String
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :phrase, String
+    def phrase
+      @object.term.phrase
+    end
   end
 end
