@@ -22,7 +22,7 @@ gem 'jbuilder'
 gem 'puma', '>= 5.0'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.1.1'
+gem 'rails', '~> 7.1.2'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -61,7 +61,7 @@ group :development do
   gem 'annotate'
 
   # GraphQL query editor
-  gem "graphiql-rails"
+  gem 'graphiql-rails'
 
   # RuboCop is a Ruby static code analyzer (a.k.a. linter) and code formatter.
   gem 'rubocop'
