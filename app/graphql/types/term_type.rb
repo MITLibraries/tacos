@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 module Types
-  class SearchEventType < Types::BaseObject
+  class TermType < Types::BaseObject
     field :id, ID, null: false
-    field :term_id, Integer
-    field :source, String
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :phrase, String
+    field :phrase, String, null: false
+    field :occurence_count, Integer
+    field :search_events, [SearchEventType], null: false
     field :standard_identifiers, [StandardIdentifiersType]
 
-    def phrase
-      @object.term.phrase
+    def occurence_count
+      @object.search_events.count
     end
 
     def standard_identifiers
       ids = []
-      StandardIdentifiers.new(@object.term.phrase).identifiers.each do |identifier|
+      StandardIdentifiers.new(@object.phrase).identifiers.each do |identifier|
         ids << { kind: identifier.first, value: identifier.last }
       end
       ids

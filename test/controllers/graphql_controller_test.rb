@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class GraphqlControllerTest < ActionDispatch::IntegrationTest
@@ -47,5 +49,20 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
                                }' }
     assert_equal(200, response.status)
     assert_equal Term.count, initial_term_count
+  end
+
+  test 'search event query can return detected standard identifiers' do
+    post '/graphql', params: { query: '{
+                                 logSearchEvent(sourceSystem: "timdex", searchTerm: "10.1038/nphys1170") {
+                                  standardIdentifiers {
+                                        kind
+                                        value
+                                  }
+                                 }
+                               }' }
+
+    json = JSON.parse(response.body)
+    assert_equal('doi', json['data']['logSearchEvent']['standardIdentifiers'].first['kind'])
+    assert_equal('10.1038/nphys1170', json['data']['logSearchEvent']['standardIdentifiers'].first['value'])
   end
 end
