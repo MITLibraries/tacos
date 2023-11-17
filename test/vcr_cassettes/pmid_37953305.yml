@@ -1,0 +1,70 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=37953305&retmode=xml
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Connection:
+      - close
+      Host:
+      - eutils.ncbi.nlm.nih.gov
+      User-Agent:
+      - http.rb/5.1.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 17 Nov 2023 17:30:05 GMT
+      Server:
+      - Finatra
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      Referrer-Policy:
+      - origin-when-cross-origin
+      Ncbi-Sid:
+      - 030462E715EBA16A_B93BSID
+      Ncbi-Phid:
+      - 322C56F00DDF264500003C3277045652.1.1.m_3
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Cache-Control:
+      - private
+      X-Ratelimit-Limit:
+      - '3'
+      X-Ratelimit-Remaining:
+      - '2'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - X-RateLimit-Limit,X-RateLimit-Remaining
+      Set-Cookie:
+      - ncbi_sid=030462E715EBA16A_B93BSID; domain=.nih.gov; path=/; expires=Sun, 17
+        Nov 2024 17:30:06 GMT
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+      X-Xss-Protection:
+      - 1; mode=block
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" ?>
+        <!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2023//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_230101.dtd">
+        <PubmedArticleSet>
+        <PubmedArticle><MedlineCitation Status="Publisher" Owner="NLM" IndexingMethod="Automated"><PMID Version="1">37953305</PMID><DateRevised><Year>2023</Year><Month>11</Month><Day>12</Day></DateRevised><Article PubModel="Print-Electronic"><Journal><ISSN IssnType="Electronic">1476-4687</ISSN><JournalIssue CitedMedium="Internet"><PubDate><Year>2023</Year><Month>Nov</Month><Day>09</Day></PubDate></JournalIssue><Title>Nature</Title><ISOAbbreviation>Nature</ISOAbbreviation></Journal><ArticleTitle>Flashy molecules decode a polymer's lengthening chain.</ArticleTitle><ELocationID EIdType="doi" ValidYN="Y">10.1038/d41586-023-03497-2</ELocationID><Language>eng</Language><PublicationTypeList><PublicationType UI="D016433">News</PublicationType></PublicationTypeList><ArticleDate DateType="Electronic"><Year>2023</Year><Month>11</Month><Day>09</Day></ArticleDate></Article><MedlineJournalInfo><Country>England</Country><MedlineTA>Nature</MedlineTA><NlmUniqueID>0410462</NlmUniqueID><ISSNLinking>0028-0836</ISSNLinking></MedlineJournalInfo><CitationSubset>IM</CitationSubset><KeywordList Owner="NOTNLM"><Keyword MajorTopicYN="N">Chemistry</Keyword></KeywordList></MedlineCitation><PubmedData><History><PubMedPubDate PubStatus="medline"><Year>2023</Year><Month>11</Month><Day>13</Day><Hour>0</Hour><Minute>42</Minute></PubMedPubDate><PubMedPubDate PubStatus="pubmed"><Year>2023</Year><Month>11</Month><Day>13</Day><Hour>0</Hour><Minute>42</Minute></PubMedPubDate><PubMedPubDate PubStatus="entrez"><Year>2023</Year><Month>11</Month><Day>12</Day><Hour>23</Hour><Minute>40</Minute></PubMedPubDate></History><PublicationStatus>aheadofprint</PublicationStatus><ArticleIdList><ArticleId IdType="pubmed">37953305</ArticleId><ArticleId IdType="doi">10.1038/d41586-023-03497-2</ArticleId><ArticleId IdType="pii">10.1038/d41586-023-03497-2</ArticleId></ArticleIdList><ReferenceList><Reference><Citation>Ye, R. et al. Nature Chem. https://doi.org/10.1038/s41557-023-01363-2 (2023).</Citation><ArticleIdList><ArticleId IdType="doi">10.1038/s41557-023-01363-2</ArticleId></ArticleIdList></Reference></ReferenceList></PubmedData></PubmedArticle></PubmedArticleSet>
+  recorded_at: Fri, 17 Nov 2023 17:30:06 GMT
+recorded_with: VCR 6.2.0

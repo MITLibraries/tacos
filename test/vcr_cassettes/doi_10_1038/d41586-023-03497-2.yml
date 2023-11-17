@@ -1,0 +1,59 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.unpaywall.org/v2/10.1038/d41586-023-03497-2?email=timdex@mit.edu
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Connection:
+      - close
+      Host:
+      - api.unpaywall.org
+      User-Agent:
+      - http.rb/5.1.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1700238936&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=hAVtQDLeLgABDWA%2Fyfxl0sXzZLCU4MerIlfAeEp3kAM%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1700238936&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=hAVtQDLeLgABDWA%2Fyfxl0sXzZLCU4MerIlfAeEp3kAM%3D
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Connection:
+      - close
+      Server:
+      - gunicorn
+      Date:
+      - Fri, 17 Nov 2023 16:35:36 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '719'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Headers:
+      - origin, content-type, accept, x-requested-with
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"doi": "10.1038/d41586-023-03497-2", "doi_url": "https://doi.org/10.1038/d41586-023-03497-2",
+        "title": "Flashy molecules decode a polymer\u2019s lengthening chain", "genre":
+        "journal-article", "is_paratext": false, "published_date": "2023-11-09", "year":
+        2023, "journal_name": "Nature", "journal_issns": "0028-0836,1476-4687", "journal_issn_l":
+        "0028-0836", "journal_is_oa": false, "journal_is_in_doaj": false, "publisher":
+        "Springer Science and Business Media LLC", "is_oa": false, "oa_status": "closed",
+        "has_repository_copy": false, "best_oa_location": null, "first_oa_location":
+        null, "oa_locations": [], "oa_locations_embargoed": [], "updated": "2023-11-14T01:48:08.241432",
+        "data_standard": 2, "z_authors": null}'
+  recorded_at: Fri, 17 Nov 2023 16:35:36 GMT
+recorded_with: VCR 6.2.0

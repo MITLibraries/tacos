@@ -12,6 +12,9 @@ gem 'bootsnap', require: false
 # Ruby GraphQL implememntation [https://github.com/rmosolgo/graphql-ruby]
 gem 'graphql'
 
+# HTTP is an easy-to-use client library for making requests from Ruby [https://github.com/httprb/http]
+gem 'http'
+
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem 'importmap-rails'
 
@@ -54,6 +57,9 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]
+
+  # Allow selective loading of configuration in different contexts (dev/test)
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -81,4 +87,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'simplecov-lcov'
+  gem 'vcr'
+  gem 'webmock'
 end

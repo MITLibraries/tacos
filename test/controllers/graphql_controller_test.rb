@@ -65,4 +65,43 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
     assert_equal('doi', json['data']['logSearchEvent']['standardIdentifiers'].first['kind'])
     assert_equal('10.1038/nphys1170', json['data']['logSearchEvent']['standardIdentifiers'].first['value'])
   end
+
+  test 'search event query can return phrase from logged term' do
+    post '/graphql', params: { query: '{
+                                 logSearchEvent(sourceSystem: "timdex", searchTerm: "10.1038/nphys1170") {
+                                  phrase
+                                 }
+                               }' }
+
+    json = JSON.parse(response.body)
+    assert_equal('10.1038/nphys1170', json['data']['logSearchEvent']['phrase'])
+  end
+
+  test 'search event query can return details for detected standard identifiers' do
+    VCR.use_cassette('searchevent 10.1038/nphys1170') do
+      post '/graphql', params: { query: '{
+                                 logSearchEvent(sourceSystem: "timdex", searchTerm: "10.1038/nphys1170") {
+                                  standardIdentifiers {
+                                        kind
+                                        value
+                                        details {
+                                          title
+                                          linkResolverUrl
+                                          issns
+                                          authors
+                                        }
+                                  }
+                                 }
+                               }' }
+
+      json = JSON.parse(response.body)
+      assert_equal('Measured measurement',
+                   json['data']['logSearchEvent']['standardIdentifiers'].first['details']['title'])
+      assert_equal('https://mit.primo.exlibrisgroup.com/discovery/openurl?institution=01MIT_INST&rfr_id=info:sid/mit.tacos.api&vid=01MIT_INST:MIT&rft.atitle=Measured measurement&rft.date=&rft.genre=journal-article&rft.jtitle=Nature Physics&rft_id=info:doi/10.1038/nphys1170',
+                   json['data']['logSearchEvent']['standardIdentifiers'].first['details']['linkResolverUrl'])
+      assert_equal(%w[1745-2473 1745-2481],
+                   json['data']['logSearchEvent']['standardIdentifiers'].first['details']['issns'])
+      assert_nil(json['data']['logSearchEvent']['standardIdentifiers'].first['details']['authors'])
+    end
+  end
 end
