@@ -1,0 +1,26 @@
+{
+  "name": "timdex",
+  "stack": "heroku-22",
+  "scripts": {},
+  "env": {
+    "LINKRESOLVER_BASEURL": {
+      "required": false
+    },
+    "UNPAYWALL_EMAIL": {
+      "required": false
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
