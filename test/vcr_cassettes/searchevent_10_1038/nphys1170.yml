@@ -1,0 +1,60 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.unpaywall.org/v2/10.1038/nphys1170?email=timdex@mit.edu
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Connection:
+      - close
+      Host:
+      - api.unpaywall.org
+      User-Agent:
+      - http.rb/5.1.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1700244429&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=%2BFYNLpKXL4HZPdB1xG6M8ZbB%2BFCWyaRsIfiUGcOabNg%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1700244429&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=%2BFYNLpKXL4HZPdB1xG6M8ZbB%2BFCWyaRsIfiUGcOabNg%3D
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Connection:
+      - close
+      Server:
+      - gunicorn
+      Date:
+      - Fri, 17 Nov 2023 18:07:09 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '733'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Headers:
+      - origin, content-type, accept, x-requested-with
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"doi": "10.1038/nphys1170", "doi_url": "https://doi.org/10.1038/nphys1170",
+        "title": "Measured measurement", "genre": "journal-article", "is_paratext":
+        false, "published_date": "2009-01-01", "year": 2009, "journal_name": "Nature
+        Physics", "journal_issns": "1745-2473,1745-2481", "journal_issn_l": "1745-2473",
+        "journal_is_oa": false, "journal_is_in_doaj": false, "publisher": "Springer
+        Science and Business Media LLC", "is_oa": false, "oa_status": "closed", "has_repository_copy":
+        false, "best_oa_location": null, "first_oa_location": null, "oa_locations":
+        [], "oa_locations_embargoed": [], "updated": "2021-04-01T04:17:18.585258",
+        "data_standard": 2, "z_authors": [{"given": "Markus", "family": "Aspelmeyer",
+        "sequence": "first"}]}'
+  recorded_at: Fri, 17 Nov 2023 18:07:09 GMT
+recorded_with: VCR 6.2.0
