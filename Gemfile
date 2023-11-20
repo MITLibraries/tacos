@@ -30,9 +30,6 @@ gem 'rails', '~> 7.1.2'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
 
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4'
-
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem 'turbo-rails'
 
@@ -54,12 +51,20 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+group :production do
+  # Use postgres as the database for Active Record
+  gem 'pg'
+end
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]
 
   # Allow selective loading of configuration in different contexts (dev/test)
   gem 'dotenv-rails'
+
+  # Use sqlite as the database for Active Record in dev and test
+  gem 'sqlite3'
 end
 
 group :development do
