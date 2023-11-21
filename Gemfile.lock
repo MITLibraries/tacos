@@ -130,9 +130,6 @@ GEM
       rake
     globalid (1.2.1)
       activesupport (>= 6.1)
-    graphiql-rails (1.9.0)
-      railties
-      sprockets-rails
     graphql (2.1.6)
       racc (~> 1.4)
     hashdiff (1.0.1)
@@ -345,7 +342,6 @@ DEPENDENCIES
   capybara
   debug
   dotenv-rails
-  graphiql-rails
   graphql
   http
   importmap-rails

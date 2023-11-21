@@ -73,9 +73,6 @@ group :development do
   # Add annotations to model, test, fixtures when run
   gem 'annotate'
 
-  # GraphQL query editor
-  gem 'graphiql-rails'
-
   # RuboCop is a Ruby static code analyzer (a.k.a. linter) and code formatter.
   gem 'rubocop'
   gem 'rubocop-capybara'
