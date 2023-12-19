@@ -111,9 +111,9 @@ GEM
       rexml
     crass (1.0.6)
     date (3.3.4)
-    debug (1.8.0)
-      irb (>= 1.5.0)
-      reline (>= 0.3.1)
+    debug (1.9.0)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -194,7 +194,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.4)
-    psych (5.1.1.1)
+    psych (5.1.2)
       stringio
     public_suffix (5.0.3)
     puma (6.4.0)
