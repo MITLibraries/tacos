@@ -129,7 +129,7 @@ GEM
       rake
     globalid (1.2.1)
       activesupport (>= 6.1)
-    graphql (2.2.0)
+    graphql (2.2.1)
       racc (~> 1.4)
     hashdiff (1.1.0)
     http (5.1.1)
