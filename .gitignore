@@ -38,3 +38,6 @@
 
 # Ignore simplecov generated files
 /coverage
+
+.DS_Store
+.vscode/
