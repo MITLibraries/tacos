@@ -41,7 +41,7 @@ class StandardIdentifiers
   def strip_invalid_issns
     return unless @identifiers[:issn]
 
-    @identifiers[:issn] = nil unless validate_issn(@identifiers[:issn])
+    @identifiers.delete(:issn) unless validate_issn(@identifiers[:issn])
   end
 
   # validate_issn is only called when the regex for an ISSN has indicated an ISSN
