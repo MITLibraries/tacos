@@ -1,9 +1,8 @@
 # == Schema Information
 #
-# Table name: monthly_matches
+# Table name: aggregate_matches
 #
 #  id         :integer          not null, primary key
-#  month      :date
 #  doi        :integer
 #  issn       :integer
 #  isbn       :integer
@@ -14,29 +13,29 @@
 #
 require 'test_helper'
 
-class MonthlyMatchTest < ActiveSupport::TestCase
+class AggregateMatchTest < ActiveSupport::TestCase
   test 'dois counts are included in aggregation' do
-    aggregate = MonthlyMatch.new.generate(DateTime.now)
+    aggregate = AggregateMatch.new.generate
     assert aggregate.doi == 1
   end
 
   test 'issns counts are included in aggregation' do
-    aggregate = MonthlyMatch.new.generate(DateTime.now)
+    aggregate = AggregateMatch.new.generate
     assert aggregate.issn == 1
   end
 
   test 'isbns counts are included in aggregation' do
-    aggregate = MonthlyMatch.new.generate(DateTime.now)
+    aggregate = AggregateMatch.new.generate
     assert aggregate.isbn == 1
   end
 
   test 'pmids counts are included in aggregation' do
-    aggregate = MonthlyMatch.new.generate(DateTime.now)
-    assert aggregate.pmid == 1
+    aggregate = AggregateMatch.new.generate
+    assert aggregate.pmid == 2
   end
 
   test 'unmatched counts are included are included in aggregation' do
-    aggregate = MonthlyMatch.new.generate(DateTime.now)
+    aggregate = AggregateMatch.new.generate
     assert aggregate.unmatched == 2
   end
 
@@ -69,7 +68,7 @@ class MonthlyMatchTest < ActiveSupport::TestCase
       SearchEvent.create(term: terms(:hi), source: 'test')
     end
 
-    aggregate = MonthlyMatch.new.generate(DateTime.now)
+    aggregate = AggregateMatch.new.generate
 
     assert doi_expected_count == aggregate.doi
     assert issn_expected_count == aggregate.issn
