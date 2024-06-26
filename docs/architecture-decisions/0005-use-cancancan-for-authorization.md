@@ -53,7 +53,11 @@ for a more detailed example.)
 
 Pundit also allows for more granular access control via
 [scopes](https://github.com/varvet/pundit?tab=readme-ov-file#scopes). This feature is the most compelling reason to
-choose Pundit over CanCanCan, but it's unclear whether we would need it in this application.
+choose Pundit over CanCanCan, but it's unclear whether we would need it in this application. 
+
+Because it requires a separate policy class per model, Pundit can require some repetitive code if authorization
+policies are similar across multiple models. We might be able to mitigate this by abstracting common logic to the
+`ApplicationPolicy` from which all policy classes inherit. 
 
 ### Action Policy
 
