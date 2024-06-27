@@ -1,5 +1,11 @@
 # TACOS: Tool for Analyzing and Categorization Of Searchterms
 
+## Local development
+
+There is a `Makefile` that contains some useful command shortcuts for typical development tasks.
+
+To see a current list of commands, run `make help`.
+
 ## Environment Variables
 
 ### Required
@@ -16,6 +22,8 @@
 
 ## Documentation
 
+### Architecture Decisions
+
 [Architecture Decisions](docs/architecture-decisions/)
 
 ### Explanation/Overview
@@ -25,5 +33,10 @@
 [Pattern Detection and Enhancement](docs/explanation/pattern_detection_and_enhancement.md)
 
 ### Reference
+
+`make docserver` will start a `yard` server using the RDoc comments from the codebase. RDoc in this application is a work-in-progress and should improve over time. As of this writing, the index page generated contains broken links to our markdown documentation, but they "files" navigation displays them properly.
+
+> [!TIP]  
+> Prior to running `make docserver` the first time, you must install the bundled gems for this application using either `bundle install` or `make install` (they both do the same thing!).
 
 [Class Diagram](docs/reference/classes.md)
