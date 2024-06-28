@@ -31,7 +31,7 @@ class MonthlyMatch < ApplicationRecord
   # @param month [DateTime] A DateTime object within the `month` to be generated.
   # @return [MonthlyMatch] The created MonthlyMatch object.
   def generate(month)
-    matches = count_matches(SearchEvent.single_month(month))
+    matches = MonthlyMatch.count_matches(SearchEvent.single_month(month))
     MonthlyMatch.create(month:, doi: matches[:doi], issn: matches[:issn], isbn: matches[:isbn],
                         pmid: matches[:pmid], unmatched: matches[:unmatched])
   end
