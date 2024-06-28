@@ -29,7 +29,7 @@ class AggregateMatch < ApplicationRecord
   # @todo Prevent running more than once by checking if we have data and then erroring?
   # @return [AggregateMatch] The created AggregateMatch object.
   def generate
-    matches = count_matches(SearchEvent.all)
+    matches = AggregateMatch.count_matches(SearchEvent.all)
     AggregateMatch.create(doi: matches[:doi], issn: matches[:issn], isbn: matches[:isbn],
                           pmid: matches[:pmid], unmatched: matches[:unmatched])
   end
