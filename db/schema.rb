@@ -10,18 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_21_132150) do
-  create_table "aggregate_matches", force: :cascade do |t|
-    t.integer "doi"
-    t.integer "issn"
-    t.integer "isbn"
-    t.integer "pmid"
-    t.integer "unmatched"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "monthly_matches", force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 2024_06_21_132136) do
+  create_table "metrics_algorithms", force: :cascade do |t|
     t.date "month"
     t.integer "doi"
     t.integer "issn"
