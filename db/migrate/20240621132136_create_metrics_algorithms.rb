@@ -1,6 +1,7 @@
-class CreateAggregateMatches < ActiveRecord::Migration[7.1]
+class CreateMetricsAlgorithms < ActiveRecord::Migration[7.1]
   def change
-    create_table :aggregate_matches do |t|
+    create_table :metrics_algorithms do |t|
+      t.date :month
       t.integer :doi
       t.integer :issn
       t.integer :isbn
