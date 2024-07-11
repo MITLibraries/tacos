@@ -33,7 +33,7 @@ class StandardIdentifiers
     {
       isbn: /\b(ISBN-*(1[03])* *(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})\b/,
       issn: /\b[0-9]{4}-[0-9]{3}[0-9xX]\b/,
-      pmid: /\b((pmid|PMID): (\d{7,8}))\b/,
+      pmid: /\b((pmid|PMID):\s?(\d{7,8}))\b/,
       doi: %r{\b10\.(\d+\.*)+/(([^\s.])+\.*)+\b}
     }
   end
