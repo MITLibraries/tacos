@@ -1,4 +1,4 @@
-# 5. Use CanCanCan for authorization
+# 6. Use CanCanCan for authorization
 
 Date: 2024-06-25
 
@@ -11,17 +11,17 @@ Accepted
 We will need authorization in TACOS to support the staff user interface. Specifically, we will need to manage access
 to the following features:
 
-* The categorization interface. This is one of the core features of TACOS, in which staff will match logged search
-terms to categories.
-* The 'Hints' system. TACOS will provide a dashboard to manage Hints, which are currently maintained in a Google
-spreadsheet.
-* Reporting dashboard. Initially, TACOS will provide monthly statistics on matched algorithms. We will likely add
-more reporting functionality in the future.
+- The categorization interface. This is one of the core features of TACOS, in which staff will match logged search
+  terms to categories.
+- The 'Hints' system. TACOS will provide a dashboard to manage Hints, which are currently maintained in a Google
+  spreadsheet.
+- Reporting dashboard. Initially, TACOS will provide monthly statistics on matched algorithms. We will likely add
+  more reporting functionality in the future.
 
 The authorization gem we select should also be able to support features beyond those listed above, as we are not sure
 what TACOS might become in the future.
 
-## Options considered 
+## Options considered
 
 For the purpose of this ADR, I considered three popular authorization gems. These are not the only available options,
 but they are widely adopted and well supported.
@@ -53,11 +53,11 @@ for a more detailed example.)
 
 Pundit also allows for more granular access control via
 [scopes](https://github.com/varvet/pundit?tab=readme-ov-file#scopes). This feature is the most compelling reason to
-choose Pundit over CanCanCan, but it's unclear whether we would need it in this application. 
+choose Pundit over CanCanCan, but it's unclear whether we would need it in this application.
 
 Because it requires a separate policy class per model, Pundit can require some repetitive code if authorization
 policies are similar across multiple models. We might be able to mitigate this by abstracting common logic to the
-`ApplicationPolicy` from which all policy classes inherit. 
+`ApplicationPolicy` from which all policy classes inherit.
 
 ### Action Policy
 
