@@ -157,7 +157,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
   end
 
   test 'pmid examples' do
-    samples = ['PMID: 35648703', 'pmid: 1234567']
+    samples = ['PMID: 35648703', 'pmid: 1234567', 'PMID:35648703']
 
     samples.each do |pmid|
       actual = StandardIdentifiers.new(pmid).identifiers
