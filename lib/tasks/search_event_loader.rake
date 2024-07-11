@@ -4,8 +4,11 @@ require 'csv'
 
 # Loaders can bulk load data
 namespace :search_events do
-  # csv loader can bulk load SearchEvents and Terms
+  # csv loader can bulk load SearchEvents and Terms.
   #
+  # @note For use in development environments only. Deuplicate search events will be created if the same CSV is loaded
+  #   multiple times.
+  # 
   # @note the csv should be formated as `term phrase`, `timestamp`. A dataclip is available that can export in this
   #   format.
   # @example
