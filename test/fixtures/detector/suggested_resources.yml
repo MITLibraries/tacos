@@ -1,0 +1,20 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+
+one:
+  title: JSTOR
+  url: https://libguides.mit.edu/jstor
+  phrase: jstor
+  fingerprint: jstor
+
+two:
+  title: Web of Science
+  url: https://libguides.mit.edu/webofsci
+  phrase: web of science
+  fingerprint: of science web
+
+three:
+  title: Web of Knowledge
+  url: https://libguides.mit.edu/webofsci
+  phrase: web of knowledge
+  fingerprint: knowledge of web
