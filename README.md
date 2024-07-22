@@ -16,6 +16,17 @@ To see a current list of commands, run `make help`.
 
 `UNPAYWALL_EMAIL`: email address to include in API call as required in their [documentation](https://unpaywall.org/products/api). Your personal email is appropriate for development. Deployed and for tests, use the timdex moira list email.
 
+#### Authentication
+
+Access to some of the config values below is limited. Please contact someone in the EngX team if you need help locating
+them.
+
+`BASE_URL`: The base url for the app. This is required for Omniauth config.
+`OP_HOST`: The OID provider hostname, required for authentication. (Do not include URL prefix.)
+`OP_SECRET_KEY`: The secret key for the OID client.
+`OP_CLIENT_ID`: The identifier for the OID client.
+`OP_ISSUER`: The URL for the OIDC issuer. This can be found in the Touchstone OpenID metadata.
+
 ### Optional
 
 `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.

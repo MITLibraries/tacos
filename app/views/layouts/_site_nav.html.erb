@@ -10,6 +10,15 @@
         <nav class="local-nav" aria-label="Main menu">
           <%= nav_link_to("Home", root_path) %>
         </nav>
+        <nav class="nav-user" aria-label="User menu">
+          <% if user_signed_in? %>
+            <%= button_to("Sign out", destroy_user_session_path, class: 'action-auth', id: "sign_in",
+                          method: :delete) %>
+          <% else %>
+            <%= button_to("Sign in", user_openid_connect_omniauth_authorize_path, class: 'action-auth', id: "sign_in",
+                          method: :post) %>
+          <% end %>
+        </nav>
       </div>
     </div>
   </div>
