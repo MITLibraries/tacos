@@ -10,22 +10,21 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 
-one:
+jstor:
   title: JSTOR
   url: https://libguides.mit.edu/jstor
   phrase: jstor
   fingerprint: jstor
 
-two:
+web_of_science:
   title: Web of Science
   url: https://libguides.mit.edu/webofsci
   phrase: web of science
   fingerprint: of science web
 
-three:
+web_of_knowledge:
   title: Web of Knowledge
   url: https://libguides.mit.edu/webofsci
   phrase: web of knowledge
