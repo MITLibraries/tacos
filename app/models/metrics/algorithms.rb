@@ -4,15 +4,16 @@
 #
 # Table name: metrics_algorithms
 #
-#  id         :integer          not null, primary key
-#  month      :date
-#  doi        :integer
-#  issn       :integer
-#  isbn       :integer
-#  pmid       :integer
-#  unmatched  :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :integer          not null, primary key
+#  month         :date
+#  doi           :integer
+#  issn          :integer
+#  isbn          :integer
+#  pmid          :integer
+#  unmatched     :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  journal_exact :integer
 #
 module Metrics
   # Algorithms aggregates statistics for matches for all SearchEvents
@@ -43,30 +44,68 @@ module Metrics
                   count_matches(SearchEvent.all.includes(:term))
                 end
       Metrics::Algorithms.create(month:, doi: matches[:doi], issn: matches[:issn], isbn: matches[:isbn],
-                                 pmid: matches[:pmid], unmatched: matches[:unmatched])
+                                 pmid: matches[:pmid], journal_exact: matches[:journal_exact],
+                                 unmatched: matches[:unmatched])
     end
 
-    # Counts matches supplied events
+    # Counts matches for supplied events
     #
-    # @note We currently only have StandardIdentifiers to match. As we add new algorithms, this method will need to
-    #   expand to handle additional match types.
     # @param events [Array of SearchEvents] An array of SearchEvents to check for matches.
     # @return [Hash] A Hash with keys for each known algorithm and the count of matched SearchEvents.
     def count_matches(events)
       matches = Hash.new(0)
-      known_ids = %i[unmatched pmid isbn issn doi]
 
       events.each do |event|
-        ids = StandardIdentifiers.new(event.term.phrase)
-
-        matches[:unmatched] += 1 if ids.identifiers.blank?
-
-        known_ids.each do |id|
-          matches[id] += 1 if ids.identifiers[id].present?
-        end
+        event_matches(event, matches)
       end
 
       matches
+    end
+
+    # Checks for matches for a single event
+    #
+    # @note We currently match StandardIdentifiers and Exact Journals. As we add new algorithms, this method will need
+    #  to expand to handle additional match types.
+    #
+    # @param event [SearchEvent] an individual search event to check for matches
+    # @param matches [Hash] a Hash that keeps track of how many of each algorithm we match
+    # @return does not return anything (the same matches Hash is passed in each loop but not explicitly sent back)
+    def event_matches(event, matches)
+      ids = match_standard_identifiers(event, matches)
+      journal_exact = process_journals(event, matches)
+
+      matches[:unmatched] += 1 if ids.identifiers.blank? && journal_exact.count.zero?
+    end
+
+    # Checks for StandardIdentifer matches
+    #
+    # @param event [SearchEvent] an individual search event to check for matches
+    # @param matches [Hash] a Hash that keeps track of how many of each algorithm we match
+    # @return [Array] an array of matched StandardIdentifiers
+    def match_standard_identifiers(event, matches)
+      known_ids = %i[unmatched pmid isbn issn doi]
+      ids = StandardIdentifiers.new(event.term.phrase)
+
+      known_ids.each do |id|
+        matches[id] += 1 if ids.identifiers[id].present?
+      end
+      ids
+    end
+
+    # Checks for Journal matches
+    #
+    # @note we are only checking for exact matches at this time as the partial match algorithm is more noise than signal
+    # @note this detection is not a guarantee of search intent and should not be considered a guarantee that we
+    #   understand the search intent. We have not yet done validation on this algoritm to understand what percentage it
+    #   is useful. This information should be conveyed in any reports that use this data.
+    #
+    # @param event [SearchEvent] an individual search event to check for matches
+    # @param matches [Hash] a Hash that keeps track of how many of each algorithm we match
+    # @return [Array] an array of matched Detector::Journal records
+    def process_journals(event, matches)
+      journal_exact = Detector::Journal.full_term_match(event.term.phrase)
+      matches[:journal_exact] += 1 if journal_exact.count.positive?
+      journal_exact
     end
   end
 end
