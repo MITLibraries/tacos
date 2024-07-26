@@ -39,16 +39,49 @@ module Detector
       assert resource.fingerprint == 'a brand is new phrase this'
     end
 
-    test 'fingerprints standardize characters used' do
-      resource = {
-        title: 'A wide range of characters',
-        url: 'https://example.org',
-        phrase: 'This phrase uses: WeIrD caPital letters, * (punctuation), and symbols™ like ¥€$'
-      }
+    test 'generating fingerprints does not alter the phrase' do
+      resource = detector_suggested_resources('jstor')
+      benchmark = 'This is an updated phrase! '
 
-      new_resource = Detector::SuggestedResource.create(resource)
+      refute resource.phrase == benchmark
+      resource.phrase = benchmark
+      resource.save
+      resource.reload
 
-      assert new_resource.fingerprint == 'and capital letters like phrase punctuation symbols this uses weird'
+      assert resource.phrase == benchmark
+    end
+
+    test 'fingerprints strip extra spaces' do
+      resource = detector_suggested_resources('jstor')
+      refute resource.fingerprint == 'i need space'
+
+      resource.phrase = '  i  need  space  '
+      resource.save
+      resource.reload
+
+      assert resource.fingerprint == 'i need space'
+    end
+
+    test 'fingerprints are coerced to lowercase' do
+      resource = detector_suggested_resources('jstor')
+      refute resource.fingerprint == 'ftw intercapping'
+
+      resource.phrase = 'InterCapping FTW'
+      resource.save
+      resource.reload
+
+      assert resource.fingerprint == 'ftw intercapping'
+    end
+
+    test 'fingerprints remove punctuation and symbols' do
+      resource = detector_suggested_resources('jstor')
+      refute resource.fingerprint == 'bullets perfect phrase punctuation quoted symbols'
+
+      resource.phrase = 'symbols™ + punctuation: * bullets! - "quoted phrase" (perfect) ¥€$'
+      resource.save
+      resource.reload
+
+      assert resource.fingerprint == 'bullets perfect phrase punctuation quoted symbols'
     end
 
     test 'fingerprints coerce characters to ASCII' do
@@ -63,6 +96,28 @@ module Detector
 
       assert new_resource.fingerprint == 'a b ch d dj dz dzh e f g gh gj i ia ie io iu j k kh kj l lj m n nj o p r s '\
       'sh shch t ts tsh u v y yi z zh'
+    end
+
+    test 'fingerprints remove repeated words' do
+      resource = detector_suggested_resources('jstor')
+      refute resource.fingerprint == 'double'
+
+      resource.phrase = 'double double'
+      resource.save
+      resource.reload
+
+      assert resource.fingerprint == 'double'
+    end
+
+    test 'fingerprints sort words alphabetically' do
+      resource = detector_suggested_resources('jstor')
+      refute resource.fingerprint == 'delta gamma'
+
+      resource.phrase = 'gamma delta'
+      resource.save
+      resource.reload
+
+      assert resource.fingerprint == 'delta gamma'
     end
   end
 end

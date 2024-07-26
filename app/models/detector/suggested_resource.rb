@@ -23,35 +23,35 @@ module Detector
     before_save :update_fingerprint
 
     def update_fingerprint
-      self.fingerprint = calculate_fingerprint
+      self.fingerprint = calculate_fingerprint(phrase)
     end
 
     # This implements the OpenRefine fingerprinting algorithm. See
     # https://openrefine.org/docs/technical-reference/clustering-in-depth#fingerprint
-    def calculate_fingerprint
-      temp = phrase
-      temp.strip!
-      temp.downcase!
+    def calculate_fingerprint(old_phrase)
+      modified_phrase = old_phrase
+      modified_phrase = modified_phrase.strip
+      modified_phrase = modified_phrase.downcase
 
       # This removes all punctuation and symbol characters from the string.
-      temp.gsub!(/\p{P}|\p{S}/, '')
+      modified_phrase = modified_phrase.gsub(/\p{P}|\p{S}/, '')
 
       # Normalize to ASCII (e.g. gödel and godel are liable to be intended to
       # find the same thing)
-      temp = temp.to_ascii
+      modified_phrase = modified_phrase.to_ascii
 
       # Coercion to ASCII can introduce new symbols, so we remove those now.
-      temp.gsub!(/\p{P}|\p{S}/, '')
+      modified_phrase = modified_phrase.gsub(/\p{P}|\p{S}/, '')
 
       # Tokenize
-      array = temp.split
+      tokens = modified_phrase.split
 
       # Remove duplicates and sort
-      array.uniq!
-      array.sort!
+      tokens = tokens.uniq
+      tokens = tokens.sort
 
       # Rejoin tokens
-      array.join(' ')
+      tokens.join(' ')
     end
   end
 end
