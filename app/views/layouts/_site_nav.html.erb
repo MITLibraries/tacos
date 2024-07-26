@@ -15,8 +15,13 @@
             <%= button_to("Sign out", destroy_user_session_path, class: 'action-auth', id: "sign_in",
                           method: :delete) %>
           <% else %>
-            <%= button_to("Sign in", user_openid_connect_omniauth_authorize_path, class: 'action-auth', id: "sign_in",
-                          method: :post) %>
+            <% if Rails.configuration.fake_auth_enabled %>
+              <%= button_to("Sign in", user_developer_omniauth_authorize_path, id: "sign_in", class: 'action-auth',
+                            method: :post) %>
+            <% else %>
+              <%= button_to("Sign in", user_openid_connect_omniauth_authorize_path, class: 'action-auth', id: "sign_in",
+                            method: :post) %>
+            <% end %>
           <% end %>
         </nav>
       </div>

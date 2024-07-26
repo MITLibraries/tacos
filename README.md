@@ -22,6 +22,9 @@ Access to some of the config values below is limited. Please contact someone in 
 them.
 
 `BASE_URL`: The base url for the app. This is required for Omniauth config.
+`FAKE_AUTH_CONFIG`: Switches Omniauth to developer mode when set to `true`. Fake auth is also enabled whenever the
+app is started in the development environment, or if the app is a PR build (see `HEROKU_APP_NAME` under optional
+variables).
 `OP_HOST`: The OID provider hostname, required for authentication. (Do not include URL prefix.)
 `OP_SECRET_KEY`: The secret key for the OID client.
 `OP_CLIENT_ID`: The identifier for the OID client.
@@ -29,6 +32,7 @@ them.
 
 ### Optional
 
+`HEROKU_APP_NAME`: Used by the FakeAuthConfig module to determine whether an app is a PR build.
 `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.
 
 ## Documentation

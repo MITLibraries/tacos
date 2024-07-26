@@ -1,11 +1,20 @@
+# Handles authentication response from Omniauth. See
+# [the Devise docs](https://www.rubydoc.info/gems/devise_token_auth/DeviseTokenAuth/OmniauthCallbacksController) for
+# additional information about this controller.
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def openid_connect
     @user = User.from_omniauth(request.env['omniauth.auth'])
     sign_in_and_redirect @user, event: :authentication
+    flash[:notice] = "Welcome, #{@user.email}!"
   end
 
-  # def developer
-  #   @user = User.from_omniauth(request.env['omniauth.auth'])
-  #   sign_in_and_redirect @user, event: :authentication
-  # end
+  # Developer authentication is used in local dev and PR builds.
+  def developer
+    raise 'Invalid Authentication' unless Rails.configuration.fake_auth_enabled
+
+    @user = User.from_omniauth(request.env['omniauth.auth'])
+    @user.save
+    sign_in_and_redirect @user, event: :authentication
+    flash[:notice] = "Welcome, #{@user.email}!"
+  end
 end
