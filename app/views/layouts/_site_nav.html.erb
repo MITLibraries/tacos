@@ -9,6 +9,11 @@
       <div class="wrap-bar">
         <nav class="local-nav" aria-label="Main menu">
           <%= nav_link_to("Home", root_path) %>
+          <% if user_signed_in? %>
+            <% if can? :index, Term %>
+              <%= link_to('Admin', admin_root_path, class: 'nav-item') %>
+            <% end %>
+          <% end %>
         </nav>
         <nav class="nav-user" aria-label="User menu">
           <% if user_signed_in? %>
