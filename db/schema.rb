@@ -10,13 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_01_205444) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_16_143850) do
   create_table "detector_journals", force: :cascade do |t|
     t.string "name"
     t.json "additional_info"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_detector_journals_on_name"
+  end
+
+  create_table "detector_suggested_resources", force: :cascade do |t|
+    t.string "title"
+    t.string "url"
+    t.string "phrase"
+    t.string "fingerprint"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fingerprint"], name: "index_detector_suggested_resources_on_fingerprint", unique: true
+    t.index ["phrase"], name: "index_detector_suggested_resources_on_phrase", unique: true
   end
 
   create_table "metrics_algorithms", force: :cascade do |t|
