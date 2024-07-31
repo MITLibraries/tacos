@@ -4,15 +4,16 @@
 #
 # Table name: metrics_algorithms
 #
-#  id         :integer          not null, primary key
-#  month      :date
-#  doi        :integer
-#  issn       :integer
-#  isbn       :integer
-#  pmid       :integer
-#  unmatched  :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :integer          not null, primary key
+#  month         :date
+#  doi           :integer
+#  issn          :integer
+#  isbn          :integer
+#  pmid          :integer
+#  unmatched     :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  journal_exact :integer
 #
 require 'test_helper'
 
@@ -36,6 +37,11 @@ class Algorithms < ActiveSupport::TestCase
   test 'pmids counts are included in monthly aggregation' do
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
     assert aggregate.pmid == 1
+  end
+
+  test 'journal exact counts are included in monthly aggregation' do
+    aggregate = Metrics::Algorithms.new.generate(DateTime.now)
+    assert aggregate.journal_exact == 1
   end
 
   test 'unmatched counts are included are included in monthly aggregation' do
@@ -102,6 +108,11 @@ class Algorithms < ActiveSupport::TestCase
     assert aggregate.pmid == 2
   end
 
+  test 'journal exact counts are included in total aggregation' do
+    aggregate = Metrics::Algorithms.new.generate
+    assert aggregate.journal_exact == 2
+  end
+
   test 'unmatched counts are included are included in total aggregation' do
     aggregate = Metrics::Algorithms.new.generate
     assert aggregate.unmatched == 2
@@ -131,6 +142,11 @@ class Algorithms < ActiveSupport::TestCase
       SearchEvent.create(term: terms(:pmid_38908367), source: 'test')
     end
 
+    journal_exact_count = rand(1...100)
+    journal_exact_count.times do
+      SearchEvent.create(term: terms(:journal_nature_medicine), source: 'test')
+    end
+
     unmatched_expected_count = rand(1...100)
     unmatched_expected_count.times do
       SearchEvent.create(term: terms(:hi), source: 'test')
@@ -142,6 +158,7 @@ class Algorithms < ActiveSupport::TestCase
     assert issn_expected_count == aggregate.issn
     assert isbn_expected_count == aggregate.isbn
     assert pmid_expected_count == aggregate.pmid
+    assert journal_exact_count == aggregate.journal_exact
     assert unmatched_expected_count == aggregate.unmatched
   end
 end

@@ -44,5 +44,13 @@ module Detector
       actual = Detector::Journal.partial_term_match('words and stuff Nature medicine, 1999')
       assert actual.count == 2
     end
+
+    test 'mixed titles are downcased when saved' do
+      mixed_case = 'ThIs Is A tItLe'
+      actual = Detector::Journal.create(name: mixed_case)
+      actual.reload
+      refute_equal(mixed_case, actual.name)
+      assert_equal(mixed_case.downcase, actual.name)
+    end
   end
 end
