@@ -1,14 +1,12 @@
 module FakeAuthConfig
   # Used in an initializer to determine if the application is configured and allowed to use fake authentication.
-  def self.fake_auth_status
-    return true if fake_auth_enabled? && app_name_pattern_match?
-
-    false
+  def self.fake_auth_enabled?
+    fake_auth_env? && app_name_pattern_match?
   end
 
   # Default to fake auth in development unless FAKE_AUTH_ENABLED=false. This allows rake tasks to run without loading
   # ENV.
-  private_class_method def self.fake_auth_enabled?
+  private_class_method def self.fake_auth_env?
     if Rails.env.development? && ENV['FAKE_AUTH_ENABLED'].nil?
       true
     else
@@ -16,8 +14,7 @@ module FakeAuthConfig
     end
   end
 
-  # Checks if the current app is a Heroku pipeline app, in which case fake_auth should be enabled.
-  # In test ENV we require setting a fake app name to allow for testing of the pattern.
+  # Check if the app is a PR build. This assures that fake auth is never enabled in staging or prod.
   private_class_method def self.app_name_pattern_match?
     return true if Rails.env.development?
 

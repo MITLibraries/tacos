@@ -35,6 +35,24 @@ module ActiveSupport
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
-    # Add more helper methods to be used by all tests here...
+    def mock_auth(user)
+      OmniAuth.config.mock_auth[:openid_connect] =
+        OmniAuth::AuthHash.new(provider: 'openid_connect',
+                               uid: user.uid,
+                               extra: { raw_info: { preferred_username: user.uid, email: user.email } })
+      get '/users/auth/openid_connect/callback'
+    end
+
+    def auth_setup
+      Rails.application.env_config['devise.mapping'] = Devise.mappings[:user]
+      Rails.application.env_config['omniauth.auth'] =
+        OmniAuth.config.mock_auth[:openid_connect]
+      OmniAuth.config.test_mode = true
+    end
+
+    def auth_teardown
+      OmniAuth.config.test_mode = false
+      OmniAuth.config.mock_auth[:openid_connect] = nil
+    end
   end
 end

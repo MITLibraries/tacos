@@ -4,10 +4,11 @@ Devise.setup do |config|
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
   require 'devise/orm/active_record'
+  require "#{Rails.root}/app/models/concerns/fake_auth_config.rb"
 
   config.sign_out_via = :delete
 
-  if Rails.configuration.fake_auth_enabled
+  if FakeAuthConfig.fake_auth_enabled?
     config.omniauth :developer
   else
     # OIDC configuration
@@ -15,14 +16,14 @@ Devise.setup do |config|
       name: :openid_connect,
       scope: ['openid', 'email', 'profile'],
       claims: ['name', 'nickname', 'preferred_username', 'given_name', 'middle_name', 'family_name', 'email', 'profile'],
-      issuer: ENV['OP_ISSUER'],
+      issuer: ENV['OPENID_ISSUER'],
       discovery: true,
       response_type: :code,
       uid_field: 'kerberos_id',
       client_options: {
-        host: ENV['OP_HOST'],
-        identifier: ENV['OP_CLIENT_ID'],
-        secret: ENV['OP_CLIENT_SECRET'],
+        host: ENV['OPENID_HOST'],
+        identifier: ENV['OPENID_CLIENT_ID'],
+        secret: ENV['OPENID_CLIENT_SECRET'],
         redirect_uri: [ENV['BASE_URL'], '/users/auth/openid_connect/callback'].join
       },
     }

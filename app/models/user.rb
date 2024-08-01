@@ -9,7 +9,9 @@
 #  updated_at :datetime         not null
 #
 class User < ApplicationRecord
-  if Rails.configuration.fake_auth_enabled
+  include FakeAuthConfig
+
+  if FakeAuthConfig.fake_auth_enabled?
     devise :omniauthable, omniauth_providers: [:developer]
   else
     devise :omniauthable, omniauth_providers: [:openid_connect]
@@ -22,7 +24,7 @@ class User < ApplicationRecord
   # traverse the response hash differently than with OIDC, as developer mode returns metadata in a different structure.
   # @param auth Hash The authentication response from Omniauth.
   def self.from_omniauth(auth)
-    if Rails.configuration.fake_auth_enabled
+    if FakeAuthConfig.fake_auth_enabled?
       uid = auth.uid
       email = auth.info.email
     else
@@ -31,6 +33,7 @@ class User < ApplicationRecord
     end
 
     User.where(uid: uid).first_or_create do |user|
+      user.uid = uid
       user.email = email
     end
   end
