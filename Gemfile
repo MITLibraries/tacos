@@ -9,7 +9,10 @@ end
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
-# Ruby GraphQL implememntation [https://github.com/rmosolgo/graphql-ruby]
+# Use Devise for authentication
+gem 'devise'
+
+# Ruby GraphQL implementation [https://github.com/rmosolgo/graphql-ruby]
 gem 'graphql'
 
 # HTTP is an easy-to-use client library for making requests from Ruby [https://github.com/httprb/http]
@@ -22,6 +25,11 @@ gem 'importmap-rails'
 gem 'jbuilder'
 
 gem 'mitlibraries-theme', git: 'https://github.com/mitlibraries/mitlibraries-theme', tag: 'v1.4'
+
+# Use OmniAuth as Touchstone middleware and include the OIDC strategy and CSRF protection gems
+gem 'omniauth'
+gem 'omniauth_openid_connect'
+gem 'omniauth-rails_csrf_protection'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '>= 5.0'
@@ -93,6 +101,7 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
+  gem 'climate_control'
   gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'simplecov-lcov'

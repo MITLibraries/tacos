@@ -10,6 +10,20 @@
         <nav class="local-nav" aria-label="Main menu">
           <%= nav_link_to("Home", root_path) %>
         </nav>
+        <nav class="nav-user" aria-label="User menu">
+          <% if user_signed_in? %>
+            <%= button_to("Sign out", destroy_user_session_path, class: 'action-auth', id: "sign_in",
+                          method: :delete) %>
+          <% else %>
+            <% if FakeAuthConfig.fake_auth_enabled? %>
+              <%= button_to("Sign in", user_developer_omniauth_authorize_path, id: "sign_in", class: 'action-auth',
+                            method: :post) %>
+            <% else %>
+              <%= button_to("Sign in", user_openid_connect_omniauth_authorize_path, class: 'action-auth', id: "sign_in",
+                            method: :post) %>
+            <% end %>
+          <% end %>
+        </nav>
       </div>
     </div>
   </div>

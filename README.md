@@ -18,7 +18,34 @@ To see a current list of commands, run `make help`.
 
 ### Optional
 
-`PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.
+`PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes
+from our theme gem.
+
+### Authentication
+
+#### Required in all environments
+
+Access to some of the config values below is limited. Please contact someone in the EngX team if you need help locating
+them.
+
+`BASE_URL`: The base url for the app. This is required for Omniauth config.
+`OPENID_HOST`: The OID provider hostname, required for authentication. (Do not include URL prefix.)
+`OPENID_SECRET_KEY`: The secret key for the OID client.
+`OPENID_CLIENT_ID`: The identifier for the OID client.
+`OPENID_ISSUER`: The URL for the OIDC issuer. This can be found in the Touchstone OpenID metadata.
+
+#### Required in PR builds
+
+The config below is needed to run Omniauth in developer mode in Heroku review apps. Rather than relying upon a single
+ENV value, we use the `FakeAuthConfig` module to perform additional checks that confirm whether developer mode should
+be enabled. This assures that developer mode is never enabled in staging or production apps.
+
+`FAKE_AUTH_ENABLED`: Switches Omniauth to developer mode when set. If unset, PR builds will attempt to authenticate with
+OIDC, which will fail as their domains are not registered with the provider. (Note: Developer mode is also enabled
+whenever the app is started in the development environment.)
+`HEROKU_APP_NAME`: Used by the FakeAuthConfig module to determine whether an app is a PR build. If this is set along
+with `FAKE_AUTH_ENABLED`, then Omniauth will use Developer mode. Heroku sets this variable automatically for review
+apps; it should never be manually set or overridden in any environment.
 
 ## Documentation
 
