@@ -7,8 +7,9 @@
 #  email      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  admin      :boolean          default(FALSE)
 #
-require "test_helper"
+require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   test 'user valid with uid and email' do
@@ -34,5 +35,17 @@ class UserTest < ActiveSupport::TestCase
     user.email = nil
     user.save
     assert_not user.valid?
+  end
+
+  test 'admin user is valid' do
+    user = users(:admin)
+    assert user.admin?
+    assert user.valid?
+  end
+
+  test 'non-admin user is valid' do
+    user = users(:basic)
+    assert_not user.admin?
+    assert user.valid?
   end
 end

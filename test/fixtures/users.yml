@@ -7,6 +7,7 @@
 #  email      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  admin      :boolean          default(FALSE)
 #
 
 # This model initially had no columns defined. If you add columns to the
@@ -16,3 +17,13 @@
 valid:
   uid: "va@lid.user"
   email: "va@lid.user"
+
+basic:
+  uid: "basic@example.org"
+  email: "basic@example.org"
+  admin: false
+
+admin:
+  uid: "admin@example.org"
+  email: "admin@example.org"
+  admin: true
