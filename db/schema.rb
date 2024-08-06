@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_23_202204) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_05_203949) do
   create_table "detector_journals", force: :cascade do |t|
     t.string "name"
     t.json "additional_info"
@@ -63,6 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_23_202204) do
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end

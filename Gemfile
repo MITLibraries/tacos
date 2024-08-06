@@ -9,6 +9,9 @@ end
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
+# Use CanCanCan for authorization
+gem 'cancancan'
+
 # Use Devise for authentication
 gem 'devise'
 

@@ -100,6 +100,7 @@ GEM
     bootsnap (1.18.3)
       msgpack (~> 1.2)
     builder (3.3.0)
+    cancancan (3.6.1)
     capybara (3.40.0)
       addressable
       matrix
@@ -430,6 +431,7 @@ PLATFORMS
 DEPENDENCIES
   annotate
   bootsnap
+  cancancan
   capybara
   climate_control
   debug
