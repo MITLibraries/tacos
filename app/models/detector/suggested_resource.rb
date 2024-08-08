@@ -59,7 +59,8 @@ module Detector
     # @note This method is called by the suggested_resource:reload rake task.
     #
     # @param input [CSV::Table] An imported CSV file containing all Suggested Resource records. The CSV file must have
-    #                           at least three headers, named "Title", "URL", and "Phrase".
+    #                           at least three headers, named "Title", "URL", and "Phrase". Please note: these values
+    #                           are case sensitive.
     def self.bulk_replace(input)
       raise ArgumentError.new, 'Tabular CSV is required' unless input.instance_of?(CSV::Table)
 
