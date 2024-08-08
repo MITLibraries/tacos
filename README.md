@@ -6,6 +6,26 @@ There is a `Makefile` that contains some useful command shortcuts for typical de
 
 To see a current list of commands, run `make help`.
 
+### Generating cassettes for tests
+
+We use [VCR](https://github.com/vcr/vcr) to record transactions with remote systems for testing. This includes the rake
+task for reloading Detector::SuggestedResource records, which do not yet have a standard provider. For the initial
+feature development, we have used a Lando environment with the following definition:
+
+```yml
+name: static
+recipe: lamp
+config:
+  webroot: .
+```
+
+If you need to regenerate these cassettes, the following procedure should be sufficient:
+
+1. Use the configuration above to ensure the needed files are visible at `http://static.lndo.site/filename.ext`.
+2. Delete any existing cassette files which need to be regenerated.
+3. Run the test(s).
+4. Commit the resulting files along with your other work.
+
 ## Environment Variables
 
 ### Required

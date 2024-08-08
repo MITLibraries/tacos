@@ -53,5 +53,28 @@ module Detector
       # Rejoin tokens
       tokens.join(' ')
     end
+
+    # This replaces all current Detector::SuggestedResource records with a new set from an imported CSV.
+    #
+    # @note This method is called by the suggested_resource:reload rake task.
+    #
+    # @param input [CSV::Table] An imported CSV file containing all Suggested Resource records. The CSV file must have
+    #                           at least three headers, named "Title", "URL", and "Phrase". Please note: these values
+    #                           are case sensitive.
+    def self.bulk_replace(input)
+      raise ArgumentError.new, 'Tabular CSV is required' unless input.instance_of?(CSV::Table)
+
+      # Need to check what columns exist in input
+      required_headers = %w[Title URL Phrase]
+      missing_headers = required_headers - input.headers
+      raise ArgumentError.new, "Some CSV columns missing: #{missing_headers}" unless missing_headers.empty?
+
+      Detector::SuggestedResource.delete_all
+
+      input.each do |line|
+        record = Detector::SuggestedResource.new({ title: line['Title'], url: line['URL'], phrase: line['Phrase'] })
+        record.save
+      end
+    end
   end
 end

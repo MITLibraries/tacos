@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://static.lndo.site/suggested_resources_extra.csv
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '151'
+      Content-Type:
+      - text/csv
+      Date:
+      - Wed, 07 Aug 2024 17:19:29 GMT
+      Etag:
+      - '"97-61f08dcf08696"'
+      Last-Modified:
+      - Tue, 06 Aug 2024 19:33:07 GMT
+      Server:
+      - Apache/2.4.54 (Debian)
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        77u/VGl0bGUsVVJMLFBocmFzZSxFeHRyYQ0KRXhhbXBsZSxodHRwczovL2V4YW1wbGUub3JnLGV4YW1wbGUgc2VhcmNoLGV4dHJhIDENCldlYiBvZiBTY2llbmNlLGh0dHBzOi8vbGlicmFyaWVzLm1pdC5lZHUvd2Vib2ZzY2ksd2ViIG9mIFNjaWVuY2UsZXh0cmEgMg==
+  recorded_at: Wed, 07 Aug 2024 17:19:29 GMT
+recorded_with: VCR 6.2.0
