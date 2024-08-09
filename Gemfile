@@ -111,3 +111,5 @@ group :test do
   gem 'vcr'
   gem 'webmock'
 end
+
+gem "administrate", "~> 0.20.1"
