@@ -17,6 +17,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
 
     samples.each do |isbn|
       actual = StandardIdentifiers.new(isbn).identifiers
+
       assert_equal(isbn, actual[:isbn])
     end
   end
@@ -28,6 +29,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
 
     samples.each do |isbn|
       actual = StandardIdentifiers.new(isbn).identifiers
+
       assert_equal(isbn, actual[:isbn])
     end
   end
@@ -37,6 +39,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
 
     samples.each do |notisbn|
       actual = StandardIdentifiers.new(notisbn).identifiers
+
       assert_nil(actual[:isbn])
     end
   end
@@ -49,12 +52,14 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
 
     samples.each do |notisbn|
       actual = StandardIdentifiers.new(notisbn).identifiers
+
       assert_nil(actual[:isbn])
     end
   end
 
   test 'ISSNs detected in a string' do
     actual = StandardIdentifiers.new('test 0250-6335 test').identifiers
+
     assert_equal('0250-6335', actual[:issn])
   end
 
@@ -63,6 +68,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
 
     samples.each do |issn|
       actual = StandardIdentifiers.new(issn).identifiers
+
       assert_equal(issn, actual[:issn])
     end
   end
@@ -72,12 +78,14 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
 
     samples.each do |notissn|
       actual = StandardIdentifiers.new(notissn).identifiers
+
       assert_nil(actual[:issn])
     end
   end
 
   test 'ISSNs need boundaries' do
     actual = StandardIdentifiers.new('12345-5678 1234-56789').identifiers
+
     assert_nil(actual[:issn])
   end
 
@@ -109,6 +117,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
     ]
     samples.each do |notissn|
       actual = StandardIdentifiers.new(notissn).identifiers
+
       assert_nil(actual[:issn])
     end
   end
@@ -122,6 +131,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
     ]
     samples.each do |issn|
       actual = StandardIdentifiers.new(issn).identifiers
+
       assert_equal(issn, actual[:issn])
     end
   end
@@ -129,6 +139,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
   test 'doi detected in string' do
     actual = StandardIdentifiers.new('"Quantum tomography: Measured measurement", Markus Aspelmeyer, nature physics "\
                                      "January 2009, Volume 5, No 1, pp11-12; [ doi:10.1038/nphys1170 ]').identifiers
+
     assert_equal('10.1038/nphys1170', actual[:doi])
   end
 
@@ -138,6 +149,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
 
     samples.each do |doi|
       actual = StandardIdentifiers.new(doi).identifiers
+
       assert_equal(doi, actual[:doi])
     end
   end
@@ -147,12 +159,14 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
 
     samples.each do |notdoi|
       actual = StandardIdentifiers.new(notdoi).identifiers
+
       assert_nil(actual[:notdoi])
     end
   end
 
   test 'pmid detected in string' do
     actual = StandardIdentifiers.new('Citation and stuff PMID: 35648703 more stuff.').identifiers
+
     assert_equal('PMID: 35648703', actual[:pmid])
   end
 
@@ -161,6 +175,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
 
     samples.each do |pmid|
       actual = StandardIdentifiers.new(pmid).identifiers
+
       assert_equal(pmid, actual[:pmid])
     end
   end
@@ -170,6 +185,7 @@ class StandardIdentifiersTest < ActiveSupport::TestCase
 
     samples.each do |notpmid|
       actual = StandardIdentifiers.new(notpmid).identifiers
+
       assert_nil(actual[:pmid])
     end
   end

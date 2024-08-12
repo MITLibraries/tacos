@@ -21,32 +21,38 @@ class Algorithms < ActiveSupport::TestCase
   # Monthlies
   test 'dois counts are included in monthly aggregation' do
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
-    assert aggregate.doi == 1
+
+    assert_equal 1, aggregate.doi
   end
 
   test 'issns counts are included in monthly aggregation' do
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
-    assert aggregate.issn == 1
+
+    assert_equal 1, aggregate.issn
   end
 
   test 'isbns counts are included in monthly aggregation' do
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
-    assert aggregate.isbn == 1
+
+    assert_equal 1, aggregate.isbn
   end
 
   test 'pmids counts are included in monthly aggregation' do
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
-    assert aggregate.pmid == 1
+
+    assert_equal 1, aggregate.pmid
   end
 
   test 'journal exact counts are included in monthly aggregation' do
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
-    assert aggregate.journal_exact == 1
+
+    assert_equal 1, aggregate.journal_exact
   end
 
   test 'unmatched counts are included are included in monthly aggregation' do
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
-    assert aggregate.unmatched == 2
+
+    assert_equal 2, aggregate.unmatched
   end
 
   test 'creating lots of searchevents leads to correct data for monthly' do
@@ -80,42 +86,48 @@ class Algorithms < ActiveSupport::TestCase
 
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
 
-    assert doi_expected_count == aggregate.doi
-    assert issn_expected_count == aggregate.issn
-    assert isbn_expected_count == aggregate.isbn
-    assert pmid_expected_count == aggregate.pmid
-    assert unmatched_expected_count == aggregate.unmatched
+    assert_equal doi_expected_count, aggregate.doi
+    assert_equal issn_expected_count, aggregate.issn
+    assert_equal isbn_expected_count, aggregate.isbn
+    assert_equal pmid_expected_count, aggregate.pmid
+    assert_equal unmatched_expected_count, aggregate.unmatched
   end
 
   # Total
   test 'dois counts are included in total aggregation' do
     aggregate = Metrics::Algorithms.new.generate
-    assert aggregate.doi == 1
+
+    assert_equal 1, aggregate.doi
   end
 
   test 'issns counts are included in total aggregation' do
     aggregate = Metrics::Algorithms.new.generate
-    assert aggregate.issn == 1
+
+    assert_equal 1, aggregate.issn
   end
 
   test 'isbns counts are included in total aggregation' do
     aggregate = Metrics::Algorithms.new.generate
-    assert aggregate.isbn == 1
+
+    assert_equal 1, aggregate.isbn
   end
 
   test 'pmids counts are included in total aggregation' do
     aggregate = Metrics::Algorithms.new.generate
-    assert aggregate.pmid == 2
+
+    assert_equal 2, aggregate.pmid
   end
 
   test 'journal exact counts are included in total aggregation' do
     aggregate = Metrics::Algorithms.new.generate
-    assert aggregate.journal_exact == 2
+
+    assert_equal 2, aggregate.journal_exact
   end
 
   test 'unmatched counts are included are included in total aggregation' do
     aggregate = Metrics::Algorithms.new.generate
-    assert aggregate.unmatched == 2
+
+    assert_equal 2, aggregate.unmatched
   end
 
   test 'creating lots of searchevents leads to correct data for total' do
@@ -154,11 +166,11 @@ class Algorithms < ActiveSupport::TestCase
 
     aggregate = Metrics::Algorithms.new.generate
 
-    assert doi_expected_count == aggregate.doi
-    assert issn_expected_count == aggregate.issn
-    assert isbn_expected_count == aggregate.isbn
-    assert pmid_expected_count == aggregate.pmid
-    assert journal_exact_count == aggregate.journal_exact
-    assert unmatched_expected_count == aggregate.unmatched
+    assert_equal doi_expected_count, aggregate.doi
+    assert_equal issn_expected_count, aggregate.issn
+    assert_equal isbn_expected_count, aggregate.isbn
+    assert_equal pmid_expected_count, aggregate.pmid
+    assert_equal journal_exact_count, aggregate.journal_exact
+    assert_equal unmatched_expected_count, aggregate.unmatched
   end
 end

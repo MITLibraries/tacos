@@ -37,7 +37,7 @@ class TermTest < ActiveSupport::TestCase
     term.destroy
 
     assert_equal((term_pre_count - 1), Term.count)
-    assert(SearchEvent.count < event_pre_count)
+    assert_operator(SearchEvent.count, :<, event_pre_count)
   end
 
   test 'destroying a SearchEvent does not delete the Term' do
@@ -52,6 +52,6 @@ class TermTest < ActiveSupport::TestCase
     t.reload
 
     assert_equal(events_count - 1, t.search_events.count)
-    assert(t.valid?)
+    assert_predicate(t, :valid?)
   end
 end
