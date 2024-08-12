@@ -42,7 +42,7 @@ class LookupIsbn
       JSON.parse(resp.to_s)
     else
       Rails.logger.debug('Fact lookup error: openlibrary returned no data')
-      Rails.logger.debug("URL: #{url}")
+      Rails.logger.debug { "URL: #{url}" }
       'Error'
     end
   end

@@ -55,7 +55,7 @@ class StandardIdentifiers
   # An example calculation is shared at
   # https://en.wikipedia.org/wiki/International_Standard_Serial_Number#Code_format
   def validate_issn(candidate)
-    digits = candidate.gsub('-', '').chars[..6]
+    digits = candidate.delete('-')[..6].chars
     check_digit = candidate.last.downcase
     sum = 0
 

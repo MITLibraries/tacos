@@ -11,6 +11,7 @@ class Ability
     # Rules will go here.
 
     return unless user.admin?
+
     can :manage, :all
   end
 end

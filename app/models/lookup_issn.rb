@@ -31,8 +31,8 @@ class LookupIssn
     if resp.status == 200
       JSON.parse(resp.to_s)
     else
-      Rails.logger.debug("ISSN Lookup error. ISSN #{issn} detected but crossref returned no data")
-      Rails.logger.debug("URL: #{url(issn)}")
+      Rails.logger.debug { "ISSN Lookup error. ISSN #{issn} detected but crossref returned no data" }
+      Rails.logger.debug { "URL: #{url(issn)}" }
       'Error'
     end
   end
