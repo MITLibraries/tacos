@@ -86,7 +86,7 @@ namespace :journals do
     # does the file look like a path or a URI
     if URI(args.file).scheme
       Rails.logger.info("Loading data from remote file #{args.file}")
-      data = URI.open(args.file, 'rb', &:read)
+      data = URI.parse(args.file).open('rb', &:read)
     else
       Rails.logger.info("Loading data from local file #{args.file}")
       data = File.read(args.file)

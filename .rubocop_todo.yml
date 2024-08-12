@@ -120,11 +120,6 @@ Rails/I18nLocaleTexts:
     - 'app/controllers/admin/application_controller.rb'
     - 'app/controllers/application_controller.rb'
 
-# Offense count: 1
-Security/Open:
-  Exclude:
-    - 'lib/tasks/journals.rake'
-
 # Offense count: 25
 # Configuration parameters: AllowedConstants.
 Style/Documentation:
