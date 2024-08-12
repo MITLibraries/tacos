@@ -1,4 +1,4 @@
-require "administrate/base_dashboard"
+require 'administrate/base_dashboard'
 
 module Detector
   class Detector::SuggestedResourceDashboard < Administrate::BaseDashboard
@@ -15,9 +15,9 @@ module Detector
       title: Field::String,
       url: Field::String,
       created_at: Field::DateTime,
-      updated_at: Field::DateTime,
+      updated_at: Field::DateTime
     }.freeze
-  
+
     # COLLECTION_ATTRIBUTES
     # an array of attributes that will be displayed on the model's index page.
     #
@@ -29,7 +29,7 @@ module Detector
       phrase
       title
     ].freeze
-  
+
     # SHOW_PAGE_ATTRIBUTES
     # an array of attributes that will be displayed on the model's show page.
     SHOW_PAGE_ATTRIBUTES = %i[
@@ -41,7 +41,7 @@ module Detector
       created_at
       updated_at
     ].freeze
-  
+
     # FORM_ATTRIBUTES
     # an array of attributes that will be displayed
     # on the model's form (`new` and `edit`) pages.
@@ -50,7 +50,7 @@ module Detector
       title
       url
     ].freeze
-  
+
     # COLLECTION_FILTERS
     # a hash that defines filters that can be used while searching via the search
     # field of the dashboard.
@@ -62,7 +62,7 @@ module Detector
     #     open: ->(resources) { resources.where(open: true) }
     #   }.freeze
     COLLECTION_FILTERS = {}.freeze
-  
+
     # Overwrite this method to customize how suggested resources are displayed
     # across all pages of the admin dashboard.
     #
