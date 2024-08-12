@@ -18,8 +18,8 @@ namespace :search_events do
   # @param source [String] source name to load the data under
   desc 'Load search_events from csv'
   task :csv_loader, %i[path source] => :environment do |_task, args|
-    raise ArgumentError.new, 'Path is required' unless args.path.present?
-    raise ArgumentError.new, 'Source is required' unless args.source.present?
+    raise ArgumentError.new, 'Path is required' if args.path.blank?
+    raise ArgumentError.new, 'Source is required' if args.source.blank?
 
     Rails.logger.info("Loading data from #{args.path}")
 

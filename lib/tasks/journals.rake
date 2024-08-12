@@ -16,7 +16,7 @@ namespace :journals do
   #   In development, use your own. If used in production, use a team Moira list.
   desc 'Harvest from Open Alex'
   task :openalex_harvester, %i[email] => :environment do |_task, args|
-    raise ArgumentError.new, 'Email is required' unless args.email.present?
+    raise ArgumentError.new, 'Email is required' if args.email.blank?
 
     base_url = 'https://api.openalex.org/sources?filter=is_core:true'
     next_cursor = '*'
@@ -81,7 +81,7 @@ namespace :journals do
   # @param path [String] local file path or URI to a JSON file to load
   desc 'Load from OpenAlex harvest'
   task :openalex_loader, %i[file] => :environment do |_task, args|
-    raise ArgumentError.new, 'File is required' unless args.file.present?
+    raise ArgumentError.new, 'File is required' if args.file.blank?
 
     # does the file look like a path or a URI
     if URI(args.file).scheme
