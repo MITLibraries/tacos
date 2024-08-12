@@ -43,7 +43,7 @@ module Types
     end
 
     def lookup_term(search_term:)
-      term = Term.find_by(phrase: search_term)
+      Term.find_by(phrase: search_term)
     end
   end
 end

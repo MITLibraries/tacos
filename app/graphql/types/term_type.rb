@@ -15,11 +15,9 @@ module Types
     end
 
     def standard_identifiers
-      ids = []
-      StandardIdentifiers.new(@object.phrase).identifiers.each do |identifier|
-        ids << { kind: identifier.first, value: identifier.last }
+      StandardIdentifiers.new(@object.phrase).identifiers.map do |identifier|
+        { kind: identifier.first, value: identifier.last }
       end
-      ids
     end
   end
 end
