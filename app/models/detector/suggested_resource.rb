@@ -23,12 +23,12 @@ module Detector
     before_save :update_fingerprint
 
     def update_fingerprint
-      self.fingerprint = calculate_fingerprint(phrase)
+      self.fingerprint = Detector::SuggestedResource.calculate_fingerprint(phrase)
     end
 
     # This implements the OpenRefine fingerprinting algorithm. See
     # https://openrefine.org/docs/technical-reference/clustering-in-depth#fingerprint
-    def calculate_fingerprint(old_phrase)
+    def self.calculate_fingerprint(old_phrase)
       modified_phrase = old_phrase
       modified_phrase = modified_phrase.strip
       modified_phrase = modified_phrase.downcase
@@ -75,6 +75,10 @@ module Detector
         record = Detector::SuggestedResource.new({ title: line['Title'], url: line['URL'], phrase: line['Phrase'] })
         record.save
       end
+    end
+
+    def self.full_term_match(phrase)
+      SuggestedResource.where(fingerprint: calculate_fingerprint(phrase))
     end
   end
 end

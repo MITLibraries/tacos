@@ -29,3 +29,9 @@ web_of_knowledge:
   url: https://libguides.mit.edu/webofsci
   phrase: web of knowledge
   fingerprint: knowledge of web
+
+nobel_laureate:
+  title: Professor Moungi Bawendi
+  url: https://news.mit.edu/2023/mit-chemist-moungi-bawendi-shares-nobel-prize-chemistry-1004
+  phrase: moungi bawendi
+  fingerprint: bawendi moungi

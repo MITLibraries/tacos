@@ -125,5 +125,31 @@ module Detector
 
       assert_equal 'delta gamma', resource.fingerprint
     end
+
+    test 'fingerprint matches on search term' do
+      expected = detector_suggested_resources('jstor')
+      actual = Detector::SuggestedResource.full_term_match('jstor')
+
+      assert_equal 1, actual.count
+      assert_equal expected, actual.first
+    end
+
+    test 'fingerprint matches on any word order or punctuation' do
+      expected = detector_suggested_resources('nobel_laureate')
+      actual_one = Detector::SuggestedResource.full_term_match('Moungi Bawendi')
+      actual_two = Detector::SuggestedResource.full_term_match('Bawendi, Moungi')
+
+      assert_equal 1, actual_one.count
+      assert_equal expected, actual_one.first
+      assert_equal actual_one.first, actual_two.first
+    end
+
+    test 'partial fingerprint matches do not count' do
+      actual_partial = Detector::SuggestedResource.full_term_match('science web')
+      actual_extra = Detector::SuggestedResource.full_term_match('the web of science')
+
+      assert_predicate actual_partial.count, :zero?
+      assert_predicate actual_extra.count, :zero?
+    end
   end
 end

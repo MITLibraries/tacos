@@ -49,6 +49,12 @@ class Algorithms < ActiveSupport::TestCase
     assert_equal 1, aggregate.journal_exact
   end
 
+  test 'suggested_resource exact counts are included in monthly aggregation' do
+    aggregate = Metrics::Algorithms.new.generate(DateTime.now)
+
+    assert_equal 1, aggregate.suggested_resource_exact
+  end
+
   test 'unmatched counts are included are included in monthly aggregation' do
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
 
@@ -124,6 +130,12 @@ class Algorithms < ActiveSupport::TestCase
     assert_equal 2, aggregate.journal_exact
   end
 
+  test 'suggested_resource exact counts are included in total aggregation' do
+    aggregate = Metrics::Algorithms.new.generate
+
+    assert_equal 2, aggregate.suggested_resource_exact
+  end
+
   test 'unmatched counts are included are included in total aggregation' do
     aggregate = Metrics::Algorithms.new.generate
 
@@ -159,6 +171,11 @@ class Algorithms < ActiveSupport::TestCase
       SearchEvent.create(term: terms(:journal_nature_medicine), source: 'test')
     end
 
+    suggested_resource_exact_count = rand(1...100)
+    suggested_resource_exact_count.times do
+      SearchEvent.create(term: terms(:suggested_resource_jstor), source: 'test')
+    end
+
     unmatched_expected_count = rand(1...100)
     unmatched_expected_count.times do
       SearchEvent.create(term: terms(:hi), source: 'test')
@@ -171,6 +188,7 @@ class Algorithms < ActiveSupport::TestCase
     assert_equal isbn_expected_count, aggregate.isbn
     assert_equal pmid_expected_count, aggregate.pmid
     assert_equal journal_exact_count, aggregate.journal_exact
+    assert_equal suggested_resource_exact_count, aggregate.suggested_resource_exact
     assert_equal unmatched_expected_count, aggregate.unmatched
   end
 end
