@@ -2,9 +2,9 @@
 
 module Types
   class StandardIdentifiersType < Types::BaseObject
+    field :details, DetailsType
     field :kind, String, null: false
     field :value, String, null: false
-    field :details, DetailsType
 
     # details does external lookups and should only be run if the fields
     # have been explicitly requested

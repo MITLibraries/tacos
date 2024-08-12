@@ -2,17 +2,17 @@
 
 module Types
   class DetailsType < Types::BaseObject
-    field :title, String
     field :authors, [String]
-    field :date, String
-    field :publisher, String
-    field :oa, Boolean
-    field :oa_status, String
     field :best_oa_location, String
+    field :date, String
+    field :doi, String
     field :issns, [String]
     field :journal_name, String
-    field :doi, String
     field :link_resolver_url, String
+    field :oa, Boolean
+    field :oa_status, String
+    field :publisher, String
+    field :title, String
 
     def issns
       @object[:journal_issns]&.split(',')

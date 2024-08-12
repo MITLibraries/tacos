@@ -2,13 +2,13 @@
 
 module Types
   class SearchEventType < Types::BaseObject
-    field :id, ID, null: false
-    field :term_id, Integer
-    field :source, String
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :id, ID, null: false
     field :phrase, String
+    field :source, String
     field :standard_identifiers, [StandardIdentifiersType]
+    field :term_id, Integer
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
     def phrase
       @object.term.phrase

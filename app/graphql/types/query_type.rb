@@ -6,17 +6,9 @@ module Types
       argument :id, ID, required: true, description: 'ID of the object.'
     end
 
-    def node(id:)
-      context.schema.object_from_id(id, context)
-    end
-
     field :nodes, [Types::NodeType, { null: true }], null: true,
                                                      description: 'Fetches a list of objects given a list of IDs.' do
       argument :ids, [ID], required: true, description: 'IDs of the objects.'
-    end
-
-    def nodes(ids:)
-      ids.map { |id| context.schema.object_from_id(id, context) }
     end
 
     # Add root-level fields here.
@@ -28,14 +20,26 @@ module Types
       argument :source_system, String, required: true
     end
 
-    def log_search_event(search_term:, source_system:)
-      term = Term.create_or_find_by!(phrase: search_term)
-      term.search_events.create!(source: source_system)
-    end
-
     field :lookup_term, TermType, null: true,
                                   description: 'Lookup a term to return information about it (bypasses logging)' do
       argument :search_term, String, required: true
+    end
+
+    def node(id:)
+      context.schema.object_from_id(id, context)
+    end
+
+    def node(id:)
+      context.schema.object_from_id(id, context)
+    end
+
+    def nodes(ids:)
+      ids.map { |id| context.schema.object_from_id(id, context) }
+    end
+
+    def log_search_event(search_term:, source_system:)
+      term = Term.create_or_find_by!(phrase: search_term)
+      term.search_events.create!(source: source_system)
     end
 
     def lookup_term(search_term:)
