@@ -1,0 +1,33 @@
+require:
+  - rubocop-capybara
+  - rubocop-graphql
+  - rubocop-minitest
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 3.2
+  NewCops: enable
+  Exclude:
+    - "db/**/*"
+    - "config/**/*"
+    - "bin/**"
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - '.git/**/*'
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'config.ru'
+
+Metrics/BlockLength:
+  Exclude:
+    - "test/**/*"
+
+Metrics/ClassLength:
+  Exclude:
+    - "test/**/*"
+
+Metrics/MethodLength:
+  Exclude:
+    - "test/**/*.rb"

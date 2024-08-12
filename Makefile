@@ -45,4 +45,11 @@ outdated: # List outdated dependencies
 # Code quality and safety commands
 ####################################
 
-# coming soon!
+lint:
+	bundle exec rubocop
+
+lint-models:
+	bundle exec rubocop app/models
+
+lint-controllers:
+	bundle exec rubocop app/controllers

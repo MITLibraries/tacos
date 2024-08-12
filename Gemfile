@@ -89,9 +89,12 @@ group :development do
   gem 'annotate'
 
   # RuboCop is a Ruby static code analyzer (a.k.a. linter) and code formatter.
-  gem 'rubocop'
-  gem 'rubocop-capybara'
-  gem 'rubocop-rails'
+  gem 'rubocop', require: false
+  gem 'rubocop-capybara', require: false
+  gem 'rubocop-graphql', require: false
+  gem 'rubocop-minitest', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
 
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
@@ -112,4 +115,4 @@ group :test do
   gem 'webmock'
 end
 
-gem "administrate", "~> 0.20.1"
+gem 'administrate', '~> 0.20.1'
