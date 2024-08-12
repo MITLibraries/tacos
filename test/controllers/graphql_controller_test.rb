@@ -14,13 +14,13 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
                                }' }
 
     assert_equal(200, response.status)
-    json = JSON.parse(response.body)
+    json = response.parsed_body
     term_id = Term.last.id
 
     assert_equal 'bento', json['data']['logSearchEvent']['source']
     assert_equal term_id, json['data']['logSearchEvent']['termId']
-    assert_equal Date.today, json['data']['logSearchEvent']['createdAt'].to_date
-    assert_equal Date.today, json['data']['logSearchEvent']['updatedAt'].to_date
+    assert_equal Time.zone.today, json['data']['logSearchEvent']['createdAt'].to_date
+    assert_equal Time.zone.today, json['data']['logSearchEvent']['updatedAt'].to_date
   end
 
   test 'search event query creates a new term if one does not exist' do
@@ -64,7 +64,7 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
                                  }
                                }' }
 
-    json = JSON.parse(response.body)
+    json = response.parsed_body
 
     assert_equal('doi', json['data']['logSearchEvent']['standardIdentifiers'].first['kind'])
     assert_equal('10.1038/nphys1170', json['data']['logSearchEvent']['standardIdentifiers'].first['value'])
@@ -77,7 +77,7 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
                                  }
                                }' }
 
-    json = JSON.parse(response.body)
+    json = response.parsed_body
 
     assert_equal('10.1038/nphys1170', json['data']['logSearchEvent']['phrase'])
   end
@@ -99,7 +99,7 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
                                  }
                                }' }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
 
       assert_equal('Measured measurement',
                    json['data']['logSearchEvent']['standardIdentifiers'].first['details']['title'])

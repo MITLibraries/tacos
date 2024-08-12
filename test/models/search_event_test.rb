@@ -35,11 +35,11 @@ class SearchEventTest < ActiveSupport::TestCase
 
   test 'monthly scope returns requested month of SearchEvents' do
     assert_includes SearchEvent.all, search_events(:current_month_pmid)
-    assert_includes SearchEvent.single_month(Time.now), search_events(:current_month_pmid)
+    assert_includes SearchEvent.single_month(Time.zone.now), search_events(:current_month_pmid)
   end
 
   test 'monthly scope does not return SearchEvents outside the requested month' do
     assert_includes SearchEvent.all, search_events(:old_month_pmid)
-    assert_not_includes SearchEvent.single_month(Time.now), search_events(:old_month_pmid)
+    assert_not_includes SearchEvent.single_month(Time.zone.now), search_events(:old_month_pmid)
   end
 end
