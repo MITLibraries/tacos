@@ -7,7 +7,7 @@ class Ability
   # See the wiki for details:
   # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
   def initialize(user)
-    return unless user.present?
+    return if user.blank?
     # Rules will go here.
 
     return unless user.admin?

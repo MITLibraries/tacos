@@ -26,7 +26,7 @@ class LookupIsbn
   def fetch_authors(isbn_json)
     return unless isbn_json['authors']
 
-    authors = isbn_json['authors'].map { |a| a['key'] }
+    authors = isbn_json['authors'].pluck('key')
     author_names = authors.map do |author|
       url = [base_url, author, '.json'].join
       json = parse_response(url)
