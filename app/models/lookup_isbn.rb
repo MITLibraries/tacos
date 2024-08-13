@@ -50,4 +50,26 @@ class LookupIsbn
   def link_resolver_url(isbn)
     "#{ENV.fetch('LINKRESOLVER_BASEURL')}&rft.isbn=#{isbn}"
   end
+
+  def really_long_method_that_does_nothing_useful
+    a = 'hello'
+    a = 'orange'
+    a = 'popcorn'
+    a = 'hello'
+    a = 'orange'
+    a = 'popcorn'
+    a = 'hello'
+    a = 'orange'
+    a = 'popcorn'
+    a = 'hello'
+    a = 'orange'
+    a = 'popcorn'
+    a = 'hello'
+    a = 'orange'
+    a = 'popcorn'
+    a = 'hello'
+    a = 'orange'
+    a = 'popcorn'
+    a = nil
+  end
 end
