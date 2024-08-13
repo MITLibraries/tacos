@@ -6,7 +6,7 @@ namespace :suggested_resources do
   # we do need a way to import records from a CSV file.
   desc 'Replace all Suggested Resources from CSV'
   task :reload, [:addr] => :environment do |_task, args|
-    raise ArgumentError.new, 'URL is required' unless args.addr.present?
+    raise ArgumentError.new, 'URL is required' if args.addr.blank?
 
     raise ArgumentError.new, 'Local files are not supported yet' unless URI(args.addr).scheme
 

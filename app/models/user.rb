@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -33,7 +35,7 @@ class User < ApplicationRecord
       email = auth.extra.raw_info.email
     end
 
-    User.where(uid: uid).first_or_create do |user|
+    User.where(uid:).first_or_create do |user|
       user.uid = uid
       user.email = email
     end

@@ -26,7 +26,7 @@ class LookupIsbn
   def fetch_authors(isbn_json)
     return unless isbn_json['authors']
 
-    authors = isbn_json['authors'].map { |a| a['key'] }
+    authors = isbn_json['authors'].pluck('key')
     author_names = authors.map do |author|
       url = [base_url, author, '.json'].join
       json = parse_response(url)
@@ -42,7 +42,7 @@ class LookupIsbn
       JSON.parse(resp.to_s)
     else
       Rails.logger.debug('Fact lookup error: openlibrary returned no data')
-      Rails.logger.debug("URL: #{url}")
+      Rails.logger.debug { "URL: #{url}" }
       'Error'
     end
   end

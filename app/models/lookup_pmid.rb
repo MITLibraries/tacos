@@ -12,7 +12,7 @@ class LookupPmid
     if metadata.reject { |_k, v| v.empty? }.present?
       metadata
     else
-      Rails.logger.debug("Fact lookup error. PMID #{pmid} detected but ncbi returned no data")
+      Rails.logger.debug { "Fact lookup error. PMID #{pmid} detected but ncbi returned no data" }
       nil
     end
   end
@@ -37,8 +37,8 @@ class LookupPmid
     if resp.status == 200
       Nokogiri::XML(resp.to_s)
     else
-      Rails.logger.debug("Fact lookup error. PMID #{pmid} detected but ncbi an error status")
-      Rails.logger.debug("URL: #{url(pmid)}")
+      Rails.logger.debug { "Fact lookup error. PMID #{pmid} detected but ncbi an error status" }
+      Rails.logger.debug { "URL: #{url(pmid)}" }
       'Error'
     end
   end

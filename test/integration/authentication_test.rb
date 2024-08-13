@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class AuthenticationTest < ActionDispatch::IntegrationTest
@@ -24,6 +26,7 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
       get '/users/auth/openid_connect/callback'
       follow_redirect!
     end
+
     assert_response :success
     assert_equal(user_count, User.count)
   end
@@ -36,6 +39,7 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
     user_count = User.count
     get '/users/auth/openid_connect/callback'
     follow_redirect!
+
     assert_response :success
     assert_equal(user_count + 1, User.count)
   end
@@ -44,6 +48,7 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
     user_count = User.count
     mock_auth(users(:valid))
     follow_redirect!
+
     assert_response :success
     assert_equal(user_count, User.count)
   end

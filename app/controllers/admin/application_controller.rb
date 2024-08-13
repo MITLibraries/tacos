@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # All Administrate controllers inherit from this
 # `Administrate::ApplicationController`, making it the ideal place to put
 # authentication logic or other before_actions.
@@ -13,7 +15,7 @@ module Admin
 
     def authorize_user
       return if authorize_action?(resource_name, action_name)
-      
+
       redirect_to root_path, alert: 'Not authorized'
     end
 
@@ -23,7 +25,7 @@ module Admin
 
     def require_user
       return if current_user
-      
+
       redirect_to root_path, alert: 'Please sign in to continue'
     end
 

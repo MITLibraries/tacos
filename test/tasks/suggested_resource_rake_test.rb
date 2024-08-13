@@ -16,8 +16,9 @@ class SuggestedResourceRakeTest < ActiveSupport::TestCase
       remote_file = 'http://static.lndo.site/suggested_resources.csv'
       Rake::Task['suggested_resources:reload'].invoke(remote_file)
     end
-    refute_equal records_before, Detector::SuggestedResource.count
-    refute_equal first_record_before, Detector::SuggestedResource.first
+
+    assert_not_equal records_before, Detector::SuggestedResource.count
+    assert_not_equal first_record_before, Detector::SuggestedResource.first
   end
 
   test 'reload task errors without a file argument' do
@@ -29,7 +30,7 @@ class SuggestedResourceRakeTest < ActiveSupport::TestCase
 
   test 'reload errors on a local file' do
     error = assert_raises(ArgumentError) do
-      local_file = Rails.root.join('test', 'fixtures', 'files', 'suggested_resources.csv').to_s
+      local_file = Rails.root.join('test/fixtures/files/suggested_resources.csv').to_s
       Rake::Task['suggested_resources:reload'].invoke(local_file)
     end
     assert_equal 'Local files are not supported yet', error.message
@@ -63,6 +64,7 @@ class SuggestedResourceRakeTest < ActiveSupport::TestCase
       remote_file = 'http://static.lndo.site/suggested_resources_extra.csv'
       Rake::Task['suggested_resources:reload'].invoke(remote_file)
     end
-    refute_equal records_before, Detector::SuggestedResource.count
+
+    assert_not_equal records_before, Detector::SuggestedResource.count
   end
 end

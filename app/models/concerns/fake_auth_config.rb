@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FakeAuthConfig
   # Used in an initializer to determine if the application is configured and allowed to use fake authentication.
   def self.fake_auth_enabled?

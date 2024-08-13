@@ -39,7 +39,7 @@ module Detector
     #
     # @return [Set of Detector::Journal] A set of ActiveRecord Detector::Journal relations.
     def self.partial_term_match(phrase)
-      Journal.all.map { |journal| journal if phrase.downcase.include?(journal.name) }.compact
+      Journal.all.select { |journal| phrase.downcase.include?(journal.name) }
     end
 
     private

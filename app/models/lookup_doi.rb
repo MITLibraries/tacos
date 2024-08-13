@@ -38,8 +38,10 @@ class LookupDoi
     if resp.status == 200
       JSON.parse(resp.to_s)
     else
-      Rails.logger.debug("Fact lookup error. DOI #{doi} detected but unpaywall returned no data or otherwise errored")
-      Rails.logger.debug("URL: #{url(doi)}")
+      Rails.logger.debug do
+        "Fact lookup error. DOI #{doi} detected but unpaywall returned no data or otherwise errored"
+      end
+      Rails.logger.debug { "URL: #{url(doi)}" }
       'Error'
     end
   end

@@ -15,27 +15,31 @@ require 'test_helper'
 class SearchEventTest < ActiveSupport::TestCase
   test 'term is required' do
     s = search_events('timdex_cool')
-    assert(s.valid?)
+
+    assert_predicate(s, :valid?)
 
     s.term = nil
-    refute(s.valid?)
+
+    assert_not_predicate(s, :valid?)
   end
 
   test 'source is required' do
     s = search_events('timdex_cool')
-    assert(s.valid?)
+
+    assert_predicate(s, :valid?)
 
     s.source = nil
-    refute(s.valid?)
+
+    assert_not_predicate(s, :valid?)
   end
 
   test 'monthly scope returns requested month of SearchEvents' do
-    assert SearchEvent.all.include?(search_events(:current_month_pmid))
-    assert SearchEvent.single_month(Time.now).include?(search_events(:current_month_pmid))
+    assert_includes SearchEvent.all, search_events(:current_month_pmid)
+    assert_includes SearchEvent.single_month(Time.zone.now), search_events(:current_month_pmid)
   end
 
   test 'monthly scope does not return SearchEvents outside the requested month' do
-    assert SearchEvent.all.include?(search_events(:old_month_pmid))
-    refute SearchEvent.single_month(Time.now).include?(search_events(:old_month_pmid))
+    assert_includes SearchEvent.all, search_events(:old_month_pmid)
+    assert_not_includes SearchEvent.single_month(Time.zone.now), search_events(:old_month_pmid)
   end
 end

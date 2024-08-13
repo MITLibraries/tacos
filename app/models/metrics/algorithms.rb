@@ -41,7 +41,7 @@ module Metrics
       matches = if month.present?
                   count_matches(SearchEvent.single_month(month).includes(:term))
                 else
-                  count_matches(SearchEvent.all.includes(:term))
+                  count_matches(SearchEvent.includes(:term))
                 end
       Metrics::Algorithms.create(month:, doi: matches[:doi], issn: matches[:issn], isbn: matches[:isbn],
                                  pmid: matches[:pmid], journal_exact: matches[:journal_exact],
