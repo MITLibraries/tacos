@@ -70,6 +70,7 @@ class LookupIsbn
     a = 'hello'
     a = 'orange'
     a = 'popcorn'
+    a = 'cheese'
     a = nil
   end
 end
