@@ -110,6 +110,16 @@ module Metrics
       journal_exact
     end
 
+    # Checks for SuggestedResource matches
+    #
+    # @note This only checks for exact matches of the search term, so any extra or missing words will result in no
+    #   match.
+    #
+    # @param event [SearchEvent] an individual search event to check for matches
+    # @param matches [Hash] a Hash that keeps track of how many of each algorithm we match
+    # @return [Array] an array of the one Detector::SuggestedResource record whose fingerprint matches that of the
+    #   search phrase (if one exists). The uniqueness constraint on the fingerprint should mean there is only ever one
+    #   matched record.
     def process_suggested_resources(event, matches)
       suggested_resource_exact = Detector::SuggestedResource.full_term_match(event.term.phrase)
       matches[:suggested_resource_exact] += 1 if suggested_resource_exact.count.positive?

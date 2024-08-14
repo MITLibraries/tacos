@@ -22,12 +22,19 @@ module Detector
   class SuggestedResource < ApplicationRecord
     before_save :update_fingerprint
 
+    # This exists for the before_save lifecycle hook to call the calculate_fingerprint method, to ensure that these
+    # records always have a correctly-calculated fingerprint. It has no arguments and returns nothing.
     def update_fingerprint
       self.fingerprint = Detector::SuggestedResource.calculate_fingerprint(phrase)
     end
 
     # This implements the OpenRefine fingerprinting algorithm. See
     # https://openrefine.org/docs/technical-reference/clustering-in-depth#fingerprint
+    #
+    # @param old_phrase [String] A text string which needs to have its fingerprint calculated. This could either be the
+    #   "phrase" field on the SuggestedResource record, or an incoming search term received from a contributing system.
+    #
+    # @return [String] A string of all words in the input, downcased, normalized, and alphabetized.
     def self.calculate_fingerprint(old_phrase)
       modified_phrase = old_phrase
       modified_phrase = modified_phrase.strip
@@ -77,6 +84,15 @@ module Detector
       end
     end
 
+    # Identify any SuggestedResource record whose pre-calculated fingerprint matches the fingerprint of the incoming
+    # phrase.
+    #
+    # @note There is a uniqueness constraint on the SuggestedResource fingerprint field, so there should only ever be
+    #   one match (if any).
+    #
+    # @param phrase [String]. A string representation of a searchterm (not an actual Term object)
+    #
+    # @return [Detector::SuggestedResource] The record whose fingerprint matches that of the search term.
     def self.full_term_match(phrase)
       SuggestedResource.where(fingerprint: calculate_fingerprint(phrase))
     end
