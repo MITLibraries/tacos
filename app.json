@@ -1,6 +1,6 @@
 {
-  "name": "timdex",
-  "stack": "heroku-22",
+  "name": "tacos",
+  "stack": "heroku-24",
   "scripts": {},
   "env": {
     "LINKRESOLVER_BASEURL": {
