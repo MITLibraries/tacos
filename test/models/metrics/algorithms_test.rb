@@ -61,6 +61,18 @@ class Algorithms < ActiveSupport::TestCase
     assert_equal 2, aggregate.unmatched
   end
 
+  test 'searches with multiple patterns are accounted for correctly' do
+    # Drop all search events to ensure the report has only what we care about.
+    SearchEvent.delete_all
+
+    SearchEvent.create(term: terms(:multiple_detections), source: 'test')
+
+    aggregate = Metrics::Algorithms.new.generate(DateTime.now)
+
+    assert_equal 1, aggregate.doi
+    assert_equal 1, aggregate.pmid
+  end
+
   test 'creating lots of searchevents leads to correct data for monthly' do
     # drop all searchevents to make math easier and minimize fragility over time as more fixtures are created
     SearchEvent.delete_all

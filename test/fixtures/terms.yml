@@ -31,3 +31,6 @@ journal_nature_medicine:
 
 suggested_resource_jstor:
   phrase: 'jstor'
+
+multiple_detections:
+  phrase: 'Environmental and Health Impacts of Air Pollution: A Review. Frontiers in Public Health. PMID: 32154200. DOI: 10.3389/fpubh.2020.00014'
