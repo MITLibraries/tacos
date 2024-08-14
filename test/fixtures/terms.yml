@@ -28,3 +28,6 @@ isbn_9781319145446:
 
 journal_nature_medicine:
   phrase: 'nature medicine'
+
+suggested_resource_jstor:
+  phrase: 'jstor'

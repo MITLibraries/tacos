@@ -38,3 +38,10 @@ old_month_nature_medicine:
   term: journal_nature_medicine
   source: test
   created_at: <%= 1.year.ago %>
+suggested_resource_jstor:
+  term: suggested_resource_jstor
+  source: test
+old_suggested_resource_jstor:
+  term: suggested_resource_jstor
+  source: test
+  created_at: <%= 1.year.ago %>

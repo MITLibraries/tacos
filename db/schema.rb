@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_05_203949) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_13_181057) do
   create_table "detector_journals", force: :cascade do |t|
     t.string "name"
     t.json "additional_info"
@@ -40,6 +40,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_05_203949) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "journal_exact"
+    t.integer "suggested_resource_exact"
   end
 
   create_table "search_events", force: :cascade do |t|

@@ -45,6 +45,7 @@ module Metrics
                 end
       Metrics::Algorithms.create(month:, doi: matches[:doi], issn: matches[:issn], isbn: matches[:isbn],
                                  pmid: matches[:pmid], journal_exact: matches[:journal_exact],
+                                 suggested_resource_exact: matches[:suggested_resource_exact],
                                  unmatched: matches[:unmatched])
     end
 
@@ -73,8 +74,9 @@ module Metrics
     def event_matches(event, matches)
       ids = match_standard_identifiers(event, matches)
       journal_exact = process_journals(event, matches)
+      suggested_resource_exact = process_suggested_resources(event, matches)
 
-      matches[:unmatched] += 1 if ids.identifiers.blank? && journal_exact.count.zero?
+      matches[:unmatched] += 1 if ids.identifiers.blank? && journal_exact.count.zero? && suggested_resource_exact.count.zero?
     end
 
     # Checks for StandardIdentifer matches
@@ -106,6 +108,22 @@ module Metrics
       journal_exact = Detector::Journal.full_term_match(event.term.phrase)
       matches[:journal_exact] += 1 if journal_exact.count.positive?
       journal_exact
+    end
+
+    # Checks for SuggestedResource matches
+    #
+    # @note This only checks for exact matches of the search term, so any extra or missing words will result in no
+    #   match.
+    #
+    # @param event [SearchEvent] an individual search event to check for matches
+    # @param matches [Hash] a Hash that keeps track of how many of each algorithm we match
+    # @return [Array] an array of the one Detector::SuggestedResource record whose fingerprint matches that of the
+    #   search phrase (if one exists). The uniqueness constraint on the fingerprint should mean there is only ever one
+    #   matched record.
+    def process_suggested_resources(event, matches)
+      suggested_resource_exact = Detector::SuggestedResource.full_term_match(event.term.phrase)
+      matches[:suggested_resource_exact] += 1 if suggested_resource_exact.count.positive?
+      suggested_resource_exact
     end
   end
 end
