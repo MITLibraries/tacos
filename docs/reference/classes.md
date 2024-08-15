@@ -50,6 +50,16 @@ classDiagram
     Categorization: +Integer user_id
     Categorization: +Text notes
 
+  class DetectorCategorization
+    DetectorCategorization: +Integer categorization_id
+    DetectorCategorization: +Integer detector_id
+    DetectorCategorization: +Float confidence # maybe this is a wrap up of multiple Detector confidences (calculated value)
+
+  class Detector
+    Detector: +Integer id
+    Detector: +String name
+    Detector: +Float confidence # determined by validation yes/no votes
+
   class Report
     Report: percent_categorized()
     Report: category_history()
