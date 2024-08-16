@@ -15,7 +15,7 @@ module Types
     end
 
     def standard_identifiers
-      StandardIdentifiers.new(@object.term.phrase).identifiers.map do |identifier|
+      Detector::StandardIdentifiers.new(@object.term.phrase).identifiers.map do |identifier|
         { kind: identifier.first, value: identifier.last }
       end
     end
