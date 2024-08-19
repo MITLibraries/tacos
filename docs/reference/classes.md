@@ -279,6 +279,7 @@ classDiagram
   Categorization --> SuggestedResource: looks up
   Detection --> SuggestedResource: looks up
   Detection --> Journal: looks up
+  Categorization >-- Validation: subject to
 
   class Term
     Term: +Integer id
@@ -338,6 +339,21 @@ classDiagram
     Categorization: evaluateTransaction()
     Categorization: evaluateInformation()
     Categorization: evaluateNavigation()
+
+  class Validation
+    Validation: +Integer id
+    Validation: +Integer categorization_id
+    Validation: +Boolean approve_transaction
+    Validation: +Boolean approve_information
+    Validation: +Boolean approve_navigation
+    Validation: +Boolean approve_doi
+    Validation: +Boolean approve_isbn
+    Validation: +Boolean approve_issn
+    Validation: +Boolean approve_pmid
+    Validation: +Boolean approve_journal
+    Validation: +Boolean approve_suggested_resource
+    Validation: +Boolean approve_lcsh
+    Validation: +Boolean approve_webpage
 
   style Term fill:#000,stroke:#ffd407,color:#ffd407
   style Detector fill:#000,stroke:#ffd407,color:#ffd407
