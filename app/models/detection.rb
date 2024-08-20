@@ -16,6 +16,7 @@
 #
 class Detection < ApplicationRecord
   belongs_to :term
+  has_many :categorizations, dependent: :destroy
 
   validates :detection_version, presence: true
 

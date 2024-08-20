@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_19_201452) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_20_193158) do
+  create_table "categorizations", force: :cascade do |t|
+    t.integer "detection_id"
+    t.float "transaction_score"
+    t.float "information_score"
+    t.float "navigation_score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "detections", force: :cascade do |t|
     t.integer "term_id"
     t.integer "detection_version"
