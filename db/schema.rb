@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_20_193158) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_20_215418) do
   create_table "categorizations", force: :cascade do |t|
     t.integer "detection_id"
     t.float "transaction_score"
@@ -78,6 +78,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_20_193158) do
     t.string "phrase"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "category"
     t.index ["phrase"], name: "unique_phrase", unique: true
   end
 

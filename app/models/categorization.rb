@@ -19,6 +19,12 @@ class Categorization < ApplicationRecord
     calculate_all
   end
 
+  def assign
+    self.detection.term.category = evaluate
+    self.detection.term.save
+    self.save
+  end
+
   def evaluate
     scores = {
       :transactional => self.transaction_score,
