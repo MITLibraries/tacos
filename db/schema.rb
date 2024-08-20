@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_13_181057) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_19_201452) do
+  create_table "detections", force: :cascade do |t|
+    t.integer "term_id"
+    t.integer "detection_version"
+    t.boolean "doi"
+    t.boolean "isbn"
+    t.boolean "issn"
+    t.boolean "pmid"
+    t.boolean "journal"
+    t.boolean "suggestedresource"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "detector_journals", force: :cascade do |t|
     t.string "name"
     t.json "additional_info"

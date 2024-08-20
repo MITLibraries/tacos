@@ -30,6 +30,8 @@ If you need to regenerate these cassettes, the following procedure should be suf
 
 ### Required
 
+`DETECTOR_VERSION`: an indication of which iteration of the Detector algorithm is responsible for a Detection record.
+
 `LINKRESOLVER_BASEURL`: base url for our link resolver. `https://mit.primo.exlibrisgroup.com/discovery/openurl?institution=01MIT_INST&rfr_id=info:sid/mit.tacos.api&vid=01MIT_INST:MIT` is probably the best value unless you are doing something interesting.
 
 `ORIGINS`: comma-separated list of domains allowed to connect to (and thus query or contribute to) the application. Be sure to specify the port number if a connecting application is not using the standard ports (this applies mostly to local development). If not defined, no external connections will be permitted.

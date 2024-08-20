@@ -3,6 +3,9 @@
   "stack": "heroku-24",
   "scripts": {},
   "env": {
+    "DETECTION_VERSION": {
+      "required": false
+    },
     "LINKRESOLVER_BASEURL": {
       "required": false
     },

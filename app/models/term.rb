@@ -11,4 +11,5 @@
 #
 class Term < ApplicationRecord
   has_many :search_events, dependent: :destroy
+  has_many :detections, dependent: :destroy
 end
