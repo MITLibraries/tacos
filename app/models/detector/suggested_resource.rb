@@ -11,6 +11,7 @@
 #  fingerprint :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  category    :integer
 #
 
 require 'stringex/core_ext'
@@ -21,6 +22,12 @@ module Detector
   # science" should be met with our custom login link to Web of Science via MIT.
   class SuggestedResource < ApplicationRecord
     before_save :update_fingerprint
+
+    enum category: {
+      informational: 0,
+      navigational: 1,
+      transactional: 2
+    }
 
     # This exists for the before_save lifecycle hook to call the calculate_fingerprint method, to ensure that these
     # records always have a correctly-calculated fingerprint. It has no arguments and returns nothing.

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_23_144559) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_23_170125) do
   create_table "categorizations", force: :cascade do |t|
     t.integer "detection_id"
     t.float "transaction_score"
@@ -48,6 +48,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_144559) do
     t.string "fingerprint"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "category"
     t.index ["fingerprint"], name: "index_detector_suggested_resources_on_fingerprint", unique: true
     t.index ["phrase"], name: "index_detector_suggested_resources_on_phrase", unique: true
   end

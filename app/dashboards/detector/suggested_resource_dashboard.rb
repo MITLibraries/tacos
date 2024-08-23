@@ -16,6 +16,13 @@ module Detector
       phrase: Field::String,
       title: Field::String,
       url: Field::String,
+      category: Field::Select.with_options(
+        collection: {
+          'Informational' => :informational,
+          'Navigational' => :navigational,
+          'Transactional' => :transactional
+        }
+      ),
       created_at: Field::DateTime,
       updated_at: Field::DateTime
     }.freeze
@@ -27,9 +34,10 @@ module Detector
     # Feel free to add, remove, or rearrange items.
     COLLECTION_ATTRIBUTES = %i[
       id
-      fingerprint
-      phrase
       title
+      phrase
+      category
+      url
     ].freeze
 
     # SHOW_PAGE_ATTRIBUTES
@@ -40,6 +48,7 @@ module Detector
       phrase
       title
       url
+      category
       created_at
       updated_at
     ].freeze
@@ -51,6 +60,7 @@ module Detector
       phrase
       title
       url
+      category
     ].freeze
 
     # COLLECTION_FILTERS
