@@ -51,10 +51,12 @@ class Categorization < ApplicationRecord
 
   def calculate_informational
     self.information_score = 0.0
+    self.information_score = 1.0 if Detector::SuggestedResource.full_term_match(self.detection.term.phrase).first&.category == 'informational'
   end
 
   def calculate_navigational
     self.navigation_score = 0.0
+    self.navigation_score = 1.0 if Detector::SuggestedResource.full_term_match(self.detection.term.phrase).first&.category == 'navigational'
   end
 
   def calculate_transactional
@@ -62,5 +64,6 @@ class Categorization < ApplicationRecord
     self.transaction_score = 1.0 if %i[doi isbn issn pmid journal].any? do |signal|
       self.detection[signal]
     end
+    self.transaction_score = 1.0 if Detector::SuggestedResource.full_term_match(self.detection.term.phrase).first&.category == 'transactional'
   end
 end
