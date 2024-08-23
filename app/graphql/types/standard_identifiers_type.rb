@@ -2,9 +2,11 @@
 
 module Types
   class StandardIdentifiersType < Types::BaseObject
-    field :details, DetailsType
-    field :kind, String, null: false
-    field :value, String, null: false
+    description 'A detector for standard identifiers in search terms. Currently supported: ISBN, ISSN, PMID, DOI'
+
+    field :details, DetailsType, description: 'Additional information about the detected identifier(s)'
+    field :kind, String, null: false, description: 'The type of identifier detected (one of ISBN, ISSN, PMID, DOI)'
+    field :value, String, null: false, description: 'The identifier detected in the search term'
 
     # details does external lookups and should only be run if the fields
     # have been explicitly requested

@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-# StandardIdentifiers is a PatternDectector implementation that detects the identifiers DOI, ISBN, ISSN, PMID.
-# See /docs/reference/pattern_detection_and_enhancement.md for details.
-
 module Detector
+  # Detector::StandardIdentifiers detects the identifiers DOI, ISBN, ISSN, PMID.
+  # See /docs/reference/pattern_detection_and_enhancement.md for details.
   class StandardIdentifiers
     attr_reader :identifiers
 

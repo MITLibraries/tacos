@@ -57,17 +57,38 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
   test 'search event query can return detected standard identifiers' do
     post '/graphql', params: { query: '{
                                  logSearchEvent(sourceSystem: "timdex", searchTerm: "10.1038/nphys1170") {
-                                  standardIdentifiers {
-                                        kind
-                                        value
-                                  }
+                                   detectors {
+                                     standardIdentifiers {
+                                       kind
+                                       value
+                                     }
+                                   }
                                  }
                                }' }
 
     json = response.parsed_body
 
-    assert_equal('doi', json['data']['logSearchEvent']['standardIdentifiers'].first['kind'])
-    assert_equal('10.1038/nphys1170', json['data']['logSearchEvent']['standardIdentifiers'].first['value'])
+    assert_equal('doi', json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['kind'])
+    assert_equal('10.1038/nphys1170', json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['value'])
+  end
+
+  test 'search event query can return detected journals' do
+    post '/graphql', params: { query: '{
+                                 logSearchEvent(sourceSystem: "timdex", searchTerm: "nature") {
+                                   detectors {
+                                     journals {
+                                       title
+                                       additionalInfo
+                                     }
+                                   }
+                                 }
+                               }' }
+
+    json = response.parsed_body
+
+    assert_equal('nature', json['data']['logSearchEvent']['detectors']['journals'].first['title'])
+    assert_equal({"issns"=>["0028-0836", "1476-4687"]},
+                 json['data']['logSearchEvent']['detectors']['journals'].first['additionalInfo'])
   end
 
   test 'search event query can return phrase from logged term' do
@@ -85,29 +106,31 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
   test 'search event query can return details for detected standard identifiers' do
     VCR.use_cassette('searchevent 10.1038/nphys1170') do
       post '/graphql', params: { query: '{
-                                 logSearchEvent(sourceSystem: "timdex", searchTerm: "10.1038/nphys1170") {
-                                  standardIdentifiers {
-                                        kind
-                                        value
-                                        details {
-                                          title
-                                          linkResolverUrl
-                                          issns
-                                          authors
-                                        }
-                                  }
-                                 }
-                               }' }
+                                   logSearchEvent(sourceSystem: "timdex", searchTerm: "10.1038/nphys1170") {
+                                     detectors {
+                                       standardIdentifiers {
+                                         kind
+                                         value
+                                         details {
+                                           title
+                                           linkResolverUrl
+                                           issns
+                                           authors
+                                         }
+                                       }
+                                     }
+                                   }
+                                 }' }
 
       json = response.parsed_body
 
       assert_equal('Measured measurement',
-                   json['data']['logSearchEvent']['standardIdentifiers'].first['details']['title'])
+                   json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['details']['title'])
       assert_equal('https://mit.primo.exlibrisgroup.com/discovery/openurl?institution=01MIT_INST&rfr_id=info:sid/mit.tacos.api&vid=01MIT_INST:MIT&rft.atitle=Measured measurement&rft.date=&rft.genre=journal-article&rft.jtitle=Nature Physics&rft_id=info:doi/10.1038/nphys1170',
-                   json['data']['logSearchEvent']['standardIdentifiers'].first['details']['linkResolverUrl'])
+                   json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['details']['linkResolverUrl'])
       assert_equal(%w[1745-2473 1745-2481],
-                   json['data']['logSearchEvent']['standardIdentifiers'].first['details']['issns'])
-      assert_nil(json['data']['logSearchEvent']['standardIdentifiers'].first['details']['authors'])
+                   json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['details']['issns'])
+      assert_nil(json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['details']['authors'])
     end
   end
 end
