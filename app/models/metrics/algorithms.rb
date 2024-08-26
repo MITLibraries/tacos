@@ -86,7 +86,7 @@ module Metrics
     # @return [Array] an array of matched StandardIdentifiers
     def match_standard_identifiers(event, matches)
       known_ids = %i[unmatched pmid isbn issn doi]
-      ids = StandardIdentifiers.new(event.term.phrase)
+      ids = Detector::StandardIdentifiers.new(event.term.phrase)
 
       known_ids.each do |id|
         matches[id] += 1 if ids.identifiers[id].present?

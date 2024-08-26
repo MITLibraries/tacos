@@ -3,10 +3,10 @@
 module Types
   class SearchEventType < Types::BaseObject
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :detectors, Types::DetectorsType
     field :id, ID, null: false
     field :phrase, String
     field :source, String
-    field :standard_identifiers, [StandardIdentifiersType]
     field :term_id, Integer
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
@@ -14,10 +14,8 @@ module Types
       @object.term.phrase
     end
 
-    def standard_identifiers
-      StandardIdentifiers.new(@object.term.phrase).identifiers.map do |identifier|
-        { kind: identifier.first, value: identifier.last }
-      end
+    def detectors
+      @object.term.phrase
     end
   end
 end
