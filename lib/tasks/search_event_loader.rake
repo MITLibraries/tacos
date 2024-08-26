@@ -28,4 +28,26 @@ namespace :search_events do
       term.search_events.create!(source: args.source, created_at: row.last)
     end
   end
+
+  desc 'Load search_events from url'
+  task :url_loader, %i[addr source] => :environment do |_task, args|
+    raise ArgumentError.new, 'URL is required' if args.addr.blank?
+    raise ArgumentError.new, 'Source is required' if args.source.blank?
+
+    Rails.logger.info("Term count before import: #{Term.count}")
+    Rails.logger.info("SearchEvent count before import: #{SearchEvent.count}")
+
+    url = URI.parse(args.addr)
+    Rails.logger.info("Loading data from #{url}")
+
+    file = url.open.read
+    data = CSV.parse(file)
+    data.each do |row|
+      term = Term.create_or_find_by!(phrase: row.first)
+      term.search_events.create!(source: args.source, created_at: row.last)
+    end
+
+    Rails.logger.info("Term count after import: #{Term.count}")
+    Rails.logger.info("SearchEvent count after import: #{SearchEvent.count}")
+  end
 end
