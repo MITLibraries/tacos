@@ -91,6 +91,26 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
                  json['data']['logSearchEvent']['detectors']['journals'].first['additionalInfo'])
   end
 
+  test 'search event query can return detected suggested resources' do
+    post '/graphql', params: { query: '{
+                                 logSearchEvent(sourceSystem: "timdex", searchTerm: "web of science") {
+                                   detectors {
+                                     suggestedResources {
+                                       title
+                                       url
+                                     }
+                                   }
+                                 }
+                               }' }
+
+    json = response.parsed_body
+
+    assert_equal 'Web of Science',
+                 json['data']['logSearchEvent']['detectors']['suggestedResources'].first['title']
+    assert_equal 'https://libguides.mit.edu/webofsci',
+                 json['data']['logSearchEvent']['detectors']['suggestedResources'].first['url']
+  end
+
   test 'search event query can return phrase from logged term' do
     post '/graphql', params: { query: '{
                                  logSearchEvent(sourceSystem: "timdex", searchTerm: "10.1038/nphys1170") {
