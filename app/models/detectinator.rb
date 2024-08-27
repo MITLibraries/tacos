@@ -13,4 +13,6 @@
 class Detectinator < ApplicationRecord
   has_many :mappings
   has_many :categories, :through => :mappings
+  has_many :term_detectinators, dependent: :destroy
+  has_many :terms, :through => :term_detectinators
 end

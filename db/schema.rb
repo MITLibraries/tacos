@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_27_144938) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_27_190547) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "note"
@@ -75,6 +75,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_144938) do
     t.datetime "updated_at", null: false
     t.index ["source"], name: "index_search_events_on_source"
     t.index ["term_id"], name: "index_search_events_on_term_id"
+  end
+
+  create_table "term_categories", force: :cascade do |t|
+    t.integer "term_id"
+    t.integer "category_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "term_detectinators", force: :cascade do |t|
+    t.integer "term_id"
+    t.integer "detectinator_id"
+    t.boolean "result"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "terms", force: :cascade do |t|
