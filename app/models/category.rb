@@ -11,4 +11,6 @@
 #  updated_at :datetime         not null
 #
 class Category < ApplicationRecord
+  has_many :mappings
+  has_many :detectinators, :through => :mappings
 end

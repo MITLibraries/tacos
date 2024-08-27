@@ -21,6 +21,7 @@ module Detector
   # science" should be met with our custom login link to Web of Science via MIT.
   class SuggestedResource < ApplicationRecord
     before_save :update_fingerprint
+    belongs_to :category
 
     # This exists for the before_save lifecycle hook to call the calculate_fingerprint method, to ensure that these
     # records always have a correctly-calculated fingerprint. It has no arguments and returns nothing.
