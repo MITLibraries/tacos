@@ -9,6 +9,10 @@ Rails.application.routes.draw do
       resources :suggested_resources
     end
 
+    resources :categories
+    resources :detectinators
+    resources :mappings
+    
     resources :search_events
     resources :terms
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_26_210659) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_27_144938) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "note"
@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_210659) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "detector_bases", force: :cascade do |t|
+  create_table "detectinators", force: :cascade do |t|
     t.string "name"
     t.float "confidence"
     t.datetime "created_at", null: false
@@ -40,8 +40,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_210659) do
     t.string "fingerprint"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "category_id"
     t.index ["fingerprint"], name: "index_detector_suggested_resources_on_fingerprint", unique: true
     t.index ["phrase"], name: "index_detector_suggested_resources_on_phrase", unique: true
+  end
+
+  create_table "mappings", force: :cascade do |t|
+    t.integer "category_id"
+    t.integer "detectinator_id"
+    t.float "confidence"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_mappings_on_category_id"
+    t.index ["detectinator_id"], name: "index_mappings_on_detectinator_id"
   end
 
   create_table "metrics_algorithms", force: :cascade do |t|

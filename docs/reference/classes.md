@@ -176,9 +176,9 @@ classDiagram
   direction LR
 
   Term >-- TermDetector
-  TermDetector --> Detector
-  Category <-- DetectorCategory
-  DetectorCategory --> Detector
+  TermDetector --> Detectinator
+  Category <-- Mapping
+  Mapping --> Detectinator
   Term --> TermCategory
   TermCategory <-- Category
   SuggestedResource --> Category
@@ -194,19 +194,19 @@ classDiagram
     TermDetector: +Integer detector_id
     TermDetector: +Boolean result
 
-  class Detector
-    Detector: +Integer id
-    Detector: +String name
-    Detector: hasMatch()
+  class Detectinator
+    Detectinator: +Integer id
+    Detectinator: +String name
+    Detectinator: hasMatch()
 
   class Category
     Category: +Integer id
     Category: +String name
     Category: +String note
 
-  class DetectorCategory
-    DetectorCategory: +Integer detector_id
-    DetectorCategory: +Integer category_id
+  class Mapping
+    Mapping: +Integer detector_id
+    Mapping: +Integer category_id
 
   class TermCategory
     TermCategory: +Integer term_id
@@ -226,8 +226,10 @@ classDiagram
     TermSuggestedResource: +Boolean result
 
   style Category fill:#000,stroke:#ffd407,color:#ffd407
-  style Detector fill:#000,stroke:#ffd407,color:#ffd407
+  style Detectinator fill:#000,stroke:#ffd407,color:#ffd407
   style Term fill:#000,stroke:#ffd407,color:#ffd407
+  style Mapping fill:#000,stroke:#ffd407,color:#ffd407
+  style SuggestedResource fill:#000,stroke:#ffd407,color:#ffd407
 ```
 
 The principle resources are Terms, Categories, and Detectors. Terms flow in

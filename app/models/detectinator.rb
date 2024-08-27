@@ -10,7 +10,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-module Detector
-  class Base < ApplicationRecord
-  end
+class Detectinator < ApplicationRecord
+  has_many :mappings
+  has_many :categories, :through => :mappings
 end
