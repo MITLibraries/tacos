@@ -13,4 +13,6 @@
 class Category < ApplicationRecord
   has_many :mappings
   has_many :detectinators, :through => :mappings
+  has_many :term_categories, dependent: :destroy
+  has_many :terms, :through => :term_categories
 end
