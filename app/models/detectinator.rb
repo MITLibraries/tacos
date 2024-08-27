@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: detector_bases
+# Table name: detectinators
 #
 #  id         :integer          not null, primary key
 #  name       :string
