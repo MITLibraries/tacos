@@ -53,4 +53,23 @@ class Term < ApplicationRecord
       link.save
     end
   end
+
+  # This is intended to be a method which calculates the confidence scores for each category, by multiplying the
+  # confidence values. Right now the method is only taking baby steps toward that work, however. The method currently
+  # generates log messages such as:
+  #
+  # This method will calculate the confidence scores for this term.
+  # Transactional-PMID: 0.95 * 0.95 = 0.9025
+  # Transactional-DOI: 0.95 * 0.95 = 0.9025
+  #
+  # ... if a given term trips two Transaction-facing detectors that have confidence scores of 0.95.
+  def categorize
+    Rails.logger.info("This method will calculate the confidence scores for this term.")
+    # self.detectinators.uniq.each { |d| d.mappings.uniq.each { |m| puts d.confidence * m.confidence } }
+    self.detectinators.uniq.each do |d|
+      d.mappings.uniq.each do |m|
+        Rails.logger.info("#{m.category.name.to_s}-#{d.name.to_s}: #{d.confidence.to_s} * #{m.confidence.to_s} = #{(d.confidence * m.confidence).to_s}")
+      end
+    end
+  end
 end
