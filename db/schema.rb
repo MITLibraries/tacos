@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_20_215418) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_23_144559) do
   create_table "categorizations", force: :cascade do |t|
     t.integer "detection_id"
     t.float "transaction_score"
@@ -90,6 +90,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_20_215418) do
     t.boolean "admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["uid"], name: "index_users_on_uid", unique: true
+  end
+
+  create_table "validations", force: :cascade do |t|
+    t.integer "categorization_id"
+    t.boolean "valid_category"
+    t.boolean "valid_transaction"
+    t.boolean "valid_information"
+    t.boolean "valid_navigation"
+    t.boolean "valid_doi"
+    t.boolean "valid_isbn"
+    t.boolean "valid_issn"
+    t.boolean "valid_pmid"
+    t.boolean "valid_journal"
+    t.boolean "valid_suggested_resource"
+    t.boolean "flag_term"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

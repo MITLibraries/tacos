@@ -12,6 +12,7 @@
 #
 class Categorization < ApplicationRecord
   belongs_to :detection
+  has_many :validations, dependent: :destroy
 
   def initialize(detection, *args)
     super(*args)
