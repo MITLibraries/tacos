@@ -14,6 +14,9 @@ namespace :search_events do
   # @example
   # bin/rails search_events:csv_loader['local_path_to_file.csv', 'some-source-to-use-for-all-loaded-records']
   #
+  # @example
+  # bin/rails search_events:csv_loader['https://SERVER/remote_path_to_file.json', 'some-source-to-use-for-all-loaded-records']
+  #
   # @param path [String] local file path to a CSV file to load
   # @param source [String] source name to load the data under
   desc 'Load search_events from csv'
@@ -21,46 +24,20 @@ namespace :search_events do
     raise ArgumentError.new, 'Path is required' if args.path.blank?
     raise ArgumentError.new, 'Source is required' if args.source.blank?
 
-    Rails.logger.info("Loading data from #{args.path}")
+    # does the file look like a path or a URI
+    if URI(args.path).scheme
+      Rails.logger.info("Loading data from remote file #{args.path}")
+      data = URI.parse(args.path).open('rb', &:read)
+    else
+      Rails.logger.info("Loading data from local file #{args.path}")
+      data = File.read(args.path)
+    end
 
-    CSV.foreach(args.path) do |row|
+    # not ideal, we should consider streaming the file rather than loading it fully into memory
+    # if you run into issues with this, consider loading subsets (such as a single month) at a time
+    CSV.parse(data) do |row|
       term = Term.create_or_find_by!(phrase: row.first)
       term.search_events.create!(source: args.source, created_at: row.last)
     end
-  end
-
-  # url loader can bulk load SearchEvents and Terms.
-  #
-  # @note This is not for use in production. It is intended for use in review apps on Heroku, to load records in
-  #   preparation for demonstrations.
-  #
-  # @note the csv should be formated as `term phrase`, `timestamp`. A dataclip is available that can export in this
-  #   format.
-  #
-  # @example
-  # bin/rake search_events:url_loader['https://example.org/file.csv', 'some-source-to-use-for-all-loaded-records']
-  #
-  # @param addr [String] a URL for a CSV file to load
-  # @param source [String] source name to load the data under
-  desc 'Load search_events from url'
-  task :url_loader, %i[addr source] => :environment do |_task, args|
-    raise ArgumentError.new, 'URL is required' if args.addr.blank?
-    raise ArgumentError.new, 'Source is required' if args.source.blank?
-
-    Rails.logger.info("Term count before import: #{Term.count}")
-    Rails.logger.info("SearchEvent count before import: #{SearchEvent.count}")
-
-    url = URI.parse(args.addr)
-    Rails.logger.info("Loading data from #{url}")
-
-    file = url.open.read
-    data = CSV.parse(file)
-    data.each do |row|
-      term = Term.create_or_find_by!(phrase: row.first)
-      term.search_events.create!(source: args.source, created_at: row.last)
-    end
-
-    Rails.logger.info("Term count after import: #{Term.count}")
-    Rails.logger.info("SearchEvent count after import: #{SearchEvent.count}")
   end
 end
