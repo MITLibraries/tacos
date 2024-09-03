@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 # These define tasks for managing our SuggestedResource records.
 namespace :suggested_resources do
   # While we intend to use Dataclips for exporting these records when needed,
