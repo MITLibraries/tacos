@@ -16,6 +16,9 @@ isbn:
 issn:
   name: 'ISSN'
 
+lcsh:
+  name: 'LCSH'
+
 pmid:
   name: 'PMID'
 

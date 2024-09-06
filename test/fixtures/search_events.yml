@@ -31,6 +31,13 @@ current_month_doi:
 current_month_isbn:
   term: isbn_9781319145446
   source: test
+current_month_lcsh:
+  term: lcsh
+  source: test
+old_month_lcsh:
+  term: lcsh
+  source: test
+  created_at: <%= 1.year.ago %>
 current_month_nature_medicine:
   term: journal_nature_medicine
   source: test

@@ -33,3 +33,8 @@ five:
   detector: journal
   category: transactional
   confidence: 0.5
+
+six:
+  detector: lcsh
+  category: informational
+  confidence: 0.7

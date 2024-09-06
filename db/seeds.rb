@@ -28,6 +28,7 @@ Category.find_or_create_by(
 Detector.find_or_create_by(name: 'DOI')
 Detector.find_or_create_by(name: 'ISBN')
 Detector.find_or_create_by(name: 'ISSN')
+Detector.find_or_create_by(name: 'LCSH')
 Detector.find_or_create_by(name: 'PMID')
 Detector.find_or_create_by(name: 'Journal')
 Detector.find_or_create_by(name: 'SuggestedResource')
@@ -47,6 +48,11 @@ DetectorCategory.find_or_create_by(
   detector: Detector.find_by(name: 'ISSN'),
   category: Category.find_by(name: 'Transactional'),
   confidence: 0.6
+)
+DetectorCategory.find_or_create_by(
+  detector: Detector.find_by(name: 'LCSH'),
+  category: Category.find_by(name: 'Informational'),
+  confidence: 0.7
 )
 DetectorCategory.find_or_create_by(
   detector: Detector.find_by(name: 'PMID'),
