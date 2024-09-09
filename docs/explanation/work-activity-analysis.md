@@ -50,7 +50,7 @@ _Our initial minimal product will only include this staff workflow to allow us t
 
 ```mermaid
 graph TD
-  A("Liaison 🧑") --> C{Dashboard}
+  A("Expert 🧑") --> C{Dashboard}
   C --> E(View uncategorized)
   G --> E
   E --> G("Enter categorization (and optional comments)")
@@ -68,7 +68,7 @@ One way to frame this is "Is this search a match with this category" (a yes/no q
 
 ```mermaid
 graph TD
-  A("Liaison 🧑") --> C{Dashboard}
+  A("Expert 🧑") --> C{Dashboard}
   G --> D
   C --> D(View algorithm predictions)
   D --> F{Correct prediction?}
