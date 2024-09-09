@@ -10,11 +10,15 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
-module Detector
+class Detector
   # Detector::Journal stores information about academic journals loaded from external sources to allow us to check our
   # incoming Terms against these information
   class Journal < ApplicationRecord
     before_save :downcase_fields!
+
+    def self.table_name_prefix
+      'detector_'
+    end
 
     # Identify journals in which the incoming phrase matches a Journal.name exactly
     #

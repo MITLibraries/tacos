@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
-module Detector
+class Detector
   # Detector::StandardIdentifiers detects the identifiers DOI, ISBN, ISSN, PMID.
   # See /docs/reference/pattern_detection_and_enhancement.md for details.
   class StandardIdentifiers
     attr_reader :identifiers
+
+    def self.table_name_prefix
+      'detector_'
+    end
 
     def initialize(term)
       @identifiers = {}

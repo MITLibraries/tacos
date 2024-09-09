@@ -1,0 +1,33 @@
+# == Schema Information
+#
+# Table name: detectors
+#
+#  id         :integer          not null, primary key
+#  name       :string
+#  confidence :float
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+doi:
+  name: 'DOI'
+  confidence: 0.95
+
+isbn:
+  name: 'ISBN'
+  confidence: 0.8
+
+issn:
+  name: 'ISSN'
+  confidence: 0.6
+
+pmid:
+  name: 'PMID'
+  confidence: 0.95
+
+journal:
+  name: 'Journal'
+  confidence: 0.2
+
+suggestedresource:
+  name: 'SuggestedResource'
+  confidence: 0.95

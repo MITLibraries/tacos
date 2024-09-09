@@ -1,0 +1,35 @@
+# == Schema Information
+#
+# Table name: detector_categories
+#
+#  id          :integer          not null, primary key
+#  detector_id :integer          not null
+#  category_id :integer          not null
+#  confidence  :float
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+one:
+  detector: doi
+  category: transactional
+  confidence: 0.95
+
+two:
+  detector: isbn
+  category: transactional
+  confidence: 0.95
+
+three:
+  detector: issn
+  category: transactional
+  confidence: 0.95
+
+four:
+  detector: pmid
+  category: transactional
+  confidence: 0.95
+
+five:
+  detector: journal
+  category: transactional
+  confidence: 0.5

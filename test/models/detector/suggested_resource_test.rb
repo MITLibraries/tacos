@@ -14,7 +14,7 @@
 #
 require 'test_helper'
 
-module Detector
+class Detector
   class SuggestedResourceTest < ActiveSupport::TestCase
     test 'fingerprints are generated automatically' do
       resource = {

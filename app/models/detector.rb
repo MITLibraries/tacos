@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
-# Detectors are classes that implement various algorithms that allow us to identify patterns
-# within search terms.
-module Detector
-  def self.table_name_prefix
-    'detector_'
-  end
+# == Schema Information
+#
+# Table name: detectors
+#
+#  id         :integer          not null, primary key
+#  name       :string
+#  confidence :float
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+class Detector < ApplicationRecord
+  has_many :detector_categories, dependent: :destroy
+  has_many :categories, through: :detector_categories
 end
