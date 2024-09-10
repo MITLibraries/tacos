@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_09_183413) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_09_183613) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -25,7 +25,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_09_183413) do
     t.float "confidence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id", "detector_id"], name: "index_detector_categories_on_category_id_and_detector_id"
     t.index ["category_id"], name: "index_detector_categories_on_category_id"
+    t.index ["detector_id", "category_id"], name: "index_detector_categories_on_detector_id_and_category_id"
     t.index ["detector_id"], name: "index_detector_categories_on_detector_id"
   end
 
@@ -50,7 +52,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_09_183413) do
 
   create_table "detectors", force: :cascade do |t|
     t.string "name"
-    t.float "confidence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_detectors_on_name", unique: true
