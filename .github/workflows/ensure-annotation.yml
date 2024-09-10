@@ -4,12 +4,26 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+
+      - uses: actions/cache@v4
+        with:
+          path: vendor/bundle
+          key: bundle-use-ruby-ubuntu-22.04-${{ hashFiles('.ruby-version') }}-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            bundle-use-ruby-ubuntu-22.04-${{ hashFiles('.ruby-version') }}-
+
+      - name: bundle install
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
 
       - run: make annotate
 
