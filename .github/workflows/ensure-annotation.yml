@@ -1,0 +1,18 @@
+name: Ensure annotations are current
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: make annotate
+
+      - uses: CatChen/check-git-status-action@v1
+        with:
+          fail-if-not-clean: true
