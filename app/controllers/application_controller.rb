@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
     root_path
   end
 
-
   private
 
   def require_user
