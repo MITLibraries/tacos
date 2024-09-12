@@ -15,12 +15,16 @@
 
 require 'stringex/core_ext'
 
-module Detector
+class Detector
   # Detector::SuggestedResource stores custom hints that we want to send to the
   # user in response to specific strings. For example, a search for "web of
   # science" should be met with our custom login link to Web of Science via MIT.
   class SuggestedResource < ApplicationRecord
     before_save :update_fingerprint
+
+    def self.table_name_prefix
+      'detector_'
+    end
 
     # This exists for the before_save lifecycle hook to call the calculate_fingerprint method, to ensure that these
     # records always have a correctly-calculated fingerprint. It has no arguments and returns nothing.

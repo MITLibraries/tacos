@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-module Detector
+class Detector
   class StandardIdentifiersTest < ActiveSupport::TestCase
     test 'ISBN detected in a string' do
       actual = Detector::StandardIdentifiers.new('test 978-3-16-148410-0 test').identifiers

@@ -2,7 +2,7 @@
 
 require 'administrate/base_dashboard'
 
-module Detector
+class Detector
   class SuggestedResourceDashboard < Administrate::BaseDashboard
     # ATTRIBUTE_TYPES
     # a hash that describes the type of each of the model's fields.

@@ -12,7 +12,7 @@
 #
 require 'test_helper'
 
-module Detector
+class Detector
   class JournalTest < ActiveSupport::TestCase
     test 'exact term match on journal name' do
       expected = detector_journals('the_new_england_journal_of_medicine')

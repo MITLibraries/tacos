@@ -10,7 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_13_181057) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_09_183613) do
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "detector_categories", force: :cascade do |t|
+    t.integer "detector_id", null: false
+    t.integer "category_id", null: false
+    t.float "confidence"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id", "detector_id"], name: "index_detector_categories_on_category_id_and_detector_id"
+    t.index ["category_id"], name: "index_detector_categories_on_category_id"
+    t.index ["detector_id", "category_id"], name: "index_detector_categories_on_detector_id_and_category_id"
+    t.index ["detector_id"], name: "index_detector_categories_on_detector_id"
+  end
+
   create_table "detector_journals", force: :cascade do |t|
     t.string "name"
     t.json "additional_info"
@@ -28,6 +48,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_181057) do
     t.datetime "updated_at", null: false
     t.index ["fingerprint"], name: "index_detector_suggested_resources_on_fingerprint", unique: true
     t.index ["phrase"], name: "index_detector_suggested_resources_on_phrase", unique: true
+  end
+
+  create_table "detectors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_detectors_on_name", unique: true
   end
 
   create_table "metrics_algorithms", force: :cascade do |t|
@@ -69,4 +96,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_181057) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "detector_categories", "categories"
+  add_foreign_key "detector_categories", "detectors"
 end
