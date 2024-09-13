@@ -19,6 +19,12 @@ VCR.configure do |config|
   config.hook_into :webmock
 end
 
+module ActionDispatch
+  class IntegrationTest
+    include Devise::Test::IntegrationHelpers
+  end
+end
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers

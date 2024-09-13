@@ -10,6 +10,9 @@ class Ability
     return if user.blank?
     # Rules will go here.
 
+    # all authenticated
+    # can :view, :playground
+
     return unless user.admin?
 
     can :manage, :all

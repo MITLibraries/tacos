@@ -6,6 +6,7 @@
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     include FakeAuthConfig
+    skip_before_action :require_user
 
     def openid_connect
       @user = User.from_omniauth(request.env['omniauth.auth'])
