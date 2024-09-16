@@ -23,18 +23,18 @@ class DetectorDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
     id
+    name
     categories
     detector_categories
-    name
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
+    name
     categories
     detector_categories
-    name
     created_at
     updated_at
   ].freeze
@@ -43,9 +43,9 @@ class DetectorDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
+    name
     categories
     detector_categories
-    name
   ].freeze
 
   # COLLECTION_FILTERS
@@ -63,7 +63,7 @@ class DetectorDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how detectors are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(detector)
-  #   "Detector ##{detector.id}"
-  # end
+  def display_resource(detector)
+    "#{detector.name}"
+  end
 end

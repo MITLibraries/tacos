@@ -5,13 +5,21 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    # Lookup-style detector records
     namespace :detector do
       resources :suggested_resources
     end
 
+    # Knowledge graph models
+    resources :detectors
+    resources :detector_categories
+    resources :categories
+
+    # Search activity models
     resources :search_events
     resources :terms
 
+    # Tacos administration
     resources :users
 
     root to: "terms#index"

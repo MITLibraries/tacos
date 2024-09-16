@@ -24,8 +24,8 @@ class DetectorCategoryDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     category
-    confidence
     detector
+    confidence
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -33,8 +33,8 @@ class DetectorCategoryDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     category
-    confidence
     detector
+    confidence
     created_at
     updated_at
   ].freeze
@@ -44,8 +44,8 @@ class DetectorCategoryDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     category
-    confidence
     detector
+    confidence
   ].freeze
 
   # COLLECTION_FILTERS
@@ -63,7 +63,7 @@ class DetectorCategoryDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how detector categories are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(detector_category)
-  #   "DetectorCategory ##{detector_category.id}"
-  # end
+  def display_resource(detector_category)
+    "#{detector_category.category.name} - #{detector_category.detector.name} (#{detector_category.confidence})"
+  end
 end
