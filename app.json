@@ -1,7 +1,9 @@
 {
   "name": "tacos",
   "stack": "heroku-24",
-  "scripts": {},
+  "scripts": {
+    "postdeploy": "bundle exec rails db:seed"
+  },
   "env": {
     "LINKRESOLVER_BASEURL": {
       "required": false
