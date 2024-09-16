@@ -1,4 +1,6 @@
-require "administrate/base_dashboard"
+# frozen_string_literal: true
+
+require 'administrate/base_dashboard'
 
 class DetectorDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -13,7 +15,7 @@ class DetectorDashboard < Administrate::BaseDashboard
     detector_categories: Field::HasMany,
     name: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -64,6 +66,6 @@ class DetectorDashboard < Administrate::BaseDashboard
   # across all pages of the admin dashboard.
   #
   def display_resource(detector)
-    "#{detector.name}"
+    detector.name
   end
 end

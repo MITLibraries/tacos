@@ -1,4 +1,6 @@
-require "administrate/base_dashboard"
+# frozen_string_literal: true
+
+require 'administrate/base_dashboard'
 
 class DetectorCategoryDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -13,7 +15,7 @@ class DetectorCategoryDashboard < Administrate::BaseDashboard
     confidence: Field::Number.with_options(decimals: 2),
     detector: Field::BelongsTo,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
