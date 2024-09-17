@@ -34,8 +34,14 @@ gem 'omniauth'
 gem 'omniauth_openid_connect'
 gem 'omniauth-rails_csrf_protection'
 
+# Parser added explicitly to allow for the namespace to be available for scout
+gem 'parser'
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '>= 5.0'
+
+# Performance Monitoring
+gem 'scout_apm'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.1.2'

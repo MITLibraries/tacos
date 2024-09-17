@@ -383,6 +383,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    scout_apm (5.4.0)
+      parser
     selectize-rails (0.12.6)
     selenium-webdriver (4.23.0)
       base64 (~> 0.2)
@@ -481,6 +483,7 @@ DEPENDENCIES
   omniauth
   omniauth-rails_csrf_protection
   omniauth_openid_connect
+  parser
   pg
   puma (>= 5.0)
   rack-cors
@@ -491,6 +494,7 @@ DEPENDENCIES
   rubocop-minitest
   rubocop-performance
   rubocop-rails
+  scout_apm
   selenium-webdriver
   simplecov
   simplecov-lcov
