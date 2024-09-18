@@ -4,16 +4,17 @@
 #
 # Table name: metrics_algorithms
 #
-#  id            :integer          not null, primary key
-#  month         :date
-#  doi           :integer
-#  issn          :integer
-#  isbn          :integer
-#  pmid          :integer
-#  unmatched     :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  journal_exact :integer
+#  id                       :integer          not null, primary key
+#  month                    :date
+#  doi                      :integer
+#  issn                     :integer
+#  isbn                     :integer
+#  pmid                     :integer
+#  unmatched                :integer
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  journal_exact            :integer
+#  suggested_resource_exact :integer
 #
 module Metrics
   # Algorithms aggregates statistics for matches for all SearchEvents
