@@ -40,6 +40,17 @@ class TermTest < ActiveSupport::TestCase
     assert_operator(SearchEvent.count, :<, event_pre_count)
   end
 
+  test 'destroying a Term will delete associated Detections' do
+    term_pre_count = Term.count
+    detection_pre_count = Detection.count
+
+    term = terms('doi')
+    term.destroy
+
+    assert_equal((term_pre_count - 1), Term.count)
+    assert_operator(Detection.count, :<, detection_pre_count)
+  end
+
   test 'destroying a SearchEvent does not delete the Term' do
     t = terms('hi')
     s = t.search_events.first
@@ -53,5 +64,86 @@ class TermTest < ActiveSupport::TestCase
 
     assert_equal(events_count - 1, t.search_events.count)
     assert_predicate(t, :valid?)
+  end
+
+  test 'destroying a Detection does not delete the Term' do
+    t = terms('doi')
+    d = Detection.where(term: t).first
+    terms_count = Term.count
+    detections_count = t.detections.count
+
+    assert_operator(0, :<, detections_count)
+
+    d.destroy
+    t.reload
+
+    assert_equal(terms_count, Term.count)
+    assert_predicate(t, :valid?)
+  end
+
+  test 'record_detections can be re-run without new records being created' do
+    t = terms('doi')
+
+    t.record_detections
+
+    detection_count = Detection.count
+
+    t.record_detections
+
+    assert_equal(detection_count, Detection.count)
+  end
+
+  test 'record_patterns does relevant work' do
+    detection_count = Detection.count
+    t = terms('isbn_9781319145446')
+
+    t.record_patterns
+
+    assert_not_equal(Detection.count, detection_count)
+  end
+
+  test 'record_patterns does nothing when not needed' do
+    detection_count = Detection.count
+    t = terms('journal_nature_medicine')
+
+    t.record_patterns
+
+    assert_equal(Detection.count, detection_count)
+  end
+
+  test 'record_journals does relevant work' do
+    detection_count = Detection.count
+    t = terms('journal_nature_medicine')
+
+    t.record_journals
+
+    assert_not_equal(Detection.count, detection_count)
+  end
+
+  test 'record_journals does nothing when not needed' do
+    detection_count = Detection.count
+    t = terms('isbn_9781319145446')
+
+    t.record_journals
+
+    assert_equal(Detection.count, detection_count)
+  end
+
+  test 'record_suggested_resources does relevant work' do
+    detection_count = Detection.count
+    t = terms('suggested_resource_jstor')
+
+    t.record_suggested_resources
+
+    assert_not_equal(Detection.count, detection_count)
+  end
+
+  test 'record_suggested_resources does nothing when not needed' do
+    detection_count = Detection.count
+    t = terms('isbn_9781319145446')
+
+    t.record_suggested_resources
+
+    assert_equal(Detection.count, detection_count)
   end
 end

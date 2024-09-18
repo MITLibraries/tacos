@@ -33,6 +33,10 @@ classDiagram
     Term: id
     Term: +String phrase
     Term: calculateCategory()
+    Term: recordDetections()
+    Term: recordPatterns()
+    Term: recordJouranls()
+    Term: recordSuggestedResources()
 
   class SearchEvent
     SearchEvent: +Integer id
@@ -45,14 +49,10 @@ classDiagram
     Detection: +Integer id
     Detection: +Integer term_id
     Detection: +Integer detector_id
-    Detection: +Integer detector_version
-    Detection: +Float confidence
-    Detection: initialize()
-    Detection: setDetectionVersion()
-    Detection: recordDetections()
-    Detection: recordPatterns()
-    Detection: recordJournals()
-    Detection: recordSuggestedResource()
+    Detection: +String detector_version
+    Detection: current()
+    Detection: for_detector()
+    Detection: for_term()
 
   class Detector
     Detector: +Integer id

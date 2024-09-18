@@ -1,0 +1,25 @@
+# == Schema Information
+#
+# Table name: detections
+#
+#  id               :integer          not null, primary key
+#  term_id          :integer          not null
+#  detector_id      :integer          not null
+#  detector_version :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+one:
+  term: doi
+  detector: doi
+  detector_version: 1
+
+two:
+  term: multiple_detections
+  detector: doi
+  detector_version: 1
+
+three:
+  term: multiple_detections
+  detector: pmid
+  detector_version: 1
