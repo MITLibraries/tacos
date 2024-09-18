@@ -41,6 +41,12 @@ If you need to regenerate these cassettes, the following procedure should be suf
 `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes
 from our theme gem.
 
+Scout settings can be controlled via `config/scout_apm.yml` or ENV. ENV overrides config.
+Lots more [Scout settings](https://scoutapm.com/docs/ruby/configuration#environment-variables) available.
+`SCOUT_KEY`: ScoutAPM key. Do not set in dev or test.
+`SCOUT_LOG_LEVEL`: defaults to INFO which is probably fine. Controls verboseness of Scout logs
+`SCOUT_NAME`: set a unique name per deployed tier to avoid confusion.
+
 ### Authentication
 
 #### Required in all environments
