@@ -28,7 +28,7 @@ class DetectionTest < ActiveSupport::TestCase
 
     assert_equal(initial_count + 1, post_count)
 
-    assert_raises(ActiveRecord::RecordNotSaved) do
+    assert_raises(ActiveRecord::RecordNotUnique) do
       Detection.create!(sample)
     end
 
@@ -48,7 +48,7 @@ class DetectionTest < ActiveSupport::TestCase
     }
 
     # A purely duplicate record fails to save...
-    assert_raises(ActiveRecord::RecordNotSaved) do
+    assert_raises(ActiveRecord::RecordNotUnique) do
       Detection.create!(new_sample)
     end
 

@@ -35,7 +35,7 @@ class Term < ApplicationRecord
     si = Detector::StandardIdentifiers.new(phrase)
 
     si.identifiers.each_key do |k|
-      Detection.create(
+      Detection.find_or_create_by(
         term: self,
         detector: Detector.where(name: k.to_s.upcase).first
       )
@@ -51,7 +51,7 @@ class Term < ApplicationRecord
     result = Detector::Journal.full_term_match(phrase)
     return unless result.any?
 
-    Detection.create(
+    Detection.find_or_create_by(
       term: self,
       detector: Detector.where("name = 'Journal'").first
     )
@@ -69,7 +69,7 @@ class Term < ApplicationRecord
     result = Detector::SuggestedResource.full_term_match(phrase)
     return unless result.any?
 
-    Detection.create(
+    Detection.find_or_create_by(
       term: self,
       detector: Detector.where("name = 'SuggestedResource'").first
     )

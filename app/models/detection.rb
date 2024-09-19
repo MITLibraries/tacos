@@ -25,7 +25,7 @@ class Detection < ApplicationRecord
   belongs_to :detector
 
   # We use the before_create hook to prevent needing to override the initialize method, which Rails frowns upon.
-  before_create :set_defaults, :check_for_current
+  before_create :set_defaults
 
   # These scopes allow for easy filtering of Detection records by a single parameter.
   scope :current, -> { where(detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')) }
@@ -33,15 +33,6 @@ class Detection < ApplicationRecord
   scope :for_term, ->(term) { where(term_id: term.id) }
 
   private
-
-  # This leverages three scopes to confirm, before creating a new Detection, whether that combination of Term, Detector,
-  # and Version has already been registered. If one is found, it aborts the creation.
-  def check_for_current
-    return unless Detection.for_term(term).for_detector(detector).current.exists?
-
-    errors.add(:detector_version, 'already exists')
-    throw(:abort)
-  end
 
   # This looks up the current Detector Version from the environment, storing the value as part of the record which is
   # about to be saved. This prevents the rest of the application from having to worry about this value, while also
