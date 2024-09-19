@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 # A Detection is a joining record between a Term and a Detector, created when a Detector activates based on some aspect
-# of the Term. This is the record that TACOS found something about this Term.
+# of the Term. This is the signal that TACOS found something about this Term.
 #
 # There is a uniqueness constraint on the combination of term_id, detector_id, and detector_version.
 #
 # New records can be created by passing a Term and a Detector object. The model will look up the current detector
-# version, and include that in the record. If this would result in a duplicate record, then the creation process is
-# aborted with no duplicate created.
+# version, and include that in the record.
 #
 # == Schema Information
 #

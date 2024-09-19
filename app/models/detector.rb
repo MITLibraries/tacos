@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Detectors are a generic representation of specific tests performed by the
+# Detectors are a generic representation of specific checks performed by the
 # application. Examples include the Detector::Journal or
 # Detector::StandardIdentifier checks.
 #

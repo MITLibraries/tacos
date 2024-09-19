@@ -57,11 +57,11 @@ class DetectionTest < ActiveSupport::TestCase
 
     assert_not_equal(ENV.fetch('DETECTOR_VERSION'), new_version)
 
-    ENV['DETECTOR_VERSION'] = new_version
+    ClimateControl.modify DETECTOR_VERSION: new_version do
+      Detection.create!(new_sample)
 
-    Detection.create!(new_sample)
-
-    assert_equal(initial_count + 1, Detection.count)
+      assert_equal(initial_count + 1, Detection.count)
+    end
   end
 
   test 'detections are assigned the current DETECTOR_VERSION value from env' do
@@ -84,10 +84,10 @@ class DetectionTest < ActiveSupport::TestCase
 
     assert_not_equal(ENV.fetch('DETECTOR_VERSION'), new_version)
 
-    ENV['DETECTOR_VERSION'] = new_version
+    ClimateControl.modify DETECTOR_VERSION: new_version do
+      updated_count = Detection.current.count
 
-    updated_count = Detection.current.count
-
-    assert_not_equal(count, updated_count)
+      assert_not_equal(count, updated_count)
+    end
   end
 end
