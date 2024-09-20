@@ -151,5 +151,23 @@ class Detector
       assert_predicate actual_partial.count, :zero?
       assert_predicate actual_extra.count, :zero?
     end
+
+    test 'record does relevant work' do
+      detection_count = Detection.count
+      t = terms('suggested_resource_jstor')
+
+      Detector::SuggestedResource.record(t)
+
+      assert_equal(detection_count + 1, Detection.count)
+    end
+
+    test 'record does nothing when not needed' do
+      detection_count = Detection.count
+      t = terms('isbn_9781319145446')
+
+      Detector::SuggestedResource.record(t)
+
+      assert_equal(detection_count, Detection.count)
+    end
   end
 end

@@ -190,5 +190,23 @@ class Detector
         assert_nil(actual[:pmid])
       end
     end
+
+    test 'record does relevant work' do
+      detection_count = Detection.count
+      t = terms('isbn_9781319145446')
+
+      Detector::StandardIdentifiers.record(t)
+
+      assert_equal(detection_count + 1, Detection.count)
+    end
+
+    test 'record does nothing when not needed' do
+      detection_count = Detection.count
+      t = terms('journal_nature_medicine')
+
+      Detector::StandardIdentifiers.record(t)
+
+      assert_equal(detection_count, Detection.count)
+    end
   end
 end
