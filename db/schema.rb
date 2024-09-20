@@ -10,13 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_09_183613) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_17_160025) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "detections", force: :cascade do |t|
+    t.integer "term_id", null: false
+    t.integer "detector_id", null: false
+    t.string "detector_version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["detector_id", "term_id", "detector_version"], name: "idx_on_detector_id_term_id_detector_version_2afa383b1f", unique: true
+    t.index ["detector_id"], name: "index_detections_on_detector_id"
+    t.index ["term_id", "detector_id", "detector_version"], name: "idx_on_term_id_detector_id_detector_version_03898e846f", unique: true
+    t.index ["term_id"], name: "index_detections_on_term_id"
   end
 
   create_table "detector_categories", force: :cascade do |t|
@@ -96,6 +108,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_09_183613) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "detections", "detectors"
+  add_foreign_key "detections", "terms"
   add_foreign_key "detector_categories", "categories"
   add_foreign_key "detector_categories", "detectors"
 end

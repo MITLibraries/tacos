@@ -16,6 +16,27 @@ class Detector
       strip_invalid_issns
     end
 
+    # The record method will consult the set of regex-based detectors that are defined in
+    # Detector::StandardIdentifiers. Any matches will be registered as Detection records.
+    #
+    # @note There are multiple checks within the Detector::StandardIdentifier class. Each check is capable of generating
+    #       a separate Detection record (although a single check finding multiple matches would still only result in one
+    #       Detection for that check).
+    #
+    # @return nil
+    def self.record(term)
+      si = Detector::StandardIdentifiers.new(term.phrase)
+
+      si.identifiers.each_key do |k|
+        Detection.find_or_create_by(
+          term:,
+          detector: Detector.where(name: k.to_s.upcase).first
+        )
+      end
+
+      nil
+    end
+
     private
 
     def term_pattern_checker(term)

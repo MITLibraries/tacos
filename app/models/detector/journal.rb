@@ -46,6 +46,25 @@ class Detector
       Journal.all.select { |journal| phrase.downcase.include?(journal.name) }
     end
 
+    # Look up any matching Detector::Journal records, building on the full_term_match method. If a match is found, a
+    # Detection record is created to indicate this success.
+    #
+    # @note This does not care whether multiple matching journals are detected. If _any_ match is found, a Detection
+    #       record is created. The uniqueness constraint on Detection records would make multiple detections irrelevant.
+    #
+    # @return nil
+    def self.record(term)
+      result = full_term_match(term.phrase)
+      return unless result.any?
+
+      Detection.find_or_create_by(
+        term:,
+        detector: Detector.where(name: 'Journal').first
+      )
+
+      nil
+    end
+
     private
 
     # Downcasing all names before saving allows for more efficient matching by ensuring our index is lowercase.

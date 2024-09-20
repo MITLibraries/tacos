@@ -56,5 +56,23 @@ class Detector
       assert_not_equal(mixed_case, actual.name)
       assert_equal(mixed_case.downcase, actual.name)
     end
+
+    test 'record does relevant work' do
+      detection_count = Detection.count
+      t = terms('journal_nature_medicine')
+
+      Detector::Journal.record(t)
+
+      assert_equal(detection_count + 1, Detection.count)
+    end
+
+    test 'record does nothing when not needed' do
+      detection_count = Detection.count
+      t = terms('isbn_9781319145446')
+
+      Detector::Journal.record(t)
+
+      assert_equal(detection_count, Detection.count)
+    end
   end
 end

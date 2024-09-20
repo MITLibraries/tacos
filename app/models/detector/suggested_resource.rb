@@ -100,5 +100,27 @@ class Detector
     def self.full_term_match(phrase)
       SuggestedResource.where(fingerprint: calculate_fingerprint(phrase))
     end
+
+    # Look up any matching Detector::SuggestedResource records, building on the full_term_match method. If a match is
+    # found, a Detection record is created to indicate this success.
+    #
+    # @note Multiple matches with Detector::SuggestedResource are not possible due to internal constraints in that
+    #       detector, which requires a unique fingerprint for every record.
+    #
+    # @note Multiple detections are irrelevant for this method. If _any_ match is found, a Detection record is created.
+    #       The uniqueness contraint on Detection records would make multiple detections irrelevant.
+    #
+    # @return nil
+    def self.record(term)
+      result = full_term_match(term.phrase)
+      return unless result.any?
+
+      Detection.find_or_create_by(
+        term:,
+        detector: Detector.where(name: 'SuggestedResource').first
+      )
+
+      nil
+    end
   end
 end

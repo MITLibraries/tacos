@@ -5,6 +5,9 @@
     "postdeploy": "bundle exec rails db:seed"
   },
   "env": {
+    "DETECTOR_VERSION": {
+      "required": false
+    },
     "LINKRESOLVER_BASEURL": {
       "required": false
     },
