@@ -5,16 +5,23 @@ This partial is used to display the navigation in Administrate.
 By default, the navigation contains navigation links
 for all resources in the admin dashboard,
 as defined by the routes in the `admin/` namespace
+
+This local template was forked from the administrate version to allow direct usage of
+the `can?` check rather than administrates `accessible_action?` which didn't work in
+our environment. Our option was to fork this template or monkey patch that method. This
+felt least likely to have undesired side effects as `accessible_action?` is used in more
+places than just this and we haven't noted it not working as expected there. If we realize
+other templates are also having it not work as needed, we should monkey patch that method
+and delete this template.
 %>
 
 <nav class="navigation">
   <%= link_to(t("administrate.navigation.back_to_app"), root_url, class: "button button--alt button--nav") if defined?(root_url) %>
-
   <% Administrate::Namespace.new(namespace).resources_with_index_route.each do |resource| %>
     <%= link_to(
       display_resource_name(resource),
       resource_index_route(resource),
       class: "navigation__link navigation__link--#{nav_link_state(resource)}"
-    ) if accessible_action?(model_from_resource(resource), :index) %>
+    ) if can?(:index, model_from_resource(resource)) %>
   <% end %>
 </nav>
