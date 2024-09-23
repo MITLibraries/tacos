@@ -2,6 +2,12 @@
   <p><i class="fa fa-exclamation-circle fa-lg"></i> Percentage match is not accurate for Terms that match multiple algorithms. The actual percentage match will be lower than the reported value. At this time, the error is not believed to be significant based on the currently low volume of Terms that match multiple algorithms. This may change as we develop new algorithms to a point where we need to address this discrepancy.</p>
 </div>
 
+<% if params[:type] == 'aggregate' %>
+  <h3>Aggregate Algorithm Metrics</h3>
+<% else %>
+  <h3>Monthly Algorithm Metrics</h3>
+<% end %>
+
 <table class="table">
   <tr>
     <% if params[:type] == 'aggregate' %>
