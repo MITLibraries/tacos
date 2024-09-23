@@ -21,6 +21,9 @@ module Metrics
   class Algorithms < ApplicationRecord
     self.table_name = 'metrics_algorithms'
 
+    scope :monthlies, -> { where.not(month: nil).order(month: :asc) }
+    scope :aggregates, -> { where(month: nil).order(month: :asc) }
+
     # generate metrics data about SearchEvents matches
     #
     # @note This is expected to only be run once per month per type of aggregation (once with no month supplied, once

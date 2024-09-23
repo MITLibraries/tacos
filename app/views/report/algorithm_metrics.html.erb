@@ -1,0 +1,40 @@
+<div class="alert alert-banner warning">
+  <p><i class="fa fa-exclamation-circle fa-lg"></i> Percentage match is not accurate for Terms that match multiple algorithms. The actual percentage match will be lower than the reported value. At this time, the error is not believed to be significant based on the currently low volume of Terms that match multiple algorithms. This may change as we develop new algorithms to a point where we need to address this discrepancy.</p>
+</div>
+
+<table class="table">
+  <tr>
+    <% if params[:type] == 'aggregate' %>
+      <th>Aggregation date</th>
+    <% else %>
+      <th>Month</th>
+    <% end %>
+    <th>DOI</th>
+    <th>ISSN</th>
+    <th>ISBN</th>
+    <th>PMID</th>
+    <th>Journal</th>
+    <th>SuggestedResource</th>
+    <th>Unmatched</th>
+    <th>% matched</th>
+  </tr>
+<% @metrics.each do |metric| %>
+  <tr>
+    <% if params[:type] == 'aggregate' %>
+      <td><%= metric.updated_at.strftime("%d %B %Y") %></td>
+    <% else %>
+      <td><%= metric.month.strftime("%B %Y") %></td>
+    <% end %>
+    <td><%= metric.doi %></td>
+    <td><%= metric.issn %></td>
+    <td><%= metric.isbn %></td>
+    <td><%= metric.pmid %></td>
+    <td><%= metric.journal_exact %></td>
+    <td><%= metric.suggested_resource_exact %></td>
+    <td><%= metric.unmatched %></td>
+    <td>
+      <%= percent_match(metric) %>
+    </td>
+  </tr>
+  <% end %>
+</table>
