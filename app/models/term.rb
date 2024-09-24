@@ -15,6 +15,7 @@
 class Term < ApplicationRecord
   has_many :search_events, dependent: :destroy
   has_many :detections, dependent: :destroy
+  has_many :categorizations, dependent: :destroy
 
   # The record_detections method is the one-stop method to call every Detector's record method that is defined within
   # the application.

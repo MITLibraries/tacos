@@ -51,6 +51,17 @@ class TermTest < ActiveSupport::TestCase
     assert_operator(Detection.count, :<, detection_pre_count)
   end
 
+  test 'destroying a Term will delete associated Categorizations' do
+    term_pre_count = Term.count
+    categorization_pre_count = Categorization.count
+
+    term = terms('doi')
+    term.destroy
+
+    assert_equal((term_pre_count - 1), Term.count)
+    assert_operator(Categorization.count, :<, categorization_pre_count)
+  end
+
   test 'destroying a SearchEvent does not delete the Term' do
     t = terms('hi')
     s = t.search_events.first
@@ -75,6 +86,21 @@ class TermTest < ActiveSupport::TestCase
     assert_operator(0, :<, detections_count)
 
     d.destroy
+    t.reload
+
+    assert_equal(terms_count, Term.count)
+    assert_predicate(t, :valid?)
+  end
+
+  test 'destroying a Categorization does not delete the Term' do
+    t = terms('doi')
+    c = Categorization.where(term: t).first
+    terms_count = Term.count
+    categorizations_count = t.categorizations.count
+
+    assert_operator(0, :<, categorizations_count)
+
+    c.destroy
     t.reload
 
     assert_equal(terms_count, Term.count)
