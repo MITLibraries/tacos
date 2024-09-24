@@ -31,6 +31,20 @@ class Detection < ApplicationRecord
   scope :for_detector, ->(detector) { where(detector_id: detector.id) }
   scope :for_term, ->(term) { where(term_id: term.id) }
 
+  # The scores method returns a compact representation of the categories, and associated confidence values, for a given
+  # detection. It looks up the referenced Detector, then extracts all the associated Categories (and the confidence
+  # values of those associations).
+  #
+  # This structure is summarized further in the Term model.
+  #
+  # @note For a simple example, if a detector is only linked to one category (category_id of 2) with a confidence of
+  #       0.95, this method will return [ { 2 => 0.95 } ].
+  #
+  # @return array of hashes, e.g. [ { 1 => 0.4 }, { 2 => 0.95 } ]
+  def scores
+    detector.detector_categories.map { |dc| { dc.category_id => dc.confidence } }
+  end
+
   private
 
   # This looks up the current Detector Version from the environment, storing the value as part of the record which is

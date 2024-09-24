@@ -90,4 +90,31 @@ class DetectionTest < ActiveSupport::TestCase
       assert_not_equal(count, updated_count)
     end
   end
+
+  test 'scores returns an array of hashes summarizing the categories in a detection' do
+    example = detections('one')
+
+    assert_equal(example.scores.class, Array)
+    assert_equal(example.scores.first.class, Hash)
+
+    assert_equal(example.detector.detector_categories.length, example.scores.length)
+  end
+
+  test 'scores will return multiple values if that detector is linked to multiple categories' do
+    example = detections('one')
+    original_scores_length = example.scores.length
+
+    assert_equal(1, example.detector.categories.length)
+    assert_not_equal(categories('navigational'), example.detector.categories.first)
+
+    DetectorCategory.create(
+      detector: example.detector,
+      category: categories('navigational'),
+      confidence: 0.15
+    )
+
+    example.reload
+
+    assert_equal(example.detector.detector_categories.length, original_scores_length + 1)
+  end
 end
