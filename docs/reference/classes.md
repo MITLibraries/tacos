@@ -18,25 +18,22 @@ classDiagram
   Term "1" --> "0..*" Categorization
   Detection "0..*" --> "1" Detector
 
-  DetectionCategory "0..*" --> "1" Category
+  DetectorCategory "0..*" --> "1" Category
 
   Categorization "0..*" --> "1" Category
 
-  Detector "1" --> "0..*" DetectionCategory
+  Detector "1" --> "0..*" DetectorCategory
 
   class User
     User: +String uid
     User: +String email
     User: +Boolean admin
-  
+
   class Term
     Term: id
     Term: +String phrase
-    Term: calculateCategory()
+    Term: combinedScores()
     Term: recordDetections()
-    Term: recordPatterns()
-    Term: recordJouranls()
-    Term: recordSuggestedResources()
 
   class SearchEvent
     SearchEvent: +Integer id
@@ -53,13 +50,11 @@ classDiagram
     Detection: current()
     Detection: for_detector()
     Detection: for_term()
+    Detection: scores()
 
   class Detector
     Detector: +Integer id
     Detector: +String name
-    Detector: +Float confidence
-    Detector: incrementConfidence()
-    Detector: decrementConfidence()
 
   class Category
     Category: +Integer id
@@ -69,21 +64,60 @@ classDiagram
     Categorization: +Integer category_id
     Categorization: +Integer term_id
     Categorization: +Float confidence
+    Categorization: +String detector_version
+    Categorization: current()
 
-  class DetectionCategory
-    DetectionCategory: +Integer id
-    DetectionCategory: +Integer detector_id
-    DetectionCategory: +Integer category_id
-    DetectionCategory: +Float confidence
-    DetectionCategory: incrementConfidence()
-    DetectionCategory: decrementConfidence()
+  class DetectorCategory
+    DetectorCategory: +Integer id
+    DetectorCategory: +Integer detector_id
+    DetectorCategory: +Integer category_id
+    DetectorCategory: +Float confidence
+    DetectorCategory: incrementConfidence()
+    DetectorCategory: decrementConfidence()
+
+  class DetectorJournal
+    DetectorJournal: full_term_match()
+    DetectorJournal: partial_term_match()
+    DetectorJournal: record()
+
+  class DetectorStandardIdentifier
+    DetectorStandardIdentifier: record()
+
+  class DetectorSuggestedResource
+    DetectorSuggestedResource: bulk_replace()
+    DetectorSuggestedResource: calculate_fingerprint()
+    DetectorSuggestedResource: full_term_match()
+    DetectorSuggestedResource: record()
+    DetectorSuggestedResource: update_fingerprint()
+
+
+  namespace SearchActivity{
+    class Term
+    class SearchEvent
+  }
+
+  namespace KnowledgeGraph{
+    class Detectors
+    class DetectorCategory
+    class Category
+  }
+
+  namespace Detectors {
+    class Detector
+    class DetectorJournal["Detector::Journal"]
+    class DetectorStandardIdentifier["Detector::StandardIdentifiers"]
+    class DetectorSuggestedResource["Detector::SuggestedResource"]
+  }
 
   style SearchEvent fill:#000,stroke:#66c2a5,color:#66c2a5,stroke-width:4px;
   style Term fill:#000,stroke:#66c2a5,color:#66c2a5,stroke-width:4px;
 
   style Category fill:#000,stroke:#fc8d62,color:#fc8d62
-  style DetectionCategory fill:#000,stroke:#fc8d62,color:#fc8d62
+  style DetectorCategory fill:#000,stroke:#fc8d62,color:#fc8d62
   style Detector fill:#000,stroke:#fc8d62,color:#fc8d62
+  style DetectorJournal fill:#000,stroke:#fc8d62,color:#fc8d62
+  style DetectorStandardIdentifier fill:#000,stroke:#fc8d62,color:#fc8d62
+  style DetectorSuggestedResource fill:#000,stroke:#fc8d62,color:#fc8d62
 
   style Categorization fill:#000,stroke:#8da0cb,color:#8da0cb,stroke-dasharray: 3 5;
   style Detection fill:#000,stroke:#8da0cb,color:#8da0cb,stroke-dasharray: 3 5;
