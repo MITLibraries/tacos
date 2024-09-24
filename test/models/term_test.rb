@@ -118,4 +118,51 @@ class TermTest < ActiveSupport::TestCase
 
     assert_equal(detection_count, Detection.count)
   end
+
+  test 'calculate_confidence returns an average of a list with multiple numbers' do
+    t = Term.new
+
+    input = [0.0, 1.0]
+
+    assert_in_delta(0.5, t.calculate_confidence(input))
+  end
+
+  test 'calculate_confidence returns an average of a list with one number' do
+    t = Term.new
+
+    input = [0.33]
+
+    assert_in_delta(0.33, t.calculate_confidence(input))
+  end
+
+  test 'calculate_confidence only returns two decimal places' do
+    t = Term.new
+
+    input = [0.3141592653]
+
+    assert_in_delta(0.31, t.calculate_confidence(input))
+  end
+
+  test 'calculate_categorization spawns new Categorization records' do
+    categorization_count = Categorization.count
+
+    t = Term.create!(phrase: 'The crisis of reproducibility 10.1007/s11538-018-0497-0')
+    t.calculate_categorizations
+
+    assert_operator(categorization_count, :<, Categorization.count)
+  end
+
+  test 're-running calculate_categorization does not create yet more records' do
+    t = Term.create!(phrase: 'The crisis of reproducibility 10.1007/s11538-018-0497-0')
+
+    t.calculate_categorizations
+
+    after_count = Categorization.count
+
+    t.calculate_categorizations
+
+    repeat_count = Categorization.count
+
+    assert_equal(after_count, repeat_count)
+  end
 end
