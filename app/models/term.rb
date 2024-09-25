@@ -44,6 +44,7 @@ class Term < ApplicationRecord
   #
   # @return array of hashes, e.g. [ { 3 => [ 0.95, 0.95 ] }, { 1 => [ 0.1 ] } ]
   def calculate_categorizations
+    record_detections
     scores = retrieve_detection_scores
     # scores looks like [{3=>[0.91, 0.95]}, {1=>[0.1]}]
     scores.map do |obj|
