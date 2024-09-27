@@ -2,6 +2,7 @@
 
 module Types
   class SearchEventType < Types::BaseObject
+    field :categories, [Types::CategoriesType], description: 'The list of categories linked to term provided in this search'
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :detectors, Types::DetectorsType
     field :id, ID, null: false
@@ -12,6 +13,10 @@ module Types
 
     def phrase
       @object.term.phrase
+    end
+
+    def categories
+      @object.term.categorizations
     end
 
     def detectors

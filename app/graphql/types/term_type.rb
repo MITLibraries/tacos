@@ -2,6 +2,7 @@
 
 module Types
   class TermType < Types::BaseObject
+    field :categories, [Types::CategoriesType], description: 'The list of categories linked to this term'
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :detectors, Types::DetectorsType
     field :id, ID, null: false
@@ -12,6 +13,10 @@ module Types
 
     def occurence_count
       @object.search_events.count
+    end
+
+    def categories
+      @object.categorizations
     end
 
     def detectors
