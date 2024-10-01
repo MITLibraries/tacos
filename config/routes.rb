@@ -34,6 +34,8 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
 
   get 'playground', to: 'static#playground'
+  get '/report', to: 'report#index'
+  get '/report/algorithm_metrics', to: 'report#algorithm_metrics'
 
   # Defines the root path route ("/")
   root to: 'static#index'

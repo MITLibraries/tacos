@@ -16,6 +16,12 @@
             <% if can? :view, :playground %>
               <%= link_to('Playground', '/playground', class: 'nav-item') %>
             <% end %>
+            <% if can? :manage, :detector__suggested_resource %>
+              <%= link_to('Suggested Resources', admin_detector_suggested_resources_path, class: 'nav-item') %>
+            <% end %>
+            <% if can? :view, :report %>
+              <%= link_to('Reports', report_path, class: 'nav-item') %>
+            <% end %>
           <% end %>
         </nav>
         <nav class="nav-user" aria-label="User menu">
@@ -24,11 +30,11 @@
                           method: :delete) %>
           <% else %>
             <% if FakeAuthConfig.fake_auth_enabled? %>
-              <%= button_to("Sign in", user_developer_omniauth_authorize_path, id: "sign_in", class: 'action-auth',
-                            method: :post) %>
+              <%= button_to("Sign in", user_developer_omniauth_authorize_path, id: "sign_in", class: 'action-auth', 
+                data: { turbo:false }, method: :post) %>
             <% else %>
               <%= button_to("Sign in", user_openid_connect_omniauth_authorize_path, class: 'action-auth', id: "sign_in",
-                            method: :post) %>
+                data: { turbo:false }, method: :post) %>
             <% end %>
           <% end %>
         </nav>
