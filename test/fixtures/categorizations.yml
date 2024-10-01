@@ -1,0 +1,17 @@
+# == Schema Information
+#
+# Table name: categorizations
+#
+#  id               :integer          not null, primary key
+#  category_id      :integer          not null
+#  term_id          :integer          not null
+#  confidence       :float
+#  detector_version :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+one:
+  category: transactional
+  term: doi
+  confidence: 0.95
+  detector_version: 1

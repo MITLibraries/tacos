@@ -39,6 +39,7 @@ module Types
 
     def log_search_event(search_term:, source_system:)
       term = Term.create_or_find_by!(phrase: search_term)
+      term.calculate_categorizations
       term.search_events.create!(source: source_system)
     end
 

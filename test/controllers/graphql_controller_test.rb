@@ -153,4 +153,36 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
       assert_nil(json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['details']['authors'])
     end
   end
+
+  test 'search event query can return categorization details for searches that trip a detector' do
+    post '/graphql', params: { query: '{
+                                 logSearchEvent(sourceSystem: "timdex", searchTerm: "https://doi.org/10.1080/10509585.2015.1092083.") {
+                                   categories {
+                                     name
+                                     confidence
+                                   }
+                                 }
+                               }' }
+
+    json = response.parsed_body
+
+    assert_equal 'Transactional', json['data']['logSearchEvent']['categories'].first['name']
+    assert_in_delta 0.95, json['data']['logSearchEvent']['categories'].first['confidence']
+  end
+
+  test 'term lookup query can return categorization details for searches that trip a detector' do
+    post '/graphql', params: { query: '{
+                                 lookupTerm(searchTerm: "10.1016/j.physio.2010.12.004") {
+                                   categories {
+                                     name
+                                     confidence
+                                   }
+                                 }
+                               }' }
+
+    json = response.parsed_body
+
+    assert_equal 'Transactional', json['data']['lookupTerm']['categories'].first['name']
+    assert_in_delta 0.95, json['data']['lookupTerm']['categories'].first['confidence']
+  end
 end

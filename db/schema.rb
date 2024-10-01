@@ -10,13 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_17_160025) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_23_182249) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "categorizations", force: :cascade do |t|
+    t.integer "category_id", null: false
+    t.integer "term_id", null: false
+    t.float "confidence"
+    t.string "detector_version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id", "term_id", "detector_version"], name: "idx_on_category_id_term_id_detector_version_9f24c39900", unique: true
+    t.index ["category_id"], name: "index_categorizations_on_category_id"
+    t.index ["term_id", "category_id", "detector_version"], name: "idx_on_term_id_category_id_detector_version_4e10ba6204", unique: true
+    t.index ["term_id"], name: "index_categorizations_on_term_id"
   end
 
   create_table "detections", force: :cascade do |t|
@@ -108,6 +121,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_17_160025) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "categorizations", "categories"
+  add_foreign_key "categorizations", "terms"
   add_foreign_key "detections", "detectors"
   add_foreign_key "detections", "terms"
   add_foreign_key "detector_categories", "categories"
