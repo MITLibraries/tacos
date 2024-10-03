@@ -28,7 +28,7 @@ class Detector
       si = Detector::StandardIdentifiers.new(term.phrase)
 
       si.identifiers.each_key do |k|
-        Detection.find_or_create_by(
+        Detection.current.find_or_create_by(
           term:,
           detector: Detector.where(name: k.to_s.upcase).first
         )

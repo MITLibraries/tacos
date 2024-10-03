@@ -49,7 +49,7 @@ class Term < ApplicationRecord
     # scores looks like [{3=>[0.91, 0.95]}, {1=>[0.1]}]
     scores.map do |obj|
       obj.map do |cat, vals|
-        Categorization.find_or_create_by(
+        Categorization.current.find_or_create_by(
           term: self,
           category: Category.where(id: cat).first,
           confidence: calculate_confidence(vals)

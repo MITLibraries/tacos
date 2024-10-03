@@ -57,7 +57,7 @@ class Detector
       result = full_term_match(term.phrase)
       return unless result.any?
 
-      Detection.find_or_create_by(
+      Detection.current.find_or_create_by(
         term:,
         detector: Detector.where(name: 'Journal').first
       )
