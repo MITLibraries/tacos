@@ -2,7 +2,7 @@
 
 require 'administrate/base_dashboard'
 
-class TermDashboard < Administrate::BaseDashboard
+class CategorizationDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -11,9 +11,10 @@ class TermDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    phrase: Field::String,
-    search_events: Field::HasMany,
-    categorizations: Field::HasMany,
+    category: Field::BelongsTo,
+    confidence: Field::Number.with_options(decimals: 2),
+    detector_version: Field::String,
+    term: Field::BelongsTo,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -24,19 +25,21 @@ class TermDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-    categorizations
-    phrase
-    search_events
-    created_at
+    id
+    category
+    confidence
+    detector_version
+    term
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
-    phrase
-    search_events
-    categorizations
+    category
+    confidence
+    detector_version
+    term
     created_at
     updated_at
   ].freeze
@@ -45,8 +48,10 @@ class TermDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    phrase
-    search_events
+    category
+    confidence
+    detector_version
+    term
   ].freeze
 
   # COLLECTION_FILTERS
@@ -61,10 +66,10 @@ class TermDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how terms are displayed
+  # Overwrite this method to customize how categorizations are displayed
   # across all pages of the admin dashboard.
   #
-  def display_resource(term)
-    term.phrase
-  end
+  # def display_resource(categorization)
+  #   "Categorization ##{categorization.id}"
+  # end
 end
