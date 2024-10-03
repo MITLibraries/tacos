@@ -19,7 +19,8 @@ class DetectionTest < ActiveSupport::TestCase
 
     sample = {
       term: terms('hi'),
-      detector: detectors('doi')
+      detector: detectors('doi'),
+      detector_version: '1'
     }
 
     Detection.create!(sample)
@@ -44,7 +45,8 @@ class DetectionTest < ActiveSupport::TestCase
 
     new_sample = {
       term: sample.term,
-      detector: sample.detector
+      detector: sample.detector,
+      detector_version: '1'
     }
 
     # A purely duplicate record fails to save...
@@ -53,28 +55,10 @@ class DetectionTest < ActiveSupport::TestCase
     end
 
     # ...but when we update the DETECTOR_VERSION env, now the same record does save.
-    new_version = 'updated'
+    new_sample[:detector_version] = '2'
+    Detection.create!(new_sample)
 
-    assert_not_equal(ENV.fetch('DETECTOR_VERSION'), new_version)
-
-    ClimateControl.modify DETECTOR_VERSION: new_version do
-      Detection.create!(new_sample)
-
-      assert_equal(initial_count + 1, Detection.count)
-    end
-  end
-
-  test 'detections are assigned the current DETECTOR_VERSION value from env' do
-    new_detection = {
-      term: terms('hi'),
-      detector: detectors('pmid')
-    }
-
-    Detection.create!(new_detection)
-
-    confirmation = Detection.last
-
-    assert_equal(confirmation.detector_version, ENV.fetch('DETECTOR_VERSION'))
+    assert_equal(initial_count + 1, Detection.count)
   end
 
   test 'detector current scope filters on current env value' do

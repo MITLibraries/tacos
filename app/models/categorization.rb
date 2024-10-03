@@ -24,18 +24,6 @@ class Categorization < ApplicationRecord
   belongs_to :term
   belongs_to :category
 
-  # We use the before_create hook to prevent needing to override the initialize method, which Rails frowns upon.
-  before_create :set_defaults
-
   # These scopes allow for easy filtering of Categorization records by a single parameter.
   scope :current, -> { where(detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')) }
-
-  private
-
-  # This looks up the current Detector Version from the environment, storing the value as part of the record which is
-  # about to be saved. This prevents the rest of the application from having to worry about this value, while also
-  # providing a mechanism to prevent duplicate records from being created.
-  def set_defaults
-    self.detector_version = ENV.fetch('DETECTOR_VERSION', 'unset')
-  end
 end

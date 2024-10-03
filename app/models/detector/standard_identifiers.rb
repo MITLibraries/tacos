@@ -30,7 +30,8 @@ class Detector
       si.identifiers.each_key do |k|
         Detection.find_or_create_by(
           term:,
-          detector: Detector.where(name: k.to_s.upcase).first
+          detector: Detector.where(name: k.to_s.upcase).first,
+          detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
         )
       end
 
