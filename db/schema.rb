@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_09_183613) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_02_202634) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -39,15 +39,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_09_183613) do
     t.index ["name"], name: "index_detector_journals_on_name"
   end
 
+  create_table "detector_suggested_resource_phrases", force: :cascade do |t|
+    t.string "phrase"
+    t.string "fingerprint"
+    t.integer "detector_suggested_resource_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["detector_suggested_resource_id"], name: "idx_on_detector_suggested_resource_id_d2b805373b"
+  end
+
   create_table "detector_suggested_resources", force: :cascade do |t|
     t.string "title"
     t.string "url"
-    t.string "phrase"
-    t.string "fingerprint"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["fingerprint"], name: "index_detector_suggested_resources_on_fingerprint", unique: true
-    t.index ["phrase"], name: "index_detector_suggested_resources_on_phrase", unique: true
   end
 
   create_table "detectors", force: :cascade do |t|
@@ -98,4 +103,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_09_183613) do
 
   add_foreign_key "detector_categories", "categories"
   add_foreign_key "detector_categories", "detectors"
+  add_foreign_key "detector_suggested_resource_phrases", "detector_suggested_resources"
 end

@@ -20,49 +20,10 @@ class Detector
   # user in response to specific strings. For example, a search for "web of
   # science" should be met with our custom login link to Web of Science via MIT.
   class SuggestedResource < ApplicationRecord
-    before_save :update_fingerprint
+    has_many :detector_suggested_resource_phrases, class_name: 'Detector::SuggestedResourcePhrase'
 
     def self.table_name_prefix
       'detector_'
-    end
-
-    # This exists for the before_save lifecycle hook to call the calculate_fingerprint method, to ensure that these
-    # records always have a correctly-calculated fingerprint. It has no arguments and returns nothing.
-    def update_fingerprint
-      self.fingerprint = Detector::SuggestedResource.calculate_fingerprint(phrase)
-    end
-
-    # This implements the OpenRefine fingerprinting algorithm. See
-    # https://openrefine.org/docs/technical-reference/clustering-in-depth#fingerprint
-    #
-    # @param old_phrase [String] A text string which needs to have its fingerprint calculated. This could either be the
-    #   "phrase" field on the SuggestedResource record, or an incoming search term received from a contributing system.
-    #
-    # @return [String] A string of all words in the input, downcased, normalized, and alphabetized.
-    def self.calculate_fingerprint(old_phrase)
-      modified_phrase = old_phrase
-      modified_phrase = modified_phrase.strip
-      modified_phrase = modified_phrase.downcase
-
-      # This removes all punctuation and symbol characters from the string.
-      modified_phrase = modified_phrase.gsub(/\p{P}|\p{S}/, '')
-
-      # Normalize to ASCII (e.g. gödel and godel are liable to be intended to
-      # find the same thing)
-      modified_phrase = modified_phrase.to_ascii
-
-      # Coercion to ASCII can introduce new symbols, so we remove those now.
-      modified_phrase = modified_phrase.gsub(/\p{P}|\p{S}/, '')
-
-      # Tokenize
-      tokens = modified_phrase.split
-
-      # Remove duplicates and sort
-      tokens = tokens.uniq
-      tokens = tokens.sort
-
-      # Rejoin tokens
-      tokens.join(' ')
     end
 
     # This replaces all current Detector::SuggestedResource records with a new set from an imported CSV.
@@ -83,8 +44,8 @@ class Detector
       Detector::SuggestedResource.delete_all
 
       input.each do |line|
-        record = Detector::SuggestedResource.new({ title: line['Title'], url: line['URL'], phrase: line['Phrase'] })
-        record.save
+        record = Detector::SuggestedResource.find_or_create_by(title: line['title'], url: line['url'])
+        record.detector_suggested_resource_phrases.find_or_create_by(phrase: line['Phrase'])
       end
     end
 
@@ -94,11 +55,11 @@ class Detector
     # @note There is a uniqueness constraint on the SuggestedResource fingerprint field, so there should only ever be
     #   one match (if any).
     #
-    # @param phrase [String]. A string representation of a searchterm (not an actual Term object)
+    # @param search_phrase [String]. A string representation of a searchterm (not an actual Term object)
     #
     # @return [Detector::SuggestedResource] The record whose fingerprint matches that of the search term.
-    def self.full_term_match(phrase)
-      SuggestedResource.where(fingerprint: calculate_fingerprint(phrase))
+    def self.full_term_matches(search_phrase)
+      Detector::SuggestedResource.joins(:phrases).where(phrases: { fingerprint: calculate_fingerprint(search_phrase) })
     end
   end
 end

@@ -1,0 +1,23 @@
+jstor:
+  phrase: jstor
+  fingerprint: jstor
+
+web_of_science:
+  phrase: web of science
+  fingerprint: web of science
+
+of_science_web:
+  phrase: web of science
+  fingerprint: of science web
+
+knowledge_of_web:
+  phrase: web of knowledge
+  fingerprint: knowledge of web
+
+web_of_knowledge:
+  phrase: web of knowledge
+  fingerprint: web of knowledge
+
+nobel_laureate:
+  phrase: moungi bawendi
+  fingerprint: bawendi moungi
