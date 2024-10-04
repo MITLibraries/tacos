@@ -52,7 +52,8 @@ class Term < ApplicationRecord
         Categorization.find_or_create_by(
           term: self,
           category: Category.where(id: cat).first,
-          confidence: calculate_confidence(vals)
+          confidence: calculate_confidence(vals),
+          detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
         )
       end
     end

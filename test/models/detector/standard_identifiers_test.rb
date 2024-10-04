@@ -208,5 +208,24 @@ class Detector
 
       assert_equal(detection_count, Detection.count)
     end
+
+    test 'record respects changes to the DETECTOR_VERSION value' do
+      # Create a relevant detection
+      Detector::StandardIdentifiers.record(terms('isbn_9781319145446'))
+
+      detection_count = Detection.count
+
+      # Calling the record method again doesn't do anything, but does not error.
+      Detector::StandardIdentifiers.record(terms('isbn_9781319145446'))
+
+      assert_equal(detection_count, Detection.count)
+
+      # Calling the record method after DETECTOR_VERSION is incremented results in a new Detection
+      ClimateControl.modify DETECTOR_VERSION: 'updated' do
+        Detector::StandardIdentifiers.record(terms('isbn_9781319145446'))
+
+        assert_equal detection_count + 1, Detection.count
+      end
+    end
   end
 end

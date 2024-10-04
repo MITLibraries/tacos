@@ -165,4 +165,22 @@ class TermTest < ActiveSupport::TestCase
 
     assert_equal(after_count, repeat_count)
   end
+
+  test 'running calculate_categorizations when DETECTOR_VERSION changes results in new records' do
+    t = terms('journal_nature_medicine')
+
+    t.calculate_categorizations
+
+    categorization_count = Categorization.count
+
+    t.calculate_categorizations
+
+    assert_equal categorization_count, Categorization.count
+
+    ClimateControl.modify DETECTOR_VERSION: 'updated' do
+      t.calculate_categorizations
+
+      assert_equal categorization_count + 1, Categorization.count
+    end
+  end
 end

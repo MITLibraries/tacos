@@ -59,7 +59,8 @@ class Detector
 
       Detection.find_or_create_by(
         term:,
-        detector: Detector.where(name: 'Journal').first
+        detector: Detector.where(name: 'Journal').first,
+        detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
       )
 
       nil

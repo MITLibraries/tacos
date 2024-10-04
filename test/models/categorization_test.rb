@@ -21,7 +21,8 @@ class CategorizationTest < ActiveSupport::TestCase
     sample = {
       term: terms('hi'),
       category: categories('transactional'),
-      confidence: 0.5
+      confidence: 0.5,
+      detector_version: '1'
     }
 
     Categorization.create!(sample)
@@ -47,7 +48,8 @@ class CategorizationTest < ActiveSupport::TestCase
     new_sample = {
       term: sample.term,
       category: sample.category,
-      confidence: sample.confidence
+      confidence: sample.confidence,
+      detector_version: sample.detector_version
     }
 
     # A purely duplicate record fails to save...
@@ -56,29 +58,10 @@ class CategorizationTest < ActiveSupport::TestCase
     end
 
     # ...but when we update the DETECTOR_VERSION env, now the same record does save.
-    new_version = 'updated'
+    new_sample[:detector_version] = '2'
+    Categorization.create!(new_sample)
 
-    assert_not_equal(ENV.fetch('DETECTOR_VERSION'), new_version)
-
-    ClimateControl.modify DETECTOR_VERSION: new_version do
-      Categorization.create!(new_sample)
-
-      assert_equal(initial_count + 1, Categorization.count)
-    end
-  end
-
-  test 'categorizations are assigned the current DETECTOR_VERSION value from env' do
-    new_categorization = {
-      term: terms('hi'),
-      category: categories('transactional'),
-      confidence: 0.96
-    }
-
-    Categorization.create!(new_categorization)
-
-    confirmation = Categorization.last
-
-    assert_equal(confirmation.detector_version, ENV.fetch('DETECTOR_VERSION'))
+    assert_equal(initial_count + 1, Categorization.count)
   end
 
   test 'categorization current scope filters on current env value' do
