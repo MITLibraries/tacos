@@ -9,6 +9,7 @@
 #  doi                      :integer
 #  issn                     :integer
 #  isbn                     :integer
+#  lcsh                     :integer
 #  pmid                     :integer
 #  unmatched                :integer
 #  created_at               :datetime         not null
@@ -48,7 +49,7 @@ module Metrics
                   count_matches(SearchEvent.includes(:term))
                 end
       Metrics::Algorithms.create(month:, doi: matches[:doi], issn: matches[:issn], isbn: matches[:isbn],
-                                 pmid: matches[:pmid], journal_exact: matches[:journal_exact],
+                                 lcsh: matches[:lcsh], pmid: matches[:pmid], journal_exact: matches[:journal_exact],
                                  suggested_resource_exact: matches[:suggested_resource_exact],
                                  unmatched: matches[:unmatched])
     end
@@ -79,8 +80,24 @@ module Metrics
       ids = match_standard_identifiers(event, matches)
       journal_exact = process_journals(event, matches)
       suggested_resource_exact = process_suggested_resources(event, matches)
+      lcshs = match_lcsh(event, matches)
 
-      matches[:unmatched] += 1 if ids.identifiers.blank? && journal_exact.count.zero? && suggested_resource_exact.count.zero?
+      matches[:unmatched] += 1 if ids.identifiers.blank? && lcshs.identifiers.blank? && journal_exact.count.zero? && suggested_resource_exact.count.zero?
+    end
+
+    # Checks for LCSH matches
+    #
+    # @param event [SearchEvent] an individual search event to check for matches
+    # @param matches [Hash] a Hash that keeps track of how many of each algorithm we match
+    # @return [Array] an array of matched LCSH sub-patterns
+    def match_lcsh(event, matches)
+      known_ids = %i[separator]
+      ids = Detector::Lcsh.new(event.term.phrase)
+
+      known_ids.each do |id|
+        matches[:lcsh] += 1 if ids.identifiers[id].present?
+      end
+      ids
     end
 
     # Checks for StandardIdentifer matches

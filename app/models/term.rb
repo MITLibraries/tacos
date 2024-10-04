@@ -24,6 +24,7 @@ class Term < ApplicationRecord
   def record_detections
     Detector::StandardIdentifiers.record(self)
     Detector::Journal.record(self)
+    Detector::Lcsh.record(self)
     Detector::SuggestedResource.record(self)
 
     nil

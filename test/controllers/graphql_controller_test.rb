@@ -111,6 +111,20 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
                  json['data']['logSearchEvent']['detectors']['suggestedResources'].first['url']
   end
 
+  test 'search event query can return detected library of congress subject headings' do
+    post '/graphql', params: { query: '{
+                                 logSearchEvent(sourceSystem: "timdex", searchTerm: "Maryland -- Geography") {
+                                   detectors {
+                                     lcsh
+                                   }
+                                 }
+                               }' }
+    json = response.parsed_body
+
+    assert_equal 'Maryland -- Geography',
+                 json['data']['logSearchEvent']['detectors']['lcsh'].first
+  end
+
   test 'search event query can return phrase from logged term' do
     post '/graphql', params: { query: '{
                                  logSearchEvent(sourceSystem: "timdex", searchTerm: "10.1038/nphys1170") {
@@ -168,6 +182,21 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal 'Transactional', json['data']['logSearchEvent']['categories'].first['name']
     assert_in_delta 0.95, json['data']['logSearchEvent']['categories'].first['confidence']
+  end
+
+  test 'term lookup query can return detected library of congress subject headings' do
+    post '/graphql', params: { query: '{
+                                 lookupTerm(searchTerm: "Geology -- Massachusetts") {
+                                   detectors {
+                                     lcsh
+                                   }
+                                 }
+                               }' }
+
+    json = response.parsed_body
+
+    assert_equal('Geology -- Massachusetts',
+                 json['data']['lookupTerm']['detectors']['lcsh'].first)
   end
 
   test 'term lookup query can return categorization details for searches that trip a detector' do

@@ -9,6 +9,7 @@
 #  doi                      :integer
 #  issn                     :integer
 #  isbn                     :integer
+#  lcsh                     :integer
 #  pmid                     :integer
 #  unmatched                :integer
 #  created_at               :datetime         not null
@@ -36,6 +37,12 @@ class Algorithms < ActiveSupport::TestCase
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
 
     assert_equal 1, aggregate.isbn
+  end
+
+  test 'lcsh counts are included in monthly aggregation' do
+    aggregate = Metrics::Algorithms.new.generate(DateTime.now)
+
+    assert_equal 1, aggregate.lcsh
   end
 
   test 'pmids counts are included in monthly aggregation' do
@@ -93,6 +100,11 @@ class Algorithms < ActiveSupport::TestCase
       SearchEvent.create(term: terms(:isbn_9781319145446), source: 'test')
     end
 
+    lcsh_expected_count = rand(1...100)
+    lcsh_expected_count.times do
+      SearchEvent.create(term: terms(:lcsh), source: 'test')
+    end
+
     pmid_expected_count = rand(1...100)
     pmid_expected_count.times do
       SearchEvent.create(term: terms(:pmid_38908367), source: 'test')
@@ -108,6 +120,7 @@ class Algorithms < ActiveSupport::TestCase
     assert_equal doi_expected_count, aggregate.doi
     assert_equal issn_expected_count, aggregate.issn
     assert_equal isbn_expected_count, aggregate.isbn
+    assert_equal lcsh_expected_count, aggregate.lcsh
     assert_equal pmid_expected_count, aggregate.pmid
     assert_equal unmatched_expected_count, aggregate.unmatched
   end
@@ -129,6 +142,12 @@ class Algorithms < ActiveSupport::TestCase
     aggregate = Metrics::Algorithms.new.generate
 
     assert_equal 1, aggregate.isbn
+  end
+
+  test 'lcsh counts are included in total aggregation' do
+    aggregate = Metrics::Algorithms.new.generate
+
+    assert_equal 2, aggregate.lcsh
   end
 
   test 'pmids counts are included in total aggregation' do

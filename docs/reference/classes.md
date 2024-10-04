@@ -80,6 +80,9 @@ classDiagram
     DetectorJournal: partial_term_match()
     DetectorJournal: record()
 
+  class DetectorLcsh
+    DetectorLcsh: record()
+
   class DetectorStandardIdentifier
     DetectorStandardIdentifier: record()
 
@@ -105,6 +108,7 @@ classDiagram
   namespace Detectors {
     class Detector
     class DetectorJournal["Detector::Journal"]
+    class DetectorLcsh["Detector::Lcsh"]
     class DetectorStandardIdentifier["Detector::StandardIdentifiers"]
     class DetectorSuggestedResource["Detector::SuggestedResource"]
   }
@@ -116,6 +120,7 @@ classDiagram
   style DetectorCategory fill:#000,stroke:#fc8d62,color:#fc8d62
   style Detector fill:#000,stroke:#fc8d62,color:#fc8d62
   style DetectorJournal fill:#000,stroke:#fc8d62,color:#fc8d62
+  style DetectorLcsh fill:#000,stroke:#fc8d62,color:#fc8d62
   style DetectorStandardIdentifier fill:#000,stroke:#fc8d62,color:#fc8d62
   style DetectorSuggestedResource fill:#000,stroke:#fc8d62,color:#fc8d62
 
