@@ -28,7 +28,8 @@ class Detector
       results.identifiers.each_key do
         Detection.find_or_create_by(
           term:,
-          detector: Detector.where(name: 'LCSH').first
+          detector: Detector.where(name: 'LCSH').first,
+          detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
         )
       end
 
