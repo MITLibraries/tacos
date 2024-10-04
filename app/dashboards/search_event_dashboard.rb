@@ -25,7 +25,6 @@ class SearchEventDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     source
-    term
     created_at
   ].freeze
 

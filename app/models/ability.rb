@@ -12,9 +12,15 @@ class Ability
     # Start of Rules for all authenticated user with no additional roles required
     return if user.blank?
 
+    # Allow all authenticated users to performa all CRUD actions on Suggested Resources
     can :manage, :detector__suggested_resource
     can :manage, Detector::SuggestedResource
 
+    # Allow all authenticated users to view the Categorization index and show dashboards
+    can %w[index show], :categorization
+    can %i[read view], Categorization
+
+    # Allow all authenticated users to view reports
     can :view, :report
     # End of Rules for all authenticated user with no additional roles required
 

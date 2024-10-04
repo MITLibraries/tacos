@@ -14,10 +14,11 @@ Rails.application.routes.draw do
     resources :detectors
     resources :detector_categories
     resources :categories
+    resources :categorizations, only: [:index, :show]
 
     # Search activity models
-    resources :search_events
-    resources :terms
+    resources :search_events, only: [:index, :show]
+    resources :terms, only: [:index, :show, :destroy]
 
     # Tacos administration
     resources :users
