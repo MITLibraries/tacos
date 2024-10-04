@@ -18,7 +18,7 @@ class Ability
 
     # Allow all authenticated users to view the Categorization index and show dashboards
     can %w[index show], :categorization
-    can :read, Categorization
+    can %i[read view], Categorization
 
     # Allow all authenticated users to view reports
     can :view, :report
