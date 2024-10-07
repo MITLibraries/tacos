@@ -164,7 +164,7 @@ GEM
     graphql (2.3.14)
       base64
       fiber-storage
-    hashdiff (1.1.0)
+    hashdiff (1.1.1)
     hashie (5.0.0)
     http (5.2.0)
       addressable (~> 2.8)
@@ -343,8 +343,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.3.5)
-      strscan
+    rexml (3.3.8)
     rubocop (1.65.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -413,7 +412,6 @@ GEM
       railties (>= 6.0.0)
     stringex (2.8.6)
     stringio (3.1.1)
-    strscan (3.1.0)
     swd (2.0.3)
       activesupport (>= 3)
       attr_required (>= 0.0.5)
@@ -446,7 +444,7 @@ GEM
       activesupport
       faraday (~> 2.0)
       faraday-follow_redirects
-    webmock (3.23.1)
+    webmock (3.24.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
