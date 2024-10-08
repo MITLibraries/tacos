@@ -22,6 +22,7 @@ class Term < ApplicationRecord
   #
   # @return nil
   def record_detections
+    Detector::Citation.record(self)
     Detector::StandardIdentifiers.record(self)
     Detector::Journal.record(self)
     Detector::Lcsh.record(self)
