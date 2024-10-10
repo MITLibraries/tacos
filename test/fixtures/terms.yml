@@ -37,3 +37,6 @@ suggested_resource_jstor:
 
 multiple_detections:
   phrase: 'Environmental and Health Impacts of Air Pollution: A Review. Frontiers in Public Health. PMID: 32154200. DOI: 10.3389/fpubh.2020.00014'
+
+citation:
+  phrase: "A. Altun, &quot;Understanding hypertext in the context of reading on the web: Language learners' experience,&quot; Current Issues in Education, vol. 6, no. 12, July, 2005. [Online serial]. Available: http://cie.ed.asu.edu/volume6/number12/. [Accessed Dec. 2, 2007]."
