@@ -32,8 +32,14 @@ Detector.find_or_create_by(name: 'LCSH')
 Detector.find_or_create_by(name: 'PMID')
 Detector.find_or_create_by(name: 'Journal')
 Detector.find_or_create_by(name: 'SuggestedResource')
+Detector.find_or_create_by(name: 'Citation')
 
 # DetectorCategories
+DetectorCategory.find_or_create_by(
+  detector: Detector.find_by(name: 'Citation'),
+  category: Category.find_by(name: 'Transactional'),
+  confidence: 0.3
+)
 DetectorCategory.find_or_create_by(
   detector: Detector.find_by(name: 'DOI'),
   category: Category.find_by(name: 'Transactional'),

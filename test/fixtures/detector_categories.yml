@@ -38,3 +38,8 @@ six:
   detector: lcsh
   category: informational
   confidence: 0.7
+
+seven:
+  detector: citation
+  category: transactional
+  confidence: 0.3
