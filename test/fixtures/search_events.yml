@@ -22,6 +22,9 @@ old_month_pmid:
   term: pmid_38908367
   source: test
   created_at: <%= 1.year.ago %>
+current_month_citation:
+  term: citation
+  source: test
 current_month_issn:
   term: issn_1075_8623
   source: test
