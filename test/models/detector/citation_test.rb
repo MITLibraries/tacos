@@ -196,6 +196,18 @@ class Detector
       assert_operator 0, :<, result.score
     end
 
+    test 'detection? convenience method returns true for obvious citations' do
+      result = Detector::Citation.new(terms('citation'))
+
+      assert_predicate result, :detection?
+    end
+
+    test 'detection? convenience method returns false for obvious non-citations' do
+      result = Detector::Citation.new(terms('hi'))
+
+      assert_not result.detection?
+    end
+
     test 'record method does relevant work' do
       detection_count = Detection.count
       t = terms('citation')

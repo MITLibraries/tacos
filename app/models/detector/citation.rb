@@ -41,6 +41,13 @@ class Detector
       words: 5
     }.freeze
 
+    # Detection? is a convenience method to check whether the calculated @score is high enough to qualify as a citation.
+    #
+    # @return boolean
+    def detection?
+      @score >= REQUIRED_SCORE
+    end
+
     # The initializer handles the parsing of a Term object, and subsequent population of the @subpatterns, @summary,
     # and @score instance variables. @subpatterns contains all the citation components which have been flagged by the
     # CITATION_PATTERNS hash. @summary contains counts of how often certain characters or words appear in the Term.
@@ -63,7 +70,7 @@ class Detector
     # @return nil
     def self.record(term)
       cit = Detector::Citation.new(term)
-      return unless cit.score >= REQUIRED_SCORE
+      return unless cit.detection?
 
       Detection.find_or_create_by(
         term:,
