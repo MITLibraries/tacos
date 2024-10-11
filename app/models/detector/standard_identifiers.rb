@@ -4,14 +4,17 @@ class Detector
   # Detector::StandardIdentifiers detects the identifiers DOI, ISBN, ISSN, PMID.
   # See /docs/reference/pattern_detection_and_enhancement.md for details.
   class StandardIdentifiers
-    attr_reader :identifiers
+    attr_reader :detections
 
     def self.table_name_prefix
       'detector_'
     end
 
+    # shared instance methods
+    include Detector::PatternChecker
+
     def initialize(term)
-      @identifiers = {}
+      @detections = {}
       term_pattern_checker(term)
       strip_invalid_issns
     end
@@ -27,7 +30,7 @@ class Detector
     def self.record(term)
       si = Detector::StandardIdentifiers.new(term.phrase)
 
-      si.identifiers.each_key do |k|
+      si.detections.each_key do |k|
         Detection.find_or_create_by(
           term:,
           detector: Detector.where(name: k.to_s.upcase).first,
@@ -40,21 +43,6 @@ class Detector
 
     private
 
-    def term_pattern_checker(term)
-      term_patterns.each_pair do |type, pattern|
-        @identifiers[type.to_sym] = match(pattern, term) if match(pattern, term).present?
-      end
-    end
-
-    # Note on the limitations of this implementation
-    # We only detect the first match of each pattern, so a search of "1234-5678 5678-1234" will not return two ISSNs as
-    # might be expected, but just "1234-5678". Using ruby's string.scan(pattern) may be worthwhile if we want to detect
-    # all possible matches instead of just the first. That may require a larger refactor though as initial tests of doing
-    # that change did result in unintended results so it was backed out for now.
-    def match(pattern, term)
-      pattern.match(term).to_s.strip
-    end
-
     # term_patterns are regex patterns to be applied to the basic search box input
     def term_patterns
       {
@@ -66,9 +54,9 @@ class Detector
     end
 
     def strip_invalid_issns
-      return unless @identifiers[:issn]
+      return unless @detections[:issn]
 
-      @identifiers.delete(:issn) unless validate_issn(@identifiers[:issn])
+      @detections.delete(:issn) unless validate_issn(@detections[:issn])
     end
 
     # validate_issn is only called when the regex for an ISSN has indicated an ISSN
