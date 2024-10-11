@@ -15,6 +15,7 @@ class DetectorTest < ActiveSupport::TestCase
   test 'duplicate Detectors are not allowed' do
     detector_count = Detector.count
     Detector.create!(name: 'Example')
+
     assert_equal(detector_count + 1, Detector.count)
 
     assert_raises(ActiveRecord::RecordNotUnique) do

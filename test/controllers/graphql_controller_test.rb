@@ -87,7 +87,7 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
     json = response.parsed_body
 
     assert_equal('nature', json['data']['logSearchEvent']['detectors']['journals'].first['title'])
-    assert_equal({"issns"=>["0028-0836", "1476-4687"]},
+    assert_equal({ 'issns' => %w[0028-0836 1476-4687] },
                  json['data']['logSearchEvent']['detectors']['journals'].first['additionalInfo'])
   end
 
