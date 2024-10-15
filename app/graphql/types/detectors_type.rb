@@ -16,11 +16,11 @@ module Types
     end
 
     def lcsh
-      Detector::Lcsh.new(@object).identifiers.map(&:last)
+      Detector::Lcsh.new(@object).detections.map(&:last)
     end
 
     def standard_identifiers
-      Detector::StandardIdentifiers.new(@object).identifiers.map do |identifier|
+      Detector::StandardIdentifiers.new(@object).detections.map do |identifier|
         { kind: identifier.first, value: identifier.last }
       end
     end

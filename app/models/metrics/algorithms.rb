@@ -82,7 +82,7 @@ module Metrics
       suggested_resource_exact = process_suggested_resources(event, matches)
       lcshs = match_lcsh(event, matches)
 
-      matches[:unmatched] += 1 if ids.identifiers.blank? && lcshs.identifiers.blank? && journal_exact.count.zero? && suggested_resource_exact.count.zero?
+      matches[:unmatched] += 1 if ids.detections.blank? && lcshs.detections.blank? && journal_exact.count.zero? && suggested_resource_exact.count.zero?
     end
 
     # Checks for LCSH matches
@@ -95,7 +95,7 @@ module Metrics
       ids = Detector::Lcsh.new(event.term.phrase)
 
       known_ids.each do |id|
-        matches[:lcsh] += 1 if ids.identifiers[id].present?
+        matches[:lcsh] += 1 if ids.detections[id].present?
       end
       ids
     end
@@ -110,7 +110,7 @@ module Metrics
       ids = Detector::StandardIdentifiers.new(event.term.phrase)
 
       known_ids.each do |id|
-        matches[id] += 1 if ids.identifiers[id].present?
+        matches[id] += 1 if ids.detections[id].present?
       end
       ids
     end

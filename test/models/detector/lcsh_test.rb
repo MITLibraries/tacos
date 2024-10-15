@@ -11,7 +11,7 @@ class Detector
       ]
 
       true_samples.each do |term|
-        actual = Detector::Lcsh.new(term).identifiers
+        actual = Detector::Lcsh.new(term).detections
 
         assert_includes(actual, :separator)
       end
@@ -26,7 +26,7 @@ class Detector
       ]
 
       false_samples.each do |term|
-        actual = Detector::Lcsh.new(term).identifiers
+        actual = Detector::Lcsh.new(term).detections
 
         assert_not_includes(actual, :separator)
       end

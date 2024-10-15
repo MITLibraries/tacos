@@ -16,6 +16,7 @@ class CategoryTest < ActiveSupport::TestCase
   test 'duplicate Categories are not allowed' do
     initial_count = Category.count
     Category.create!(name: 'Example')
+
     assert_equal(initial_count + 1, Category.count)
 
     assert_raises(ActiveRecord::RecordNotUnique) do

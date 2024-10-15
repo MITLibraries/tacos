@@ -5,7 +5,7 @@ require 'test_helper'
 class Detector
   class StandardIdentifiersTest < ActiveSupport::TestCase
     test 'ISBN detected in a string' do
-      actual = Detector::StandardIdentifiers.new('test 978-3-16-148410-0 test').identifiers
+      actual = Detector::StandardIdentifiers.new('test 978-3-16-148410-0 test').detections
 
       assert_equal('978-3-16-148410-0', actual[:isbn])
     end
@@ -17,7 +17,7 @@ class Detector
                  '0-9752298-0-X']
 
       samples.each do |isbn|
-        actual = Detector::StandardIdentifiers.new(isbn).identifiers
+        actual = Detector::StandardIdentifiers.new(isbn).detections
 
         assert_equal(isbn, actual[:isbn])
       end
@@ -29,7 +29,7 @@ class Detector
                  '978-0-943396-04-2', '979-0-9752298-0-X']
 
       samples.each do |isbn|
-        actual = Detector::StandardIdentifiers.new(isbn).identifiers
+        actual = Detector::StandardIdentifiers.new(isbn).detections
 
         assert_equal(isbn, actual[:isbn])
       end
@@ -39,7 +39,7 @@ class Detector
       samples = ['orange cats like popcorn', '1234-6798', 'another ISBN not found here']
 
       samples.each do |notisbn|
-        actual = Detector::StandardIdentifiers.new(notisbn).identifiers
+        actual = Detector::StandardIdentifiers.new(notisbn).detections
 
         assert_nil(actual[:isbn])
       end
@@ -52,14 +52,14 @@ class Detector
       # consider whether we care in the future as we look for incorrect real-world matches.
 
       samples.each do |notisbn|
-        actual = Detector::StandardIdentifiers.new(notisbn).identifiers
+        actual = Detector::StandardIdentifiers.new(notisbn).detections
 
         assert_nil(actual[:isbn])
       end
     end
 
     test 'ISSNs detected in a string' do
-      actual = Detector::StandardIdentifiers.new('test 0250-6335 test').identifiers
+      actual = Detector::StandardIdentifiers.new('test 0250-6335 test').detections
 
       assert_equal('0250-6335', actual[:issn])
     end
@@ -68,7 +68,7 @@ class Detector
       samples = %w[0250-6335 0000-0019 1864-0761 1877-959X 0973-7758 1877-5683 1440-172X 1040-5631]
 
       samples.each do |issn|
-        actual = Detector::StandardIdentifiers.new(issn).identifiers
+        actual = Detector::StandardIdentifiers.new(issn).detections
 
         assert_equal(issn, actual[:issn])
       end
@@ -78,14 +78,14 @@ class Detector
       samples = ['orange cats like popcorn', '12346798', 'another ISSN not found here', '99921-58-10-7']
 
       samples.each do |notissn|
-        actual = Detector::StandardIdentifiers.new(notissn).identifiers
+        actual = Detector::StandardIdentifiers.new(notissn).detections
 
         assert_nil(actual[:issn])
       end
     end
 
     test 'ISSNs need boundaries' do
-      actual = Detector::StandardIdentifiers.new('12345-5678 1234-56789').identifiers
+      actual = Detector::StandardIdentifiers.new('12345-5678 1234-56789').detections
 
       assert_nil(actual[:issn])
     end
@@ -117,7 +117,7 @@ class Detector
         0250-633X
       ]
       samples.each do |notissn|
-        actual = Detector::StandardIdentifiers.new(notissn).identifiers
+        actual = Detector::StandardIdentifiers.new(notissn).detections
 
         assert_nil(actual[:issn])
       end
@@ -131,7 +131,7 @@ class Detector
         0973-7758
       ]
       samples.each do |issn|
-        actual = Detector::StandardIdentifiers.new(issn).identifiers
+        actual = Detector::StandardIdentifiers.new(issn).detections
 
         assert_equal(issn, actual[:issn])
       end
@@ -139,7 +139,7 @@ class Detector
 
     test 'doi detected in string' do
       actual = Detector::StandardIdentifiers.new('"Quantum tomography: Measured measurement", Markus Aspelmeyer, nature physics "\
-                                       "January 2009, Volume 5, No 1, pp11-12; [ doi:10.1038/nphys1170 ]').identifiers
+                                       "January 2009, Volume 5, No 1, pp11-12; [ doi:10.1038/nphys1170 ]').detections
 
       assert_equal('10.1038/nphys1170', actual[:doi])
     end
@@ -149,7 +149,7 @@ class Detector
                    10.1594/PANGAEA.667386 10.3207/2959859860 10.3866/PKU.WHXB201112303 10.1430/8105 10.1392/BC1.0]
 
       samples.each do |doi|
-        actual = Detector::StandardIdentifiers.new(doi).identifiers
+        actual = Detector::StandardIdentifiers.new(doi).detections
 
         assert_equal(doi, actual[:doi])
       end
@@ -159,14 +159,14 @@ class Detector
       samples = ['orange cats like popcorn', '10.1234 almost doi', 'another doi not found here', '99921-58-10-7']
 
       samples.each do |notdoi|
-        actual = Detector::StandardIdentifiers.new(notdoi).identifiers
+        actual = Detector::StandardIdentifiers.new(notdoi).detections
 
         assert_nil(actual[:notdoi])
       end
     end
 
     test 'pmid detected in string' do
-      actual = Detector::StandardIdentifiers.new('Citation and stuff PMID: 35648703 more stuff.').identifiers
+      actual = Detector::StandardIdentifiers.new('Citation and stuff PMID: 35648703 more stuff.').detections
 
       assert_equal('PMID: 35648703', actual[:pmid])
     end
@@ -175,7 +175,7 @@ class Detector
       samples = ['PMID: 35648703', 'pmid: 1234567', 'PMID:35648703']
 
       samples.each do |pmid|
-        actual = Detector::StandardIdentifiers.new(pmid).identifiers
+        actual = Detector::StandardIdentifiers.new(pmid).detections
 
         assert_equal(pmid, actual[:pmid])
       end
@@ -185,7 +185,7 @@ class Detector
       samples = ['orange cats like popcorn', 'pmid:almost', 'PMID: asdf', '99921-58-10-7']
 
       samples.each do |notpmid|
-        actual = Detector::StandardIdentifiers.new(notpmid).identifiers
+        actual = Detector::StandardIdentifiers.new(notpmid).detections
 
         assert_nil(actual[:pmid])
       end
