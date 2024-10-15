@@ -10,8 +10,8 @@ class Detector
         'Space vehicles -- Materials -- Congresses'
       ]
 
-      true_samples.each do |term|
-        actual = Detector::Lcsh.new(term).detections
+      true_samples.each do |phrase|
+        actual = Detector::Lcsh.new(phrase).detections
 
         assert_includes(actual, :separator)
       end
@@ -25,8 +25,8 @@ class Detector
         'This one should--also not work'
       ]
 
-      false_samples.each do |term|
-        actual = Detector::Lcsh.new(term).detections
+      false_samples.each do |phrase|
+        actual = Detector::Lcsh.new(phrase).detections
 
         assert_not_includes(actual, :separator)
       end

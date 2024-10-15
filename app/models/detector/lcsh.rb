@@ -12,9 +12,12 @@ class Detector
     # For now the initialize method just needs to run the pattern checker. A space for future development would be to
     # write additional methods to look up the detected LCSH for more information, and to confirm that the phrase is
     # actually an LCSH.
-    def initialize(term)
+    #
+    #   @param phrase String. Often a `Term.phrase`.
+    #   @return Nothing intentional. Data is written to Hash `@detections` during processing.
+    def initialize(phrase)
       @detections = {}
-      term_pattern_checker(term)
+      pattern_checker(phrase)
     end
 
     # The record method will consult the set of regex-based detectors that are defined in Detector::Lcsh. Any matches
@@ -41,10 +44,10 @@ class Detector
 
     private
 
-    # term_patterns are regex patterns that can be applied to indicate whether a search string is looking for an LCSH
+    # patterns are regex patterns that can be applied to indicate whether a search string is looking for an LCSH
     # string. At the moment there is only one - for the separator character " -- " - but others might be possible if
     # there are regex-able vocabulary quirks which might separate subject values from non-subject values.
-    def term_patterns
+    def patterns
       {
         separator: /(.*)\s--\s(.*)/
       }

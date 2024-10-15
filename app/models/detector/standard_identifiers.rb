@@ -13,9 +13,12 @@ class Detector
     # shared instance methods
     include Detector::PatternChecker
 
-    def initialize(term)
+    # Initialization process will run pattern checkers and strip invalid ISSN detections.
+    #   @param phrase String. Often a `Term.phrase`.
+    #   @return Nothing intentional. Data is written to Hash `@detections` during processing.
+    def initialize(phrase)
       @detections = {}
-      term_pattern_checker(term)
+      pattern_checker(phrase)
       strip_invalid_issns
     end
 
@@ -43,8 +46,8 @@ class Detector
 
     private
 
-    # term_patterns are regex patterns to be applied to the basic search box input
-    def term_patterns
+    # patterns are regex patterns to be applied to the basic search box input
+    def patterns
       {
         isbn: /\b(ISBN-*(1[03])* *(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})\b/,
         issn: /\b[0-9]{4}-[0-9]{3}[0-9xX]\b/,

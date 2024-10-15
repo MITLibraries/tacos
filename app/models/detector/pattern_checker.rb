@@ -4,9 +4,13 @@ class Detector
   # PatternChecker is intended to be added to Detectors via `include Detector::PatternChecker` to make
   # these methods available to instances of the class
   module PatternChecker
-    def term_pattern_checker(term)
-      term_patterns.each_pair do |type, pattern|
-        @detections[type.to_sym] = match(pattern, term) if match(pattern, term).present?
+    # pattern_checker iterates over all patterns defined in the calling object's `pattern` method.
+    #
+    #   @param phrase [String]. Often a `Term.phrase`.
+    #   @return Nothing intentional. Data is written to Hash `@detections` during processing.
+    def pattern_checker(phrase)
+      patterns.each_pair do |type, pattern|
+        @detections[type.to_sym] = match(pattern, phrase) if match(pattern, phrase).present?
       end
     end
 
@@ -15,8 +19,13 @@ class Detector
     # might be expected, but just "1234-5678". Using ruby's string.scan(pattern) may be worthwhile if we want to detect
     # all possible matches instead of just the first. That may require a larger refactor though as initial tests of doing
     # that change did result in unintended results so it was backed out for now.
-    def match(pattern, term)
-      pattern.match(term).to_s.strip
+    #
+    #   @param pattern Regexp
+    #   @param phrase String. Often a `Term.phrase`.
+    #
+    #   @return String
+    def match(pattern, phrase)
+      pattern.match(phrase).to_s.strip
     end
   end
 end
