@@ -6,7 +6,7 @@ class Detector
   class CitationTest < ActiveSupport::TestCase
     test 'detector::citation exposes three instance variables' do
       t = terms('citation')
-      result = Detector::Citation.new(t)
+      result = Detector::Citation.new(t.phrase)
 
       assert_predicate result.score, :present?
 
@@ -16,194 +16,194 @@ class Detector
     end
 
     test 'detector::citation generates certain summary counts always' do
-      result = Detector::Citation.new(terms('hi'))
+      result = Detector::Citation.new(terms('hi').phrase)
       expected = %i[characters colons commas periods semicolons words]
 
       assert_equal expected, result.summary.keys
     end
 
     test 'summary includes a character count' do
-      result = Detector::Citation.new(Term.new(phrase: 'a'))
+      result = Detector::Citation.new('a')
 
       assert_equal 1, result.summary[:characters]
 
       # Multibyte character
-      result = Detector::Citation.new(Term.new(phrase: 'あ'))
+      result = Detector::Citation.new('あ')
 
       assert_equal 1, result.summary[:characters]
 
       # Twelve thousand characters? No problem...
       phrase = String.new('a' * 12_345)
-      result = Detector::Citation.new(Term.new(phrase:))
+      result = Detector::Citation.new(phrase)
 
       assert_equal 12_345, result.summary[:characters]
     end
 
     test 'summary includes a count of colons in term' do
-      result = Detector::Citation.new(Term.new(phrase: 'No colons here'))
+      result = Detector::Citation.new('No colons here')
 
       assert_equal 0, result.summary[:colons]
 
-      result = Detector::Citation.new(Term.new(phrase: 'Three: colons :: here'))
+      result = Detector::Citation.new('Three: colons :: here')
 
       assert_equal 3, result.summary[:colons]
     end
 
     test 'summary includes a count of commas in term' do
-      result = Detector::Citation.new(Term.new(phrase: 'No commas here'))
+      result = Detector::Citation.new('No commas here')
 
       assert_equal 0, result.summary[:commas]
 
-      result = Detector::Citation.new(Term.new(phrase: 'Please, buy, apples, mac, and, cheese, milk, and, bread,.'))
+      result = Detector::Citation.new('Please, buy, apples, mac, and, cheese, milk, and, bread,.')
 
       assert_equal 9, result.summary[:commas]
     end
 
     test 'summary includes a count of periods in term' do
-      result = Detector::Citation.new(Term.new(phrase: 'No periods here'))
+      result = Detector::Citation.new('No periods here')
 
       assert_equal 0, result.summary[:periods]
 
-      result = Detector::Citation.new(Term.new(phrase: 'This has periods. There are two of them.'))
+      result = Detector::Citation.new('This has periods. There are two of them.')
 
       assert_equal 2, result.summary[:periods]
 
-      result = Detector::Citation.new(Term.new(phrase: 'This ends with an ellipses, which does not count, but no periods…'))
+      result = Detector::Citation.new('This ends with an ellipses, which does not count, but no periods…')
 
       assert_equal 0, result.summary[:periods]
     end
 
     test 'summary includes a count of semicolons in term' do
-      result = Detector::Citation.new(Term.new(phrase: 'No semicolons here'))
+      result = Detector::Citation.new('No semicolons here')
 
       assert_equal 0, result.summary[:semicolons]
 
-      result = Detector::Citation.new(Term.new(phrase: 'This has one semicolon;'))
+      result = Detector::Citation.new('This has one semicolon;')
 
       assert_equal 1, result.summary[:semicolons]
 
-      result = Detector::Citation.new(Term.new(phrase: '&quot;HTML entities are counted&quot;'))
+      result = Detector::Citation.new('&quot;HTML entities are counted&quot;')
 
       assert_equal 2, result.summary[:semicolons]
     end
 
     test 'summary includes a word count' do
-      result = Detector::Citation.new(Term.new(phrase: 'brief'))
+      result = Detector::Citation.new('brief')
 
       assert_equal 1, result.summary[:words]
 
-      result = Detector::Citation.new(Term.new(phrase: ' extra '))
+      result = Detector::Citation.new(' extra ')
 
       assert_equal 1, result.summary[:words]
 
-      result = Detector::Citation.new(Term.new(phrase: 'less  brief'))
+      result = Detector::Citation.new('less  brief')
 
       assert_equal 2, result.summary[:words]
 
-      result = Detector::Citation.new(Term.new(phrase: 'hyphenated-word'))
+      result = Detector::Citation.new('hyphenated-word')
 
       assert_equal 1, result.summary[:words]
     end
 
     test 'summary word count handles non-space separators' do
-      result = Detector::Citation.new(Term.new(phrase: "tabs\tdo\tcount"))
+      result = Detector::Citation.new("tabs\tdo\tcount")
 
       assert_equal 3, result.summary[:words]
 
-      result = Detector::Citation.new(Term.new(phrase: "newlines\nalso\ncount"))
+      result = Detector::Citation.new("newlines\nalso\ncount")
 
       assert_equal 3, result.summary[:words]
     end
 
     test 'subpatterns are empty by default' do
-      result = Detector::Citation.new(Term.new(phrase: 'nothing here'))
+      result = Detector::Citation.new('nothing here')
 
       assert_empty(result.subpatterns)
     end
 
     test 'subpatterns flag all APA-style "volume(issue)" sequences' do
-      result = Detector::Citation.new(Term.new(phrase: 'Weinstein, J. (2009). Classical Philology, 104(4), 439-458.'))
+      result = Detector::Citation.new('Weinstein, J. (2009). Classical Philology, 104(4), 439-458.')
 
       assert_equal ['104(4)'], result.subpatterns[:apa_volume_issue]
     end
 
     test 'subpatterns flag all "no." instances with a number' do
-      result = Detector::Citation.new(Term.new(phrase: 'Yes or no. vol. 6, no. 12, pp. 314'))
+      result = Detector::Citation.new('Yes or no. vol. 6, no. 12, pp. 314')
 
       assert_equal ['no. 12'], result.subpatterns[:no]
     end
 
     test 'subpatterns flag page ranges without spaces' do
-      result = Detector::Citation.new(Term.new(phrase: 'Read from pages 1-100'))
+      result = Detector::Citation.new('Read from pages 1-100')
 
       assert_equal ['1-100'], result.subpatterns[:pages]
 
-      result = Detector::Citation.new(Term.new(phrase: '1 - 100'))
+      result = Detector::Citation.new('1 - 100')
 
       assert_empty(result.subpatterns)
     end
 
     test 'subpatterns flag all "pp." instances with a number' do
-      result = Detector::Citation.new(Term.new(phrase: 'I love this app. vol. 6, no. 12, pp. 314'))
+      result = Detector::Citation.new('I love this app. vol. 6, no. 12, pp. 314')
 
       assert_equal ['pp. 314'], result.subpatterns[:pp]
     end
 
     test 'subpatterns flag all "vol." instances with a number' do
-      result = Detector::Citation.new(Term.new(phrase: 'This is frivol. vol. 6, no. 12, pp. 314'))
+      result = Detector::Citation.new('This is frivol. vol. 6, no. 12, pp. 314')
 
       assert_equal ['vol. 6'], result.subpatterns[:vol]
     end
 
     test 'subpatterns flag all years in parentheses' do
-      result = Detector::Citation.new(Term.new(phrase: 'Only two (2) four-digit years (1996) (1997) here since 2024.'))
+      result = Detector::Citation.new('Only two (2) four-digit years (1996) (1997) here since 2024.')
 
       assert_equal ['(1996)', '(1997)'], result.subpatterns[:year_parens]
     end
 
     test 'subpatterns flag phrases in square brackets' do
-      result = Detector::Citation.new(Term.new(phrase: 'Artificial intelligence. [Online serial].'))
+      result = Detector::Citation.new('Artificial intelligence. [Online serial].')
 
       assert_equal ['[Online serial]'], result.subpatterns[:brackets]
     end
 
     # This is pretty rough.
     test 'subpatterns attempts to flag names as they appear in author lists' do
-      result = Detector::Citation.new(Term.new(phrase: 'Sadava, D. E., D. M. Hillis, et al. Life: The Science of Biology. 11th ed. W. H. Freeman, 2016. ISBN: 9781319145446'))
+      result = Detector::Citation.new('Sadava, D. E., D. M. Hillis, et al. Life: The Science of Biology. 11th ed. W. H. Freeman, 2016. ISBN: 9781319145446')
 
       # This is also catching the last word of the title.
       assert_equal ['Sadava,', 'Hillis,', 'Biology.', 'Freeman,'], result.subpatterns[:lastnames]
     end
 
     test 'subpatterns flag phrases in quotes' do
-      result = Detector::Citation.new(Term.new(phrase: '&quot;Principles of Materials Science and Engineering&quot; by William F. Smith and Javad Hashemi'))
+      result = Detector::Citation.new('&quot;Principles of Materials Science and Engineering&quot; by William F. Smith and Javad Hashemi')
 
       assert_equal ['&quot;Principles of Materials Science and Engineering&quot;'], result.subpatterns[:quotes]
 
       # Need two to catch anything
-      result = Detector::Citation.new(Term.new(phrase: 'Principles of Materials Science and Engineering&quot; by William F. Smith and Javad Hashemi'))
+      result = Detector::Citation.new('Principles of Materials Science and Engineering&quot; by William F. Smith and Javad Hashemi')
 
       assert_empty(result.subpatterns)
     end
 
     test 'citation score increases as phrase gets more citation-like' do
-      result = Detector::Citation.new(Term.new(phrase: 'simple search phrase'))
+      result = Detector::Citation.new('simple search phrase')
 
       assert_equal 0, result.score
 
-      result = Detector::Citation.new(Term.new(phrase: 'Science Education and Cultural Diversity: Mapping the Field. Studies in Science Education, 24(1), 49–73.'))
+      result = Detector::Citation.new('Science Education and Cultural Diversity: Mapping the Field. Studies in Science Education, 24(1), 49–73.')
 
       assert_operator 0, :<, result.score
     end
 
     test 'detection? convenience method returns true for obvious citations' do
-      result = Detector::Citation.new(terms('citation'))
+      result = Detector::Citation.new(terms('citation').phrase)
 
       assert_predicate result, :detection?
     end
 
     test 'detection? convenience method returns false for obvious non-citations' do
-      result = Detector::Citation.new(terms('hi'))
+      result = Detector::Citation.new(terms('hi').phrase)
 
       assert_not result.detection?
     end
