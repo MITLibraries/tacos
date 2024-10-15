@@ -6,6 +6,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# GC Statsd Reporter [https://github.com/heroku/barnes]
+gem 'barnes'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
