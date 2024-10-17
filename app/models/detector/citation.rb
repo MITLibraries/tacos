@@ -5,9 +5,10 @@ class Detector
   # targeted at a particular citation format, but was designed based on characteristics of five formats: APA, MLA,
   # Chicago, Terabian, and IEEE.
   #
-  # It receives a Term object, which is parsed in various ways en route to calculating a final score. Terms with a
-  # higher score are more citation-like, while a score of 0 indicates a Term that has no hallmarks of being a citation.
-  # Terms whose score is higher than the REQUIRED_SCORE value can be registered as a Detection.
+  # It receives a phrase (often from `Term.phrase`), which is parsed in various ways en route to calculating a final
+  # score. Phrases with a higher score are more citation-like, while a score of 0 indicates a phrase that has no
+  # hallmarks of being a citation.
+  # Phrases whose score is higher than the REQUIRED_SCORE value can be registered as a Detection.
   class Citation
     attr_reader :score, :subpatterns, :summary
 
@@ -26,12 +27,13 @@ class Detector
       quotes: /&quot;.*?&quot;/
     }.freeze
 
-    # The required score value is the threshold needed for a Term to be officially recorded with a Detection.
+    # The required score value is the threshold needed for a phrase to be officially recorded with a Detection via it's
+    # associated Term.
     REQUIRED_SCORE = 6
 
     # Summary thresholds are used by the calculate_score method. This class counts the number of occurrences of specific
     # characters in the @summary instance variable. The thresholds here determine whether any of those counts are high
-    # enough to contribute to the Term's citation score.
+    # enough to contribute to the phrase's citation score.
     SUMMARY_THRESHOLDS = {
       characters: 25,
       colons: 2,
@@ -48,28 +50,31 @@ class Detector
       @score >= REQUIRED_SCORE
     end
 
-    # The initializer handles the parsing of a Term object, and subsequent population of the @subpatterns, @summary,
+    # The initializer handles the parsing of a phrase, and subsequent population of the @subpatterns, @summary,
     # and @score instance variables. @subpatterns contains all the citation components which have been flagged by the
-    # CITATION_PATTERNS hash. @summary contains counts of how often certain characters or words appear in the Term.
+    # CITATION_PATTERNS hash. @summary contains counts of how often certain characters or words appear in the phrase.
     # Finally, the @score value is a summary of how many elements in the subpatterns or summary report were detected.
     #
-    # @note This method can be called directly via Detector::Citation.new(Term). It is also called indirectly via the
+    # @note This method can be called directly via Detector::Citation.new(phrase). It is also called indirectly via the
     #       Detector::Citation.record(Term) instance method. This method can be called directly when a Detection is not
     #       desired.
-    def initialize(term)
+    # @param phrase String. Often a `Term.phrase`.
+    # @return Nothing intentional. Data is written to Hashes `@subpatterns`, `@summary`,
+    #   and `@score` during processing.
+    def initialize(phrase)
       @subpatterns = {}
       @summary = {}
-      pattern_checker(term.phrase)
-      summarize(term.phrase)
+      pattern_checker(phrase)
+      summarize(phrase)
       @score = calculate_score
     end
 
     # The record method first runs all of the parsers by running the initialize method. If the resulting score is higher
     # than the REQUIRED_SCORE value, then a Detection is registered.
-    #
+    # @param term [Term]
     # @return nil
     def self.record(term)
-      cit = Detector::Citation.new(term)
+      cit = Detector::Citation.new(term.phrase)
       return unless cit.detection?
 
       Detection.find_or_create_by(
@@ -90,7 +95,7 @@ class Detector
     # if the brackets pattern finds two matches, it still only adds one to the final score.
     #
     # For the summary report, each value is compared with a threshold value in the SUMMARY_THRESHOLDS constant. The
-    # number of values which meet or exceed their threshold are added to the score. As an example, if a search term has
+    # number of values which meet or exceed their threshold are added to the score. As an example, if a search phrase has
     # five words, this value is compared to the word threshold (also five). Because the threshold is met, the score gets
     # incremented by one.
     #
@@ -103,45 +108,45 @@ class Detector
       summary_score + @subpatterns.length
     end
 
-    # This calculates the number of characters in the search term. It is called by the summarize method.
-    def characters(term)
-      term.length
+    # This calculates the number of characters in the search phrase. It is called by the summarize method.
+    def characters(phrase)
+      phrase.length
     end
 
-    # This counts the number of colons that appear in the search term, because they tend to appear more often in
+    # This counts the number of colons that appear in the search phrase, because they tend to appear more often in
     # citations than in other searches. It is called by the summarize method.
-    def colons(term)
-      term.count(':')
+    def colons(phrase)
+      phrase.count(':')
     end
 
-    # This counts the number of commas in the search term. It is called by the summarize method.
-    def commas(term)
-      term.count(',')
+    # This counts the number of commas in the search phrase. It is called by the summarize method.
+    def commas(phrase)
+      phrase.count(',')
     end
 
     # This builds one of the two main components of the Citation detector - the subpattern report. It uses each of the
     # regular expressions in the CITATION_PATTERNS constant, extracting all matches using the scan method.
     #
     # @return hash
-    def pattern_checker(term)
+    def pattern_checker(phrase)
       CITATION_PATTERNS.each_pair do |type, pattern|
-        @subpatterns[type.to_sym] = scan(pattern, term) if scan(pattern, term).present?
+        @subpatterns[type.to_sym] = scan(pattern, phrase) if scan(pattern, phrase).present?
       end
     end
 
-    # This counts the number of periods in the search term. It is called by the summarize method.
-    def periods(term)
-      term.count('.')
+    # This counts the number of periods in the search phrase. It is called by the summarize method.
+    def periods(phrase)
+      phrase.count('.')
     end
 
     # This is a convenience method for the scan method, which is used by pattern_checker.
-    def scan(pattern, term)
-      term.scan(pattern).map(&:strip)
+    def scan(pattern, phrase)
+      phrase.scan(pattern).map(&:strip)
     end
 
-    # This counts the semicolons in the search term. It is called by the summarize method.
-    def semicolons(term)
-      term.count(';')
+    # This counts the semicolons in the search phrase. It is called by the summarize method.
+    def semicolons(phrase)
+      phrase.count(';')
     end
 
     # This builds one of the two main components of the Citation detector - the summary report. It calls each of the
@@ -149,15 +154,15 @@ class Detector
     # instance variable.
     #
     # @return hash
-    def summarize(term)
+    def summarize(phrase)
       %w[characters colons commas periods semicolons words].each do |check|
-        @summary[check.to_sym] = send(check, term)
+        @summary[check.to_sym] = send(check, phrase)
       end
     end
 
-    # This counts the number of words in the search term. It is called by the summarize method.
-    def words(term)
-      term.split.length
+    # This counts the number of words in the search phrase. It is called by the summarize method.
+    def words(phrase)
+      phrase.split.length
     end
   end
 end
