@@ -48,8 +48,9 @@ module Metrics
                 else
                   count_matches(SearchEvent.includes(:term))
                 end
-      Metrics::Algorithms.create(month:, doi: matches[:doi], issn: matches[:issn], isbn: matches[:isbn],
-                                 lcsh: matches[:lcsh], pmid: matches[:pmid], journal_exact: matches[:journal_exact],
+      Metrics::Algorithms.create(month:, citation: matches[:citation], doi: matches[:doi], issn: matches[:issn],
+                                 isbn: matches[:isbn], lcsh: matches[:lcsh], pmid: matches[:pmid],
+                                 journal_exact: matches[:journal_exact],
                                  suggested_resource_exact: matches[:suggested_resource_exact],
                                  unmatched: matches[:unmatched])
     end
@@ -78,11 +79,25 @@ module Metrics
     # @return does not return anything (the same matches Hash is passed in each loop but not explicitly sent back)
     def event_matches(event, matches)
       ids = match_standard_identifiers(event, matches)
+      citation = match_citations(event, matches)
       journal_exact = process_journals(event, matches)
       suggested_resource_exact = process_suggested_resources(event, matches)
       lcshs = match_lcsh(event, matches)
 
-      matches[:unmatched] += 1 if ids.detections.blank? && lcshs.detections.blank? && journal_exact.count.zero? && suggested_resource_exact.count.zero?
+      matches[:unmatched] += 1 if ids.detections.blank? && !citation.detection? && lcshs.detections.blank? && journal_exact.count.zero? && suggested_resource_exact.count.zero?
+    end
+
+    # Checks for Citation matches
+    #
+    # @param event [SearchEvent] an individual search event to check for matches
+    # @param matches [Hash] a Hash that keeps track of how many of each algorithm we match, to which this method will
+    #                       add.
+    # @return [Boolean] an indication of whether a citation was detector or not.
+    def match_citations(event, matches)
+      result = Detector::Citation.new(event.term.phrase)
+
+      matches[:citation] += 1 if result.detection?
+      result
     end
 
     # Checks for LCSH matches
