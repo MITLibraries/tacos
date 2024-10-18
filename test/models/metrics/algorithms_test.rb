@@ -21,6 +21,12 @@ require 'test_helper'
 
 class Algorithms < ActiveSupport::TestCase
   # Monthlies
+  test 'citation counts are included in monthly aggregation' do
+    aggregate = Metrics::Algorithms.new.generate(DateTime.now)
+
+    assert_equal 1, aggregate.citation
+  end
+
   test 'dois counts are included in monthly aggregation' do
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
 
@@ -85,6 +91,11 @@ class Algorithms < ActiveSupport::TestCase
     # drop all searchevents to make math easier and minimize fragility over time as more fixtures are created
     SearchEvent.delete_all
 
+    citation_expected_count = rand(1...100)
+    citation_expected_count.times do
+      SearchEvent.create(term: terms(:citation), source: 'test')
+    end
+
     doi_expected_count = rand(1...100)
     doi_expected_count.times do
       SearchEvent.create(term: terms(:doi), source: 'test')
@@ -117,6 +128,7 @@ class Algorithms < ActiveSupport::TestCase
 
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
 
+    assert_equal citation_expected_count, aggregate.citation
     assert_equal doi_expected_count, aggregate.doi
     assert_equal issn_expected_count, aggregate.issn
     assert_equal isbn_expected_count, aggregate.isbn
@@ -126,6 +138,12 @@ class Algorithms < ActiveSupport::TestCase
   end
 
   # Total
+  test 'citation counts are included in total aggregation' do
+    aggregate = Metrics::Algorithms.new.generate
+
+    assert_equal 1, aggregate.citation
+  end
+
   test 'dois counts are included in total aggregation' do
     aggregate = Metrics::Algorithms.new.generate
 
@@ -178,6 +196,11 @@ class Algorithms < ActiveSupport::TestCase
     # drop all searchevents to make math easier and minimize fragility over time as more fixtures are created
     SearchEvent.delete_all
 
+    citation_expected_count = rand(1...100)
+    citation_expected_count.times do
+      SearchEvent.create(term: terms(:citation), source: 'test')
+    end
+
     doi_expected_count = rand(1...100)
     doi_expected_count.times do
       SearchEvent.create(term: terms(:doi), source: 'test')
@@ -215,6 +238,7 @@ class Algorithms < ActiveSupport::TestCase
 
     aggregate = Metrics::Algorithms.new.generate
 
+    assert_equal citation_expected_count, aggregate.citation
     assert_equal doi_expected_count, aggregate.doi
     assert_equal issn_expected_count, aggregate.issn
     assert_equal isbn_expected_count, aggregate.isbn
