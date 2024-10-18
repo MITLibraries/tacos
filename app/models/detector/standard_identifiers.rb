@@ -13,6 +13,9 @@ class Detector
     # shared instance methods
     include Detector::PatternChecker
 
+    # shared singleton methods
+    extend Detector::BulkChecker
+
     # Initialization process will run pattern checkers and strip invalid ISSN detections.
     #   @param phrase String. Often a `Term.phrase`.
     #   @return Nothing intentional. Data is written to Hash `@detections` during processing.

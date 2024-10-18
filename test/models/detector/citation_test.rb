@@ -245,5 +245,20 @@ class Detector
         assert_equal detection_count + 1, Detection.count
       end
     end
+
+    test 'detections returns nil when score is lower than configured' do
+      result = Detector::Citation.new('nothing here')
+
+      assert_equal 0, result.score
+      assert_nil result.detections
+    end
+
+    test 'detections returns expected array when score is higher than configured' do
+      result = Detector::Citation.new(terms('citation').phrase)
+
+      assert_equal result.summary, result.detections[0]
+      assert_equal result.subpatterns, result.detections[1]
+      assert_equal result.score, result.detections[2]
+    end
   end
 end
