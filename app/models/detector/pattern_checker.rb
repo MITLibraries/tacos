@@ -3,6 +3,7 @@
 class Detector
   # PatternChecker is intended to be added to Detectors via `include Detector::PatternChecker` to make
   # these methods available to instances of the class
+  # See also: `BulkTermChecker` for shared singleton methods
   module PatternChecker
     # pattern_checker iterates over all patterns defined in the calling object's `pattern` method.
     #
