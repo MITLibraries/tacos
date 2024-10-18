@@ -12,6 +12,9 @@ class Detector
   class Citation
     attr_reader :score, :subpatterns, :summary
 
+    # shared singleton methods
+    extend Detector::BulkChecker
+
     # Citation patterns are regular expressions which attempt to identify structures that are part of many citations.
     # This object is used as part of the pattern_checker method. Some of these patterns may get promoted to the Detector
     # model if they prove useful beyond a Citation context.
@@ -67,6 +70,12 @@ class Detector
       pattern_checker(phrase)
       summarize(phrase)
       @score = calculate_score
+    end
+
+    def detections
+      return unless detection?
+
+      [@summary, @subpatterns, @score]
     end
 
     # The record method first runs all of the parsers by running the initialize method. If the resulting score is higher

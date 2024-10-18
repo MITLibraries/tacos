@@ -9,6 +9,9 @@ class Detector
     # shared instance methods
     include Detector::PatternChecker
 
+    # shared singleton methods
+    extend Detector::BulkChecker
+
     # For now the initialize method just needs to run the pattern checker. A space for future development would be to
     # write additional methods to look up the detected LCSH for more information, and to confirm that the phrase is
     # actually an LCSH.
