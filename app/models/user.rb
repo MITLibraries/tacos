@@ -14,6 +14,8 @@
 class User < ApplicationRecord
   include FakeAuthConfig
 
+  has_many :validations, dependent: :destroy
+
   if FakeAuthConfig.fake_auth_enabled?
     devise :omniauthable, omniauth_providers: [:developer]
   else

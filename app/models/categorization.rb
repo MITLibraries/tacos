@@ -19,10 +19,13 @@
 #  detector_version :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  validatable_type :string
+#  validatable_id   :integer
 #
 class Categorization < ApplicationRecord
   belongs_to :term
   belongs_to :category
+  has_many :validations, as: :validatable, dependent: :destroy
 
   # These scopes allow for easy filtering of Categorization records by a single parameter.
   scope :current, -> { where(detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')) }

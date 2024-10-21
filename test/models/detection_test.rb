@@ -10,6 +10,8 @@
 #  detector_version :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  validatable_type :string
+#  validatable_id   :integer
 #
 require 'test_helper'
 
