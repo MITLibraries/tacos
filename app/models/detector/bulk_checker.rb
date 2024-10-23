@@ -10,7 +10,9 @@ class Detector
     #   - the Class including this module implements a `detections` method (either via `attr_reader` or as a method)
     #     that is only populated for Terms in which it has made a detection
     #   - the initialize method accepts a `phrase` as a string
-    def check_all_matches
+    # @param output [boolean] optional. Defaults to false as that is the more likely scenario useful in development as
+    #   the logger output is often what is desired.
+    def check_all_matches(output = false)
       count = 0
       matches = []
       Term.find_each do |t|
@@ -27,7 +29,7 @@ class Detector
       Rails.logger.ap "Total Terms: #{Term.count}"
       Rails.logger.ap "Total Matches: #{count}"
 
-      matches
+      matches if output
     end
   end
 end
