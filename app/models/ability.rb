@@ -22,6 +22,10 @@ class Ability
 
     # Allow all authenticated users to view reports
     can :view, :report
+
+    # Allow all authenticted users to perform validation work
+    can :manage, :validation
+    can :manage, Validation
     # End of Rules for all authenticated user with no additional roles required
 
     # Rules for admins

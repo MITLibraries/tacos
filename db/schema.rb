@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_11_181823) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_21_184739) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -26,10 +26,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_11_181823) do
     t.string "detector_version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "validatable_type"
+    t.integer "validatable_id"
     t.index ["category_id", "term_id", "detector_version"], name: "idx_on_category_id_term_id_detector_version_9f24c39900", unique: true
     t.index ["category_id"], name: "index_categorizations_on_category_id"
     t.index ["term_id", "category_id", "detector_version"], name: "idx_on_term_id_category_id_detector_version_4e10ba6204", unique: true
     t.index ["term_id"], name: "index_categorizations_on_term_id"
+    t.index ["validatable_type", "validatable_id"], name: "index_categorizations_on_validatable"
   end
 
   create_table "detections", force: :cascade do |t|
@@ -38,10 +41,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_11_181823) do
     t.string "detector_version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "validatable_type"
+    t.integer "validatable_id"
     t.index ["detector_id", "term_id", "detector_version"], name: "idx_on_detector_id_term_id_detector_version_2afa383b1f", unique: true
     t.index ["detector_id"], name: "index_detections_on_detector_id"
     t.index ["term_id", "detector_id", "detector_version"], name: "idx_on_term_id_detector_id_detector_version_03898e846f", unique: true
     t.index ["term_id"], name: "index_detections_on_term_id"
+    t.index ["validatable_type", "validatable_id"], name: "index_detections_on_validatable"
   end
 
   create_table "detector_categories", force: :cascade do |t|
@@ -123,10 +129,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_11_181823) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  create_table "validations", force: :cascade do |t|
+    t.string "validatable_type"
+    t.integer "validatable_id"
+    t.integer "user_id", null: false
+    t.integer "judgement"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_validations_on_user_id"
+    t.index ["validatable_id", "validatable_type", "user_id"], name: "idx_on_validatable_id_validatable_type_user_id_2fae8753a9", unique: true
+    t.index ["validatable_type", "validatable_id"], name: "index_validations_on_validatable"
+  end
+
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "terms"
   add_foreign_key "detections", "detectors"
   add_foreign_key "detections", "terms"
   add_foreign_key "detector_categories", "categories"
   add_foreign_key "detector_categories", "detectors"
+  add_foreign_key "validations", "users"
 end

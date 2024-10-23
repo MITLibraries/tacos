@@ -7,6 +7,7 @@ The application includes the following entities, most of which an be broken into
   between the two which TACOS defines and maintains, and which is consulted during categorization; and
 * The <font style="color:#8da0cb;border:1px dashed #8da0cb;padding:2px;">linkages between these search terms and the graph</font>, which record which signals are
   detected in each term, and how those signals are interpreted to place the term into a category.
+* The validations
 
 ```mermaid
 classDiagram
@@ -23,6 +24,10 @@ classDiagram
   Categorization "0..*" --> "1" Category
 
   Detector "1" --> "0..*" DetectorCategory
+
+  Validation --> Detection: polymorphic
+  Validation --> Categorization: polymorphic
+  User --> Validation : provides many
 
   class User
     User: +String uid
@@ -93,6 +98,11 @@ classDiagram
     DetectorSuggestedResource: record()
     DetectorSuggestedResource: update_fingerprint()
 
+  class Validation
+    Validation: +Integer id
+    Validation: +Integer user_id
+    Validation: +Polymorphic action_id
+    Validation: +Integer judgement
 
   namespace SearchActivity{
     class Term
@@ -113,6 +123,12 @@ classDiagram
     class DetectorSuggestedResource["Detector::SuggestedResource"]
   }
 
+  namespace UserActivity {
+    class Validation
+    class User
+
+  }
+
   style SearchEvent fill:#000,stroke:#66c2a5,color:#66c2a5,stroke-width:4px;
   style Term fill:#000,stroke:#66c2a5,color:#66c2a5,stroke-width:4px;
 
@@ -126,4 +142,7 @@ classDiagram
 
   style Categorization fill:#000,stroke:#8da0cb,color:#8da0cb,stroke-dasharray: 3 5;
   style Detection fill:#000,stroke:#8da0cb,color:#8da0cb,stroke-dasharray: 3 5;
+
+  style Validation fill:#000,stroke:#ffd407
+  style User fill:#000,stroke:#ffd407
 ```
