@@ -5,7 +5,7 @@ require 'test_helper'
 class Detector
   class CitationTest < ActiveSupport::TestCase
     test 'citation_bulk_checker' do
-      bulk = Detector::Citation.check_all_matches(output = true)
+      bulk = Detector::Citation.check_all_matches(output: true)
 
       assert_equal(1, bulk.count)
     end
@@ -15,13 +15,13 @@ class Detector
     end
 
     test 'lcsh_bulk_checker' do
-      bulk = Detector::Lcsh.check_all_matches(output = true)
+      bulk = Detector::Lcsh.check_all_matches(output: true)
 
       assert_equal(1, bulk.count)
     end
 
     test 'standard_identifier_bulk_checker' do
-      bulk = Detector::StandardIdentifiers.check_all_matches(output = true)
+      bulk = Detector::StandardIdentifiers.check_all_matches(output: true)
 
       assert_equal(5, bulk.count)
     end

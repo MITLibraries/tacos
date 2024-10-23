@@ -12,7 +12,7 @@ class Detector
     #   - the initialize method accepts a `phrase` as a string
     # @param output [boolean] optional. Defaults to false as that is the more likely scenario useful in development as
     #   the logger output is often what is desired.
-    def check_all_matches(output = false)
+    def check_all_matches(output: false)
       count = 0
       matches = []
       Term.find_each do |t|
