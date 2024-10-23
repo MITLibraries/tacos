@@ -1,0 +1,63 @@
+<%= content_for(:title, "TACOS Validation") %>
+
+<p><%= link_to('Back to validation index', validate_path) %></p>
+
+<h3>Validation form</h3>
+
+<div class="well">
+  <p><%= @term.phrase %></p>
+</div>
+
+<p><strong>Please note:</strong> The information below is not currently filtered
+for only current detections; all detections across the history of the application
+are represented. This will need to be adjusted in the future.</p>
+
+<h4>Detection result</h4>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Detector</th>
+      <th scope="col">Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @detectors.each do |d| %>
+      <tr class="detector-result">
+        <td><%= d.name %></td>
+        <td>
+          <% if @term.detections.pluck(:detector_id).include?(d.id) %>
+            Detection
+          <% else %>
+            &nbsp;
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h4>Categorization result</h4>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Category</th>
+      <th scope="col">Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @categories.each do |c| %>
+      <tr class="category-result">
+        <td><%= c.name %></td>
+        <td>
+        <% if @term.categorizations.pluck(:category_id).include?(c.id) %>
+          <%= @term.categorizations.find_by(category_id: c.id).confidence %>
+        <% else %>
+          &nbsp;
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

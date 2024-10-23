@@ -13,6 +13,9 @@
             <% if can? :index, Term %>
               <%= link_to('Admin', admin_root_path, class: 'nav-item') %>
             <% end %>
+            <% if can? :index, Validation %>
+              <%= link_to('Validate', validate_path, class: 'nav-item') %>
+            <% end %>
             <% if can? :view, :playground %>
               <%= link_to('Playground', '/playground', class: 'nav-item') %>
             <% end %>

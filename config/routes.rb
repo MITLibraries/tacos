@@ -38,6 +38,10 @@ Rails.application.routes.draw do
   get '/report', to: 'report#index'
   get '/report/algorithm_metrics', to: 'report#algorithm_metrics'
 
+  # Validation interface
+  get '/validate', to: 'validation#index'
+  get '/validate/:id', to: 'validation#term', as: 'validate_term'
+
   # Defines the root path route ("/")
   root to: 'static#index'
 end
