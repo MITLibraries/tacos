@@ -91,16 +91,33 @@ One detector in this application is associated with different categories on a re
 SuggestedResource detector. The `calculateCategory()` method includes a lookup for this detector to make sure that any
 detections are scored appropriately.
 
-### Human validation of these operations
+### Human review of these operations
 
-There will be an ability for humans to inspect these operations, and to submit feedback about any actions which were
-not correct. These validations will be used to further refine the confidence values associated with our `Detector` and
-`DetectionCategory` records, as well as to refine the operation of the detectors, or the mappings between these
-elements.
+Staff will have multiple ways to participate in this process:
 
-This validation workflow has not been defined yet, nor has the data model been expanded to support this feedback. We do
-anticipate, however, that successful or unsuccessful validations would end up adjusting the relevant confidence values
-via the `incrementConfidence()` or `decrementConfidence()` methods.
+1. Placing terms into categories themselves, independent of what the application does. These classifications will be
+consulted during adjustments to the application, acting as a confirmation of what the tool _should_ be doing.
+2. Inspecting the actions taken by the application about any term (which detectors activate, and how those detections
+are summarized into the final categorization).
+
+#### Confirmation
+
+The first of these actions, the Confirmation workflow, is the first part we are developing. Any user of the system will
+be able to review a Term record, and place it into one of the three basic categories. If unsure, the user can place the
+term in an Undefined category. The final option during Confirmation will be to flag the term for review and removal
+(occasionally we see search terms that are meaningless as a search term, but appear to be user passwords or otherwise
+contain information that should not be retained).
+
+#### Inspection
+
+Staff will have the ability to inspect the detections and categorizations taken by the application, and to submit
+feedback about any actions which were not correct. This feedback will be used to further refine the confidence values
+associated with our `Detector` and `DetectionCategory` records, as well as to refine the operation of the detectors, or
+the mappings between these elements.
+
+This feedback workflow has not been defined yet, nor has the data model been expanded to support this feedback. We
+do anticipate, however, adjusting the relevant confidence values via the `incrementConfidence()` or
+`decrementConfidence()` methods.
 
 ---
 
