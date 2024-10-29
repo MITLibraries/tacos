@@ -57,4 +57,20 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.admin?
     assert_predicate user, :valid?
   end
+
+  test 'removing a user will remove their Confirmations' do
+    user_count = User.count
+    confirmation_count = Confirmation.count
+
+    user = users('valid')
+
+    relevant_links = user.confirmations.count
+
+    assert_operator(0, :<, relevant_links)
+
+    user.destroy
+    
+    assert_equal(user_count - 1, User.count)
+    assert_equal(confirmation_count - relevant_links, Confirmation.count)
+  end
 end

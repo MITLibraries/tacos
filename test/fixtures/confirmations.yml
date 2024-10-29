@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: confirmations
+#
+#  id          :integer          not null, primary key
+#  user_id     :integer          not null
+#  term_id     :integer          not null
+#  category_id :integer
+#  flag        :boolean
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+minimal:
+  user: valid
+  term: hi
+
+unsure:
+  user: admin
+  term: hi
+  category: undefined
+
+informational:
+  user: valid
+  term: lcsh
+  category: informational
+
+transactional:
+  user: valid
+  term: multiple_detections
+  category: transactional

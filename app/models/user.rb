@@ -12,6 +12,8 @@
 #  admin      :boolean          default(FALSE)
 #
 class User < ApplicationRecord
+  has_many :confirmations, dependent: :destroy
+
   include FakeAuthConfig
 
   if FakeAuthConfig.fake_auth_enabled?

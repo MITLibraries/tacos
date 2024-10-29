@@ -62,6 +62,22 @@ class TermTest < ActiveSupport::TestCase
     assert_operator(Categorization.count, :<, categorization_pre_count)
   end
 
+  test 'destroying a Term will delete associated Confirmations' do
+    term_count = Term.count
+    confirmation_count = Confirmation.count
+
+    term = terms('lcsh')
+
+    relevant_links = term.confirmations.count
+
+    assert_operator(0, :<, relevant_links)
+
+    term.destroy
+
+    assert_equal(term_count - 1, Term.count)
+    assert_equal(confirmation_count - relevant_links, Confirmation.count)
+  end
+
   test 'destroying a SearchEvent does not delete the Term' do
     t = terms('hi')
     s = t.search_events.first
@@ -182,5 +198,67 @@ class TermTest < ActiveSupport::TestCase
 
       assert_equal categorization_count + 1, Categorization.count
     end
+  end
+
+  test 'user_confirmed scope returns an active record relation' do
+    assert_kind_of ActiveRecord::Relation, Term.user_confirmed
+  end
+
+  test 'user_unconfirmed scope returns an active record relation' do
+    assert_kind_of ActiveRecord::Relation, Term.user_unconfirmed
+  end
+
+  test 'user_confirmed scope includes terms with manual confirmations' do
+    confirmed_count = Term.user_confirmed.count
+    t = terms('doi')
+
+    # Make sure that this term isn't yet confirmed
+    assert_equal 0, t.confirmations.count
+
+    new_record = {
+      term: t,
+      user: users('basic'),
+      category: categories('transactional')
+    }
+    Confirmation.create!(new_record)
+
+    # The count should now be one more.
+    assert_equal confirmed_count + 1, Term.user_confirmed.count
+  end
+
+  test 'user_confirmed scope accounts for terms with multiple manual confirmations' do
+    confirmed_count = Term.user_confirmed.count
+    t = terms('lcsh')
+
+    # Confirm this term has already been categorized manually (see fixtures)
+    assert_operator 1, :<=, t.confirmations.count
+
+    new_record = {
+      term: t,
+      user: users('basic'),
+      category: categories('transactional')
+    }
+    Confirmation.create!(new_record)
+
+    # The count should be unchanged
+    assert_equal confirmed_count, Term.user_confirmed.count
+  end
+
+  test 'user_unconfirmed scope accounts for new manual confirmations' do
+    unconfirmed_count = Term.user_unconfirmed.count
+    t = terms('doi')
+
+    # Confirm this term is not yet categorized
+    assert_equal 0, t.confirmations.count
+
+    new_record = {
+      term: t,
+      user: users('basic'),
+      category: categories('transactional')
+    }
+    Confirmation.create!(new_record)
+
+    # The count should now be one less.
+    assert_equal unconfirmed_count - 1, Term.user_unconfirmed.count
   end
 end

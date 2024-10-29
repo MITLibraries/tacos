@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_11_181823) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_29_181747) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -30,6 +30,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_11_181823) do
     t.index ["category_id"], name: "index_categorizations_on_category_id"
     t.index ["term_id", "category_id", "detector_version"], name: "idx_on_term_id_category_id_detector_version_4e10ba6204", unique: true
     t.index ["term_id"], name: "index_categorizations_on_term_id"
+  end
+
+  create_table "confirmations", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "term_id", null: false
+    t.integer "category_id"
+    t.boolean "flag"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_confirmations_on_category_id"
+    t.index ["term_id", "user_id"], name: "index_confirmations_on_term_id_and_user_id", unique: true
+    t.index ["term_id"], name: "index_confirmations_on_term_id"
+    t.index ["user_id", "term_id"], name: "index_confirmations_on_user_id_and_term_id", unique: true
+    t.index ["user_id"], name: "index_confirmations_on_user_id"
   end
 
   create_table "detections", force: :cascade do |t|
@@ -125,6 +139,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_11_181823) do
 
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "terms"
+  add_foreign_key "confirmations", "categories"
+  add_foreign_key "confirmations", "terms"
+  add_foreign_key "confirmations", "users"
   add_foreign_key "detections", "detectors"
   add_foreign_key "detections", "terms"
   add_foreign_key "detector_categories", "categories"

@@ -23,6 +23,10 @@ Category.find_or_create_by(
   name: 'Transactional',
   description: 'A type of search where the user has an item in mind, and wants to get that item. Also known as "known-item".'
 )
+Category.find_or_create_by(
+  name: 'Undefined',
+  description: 'A search which has not been placed in one of the other categories.'
+)
 
 # Detectors
 Detector.find_or_create_by(name: 'DOI')
