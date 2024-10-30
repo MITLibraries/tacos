@@ -1,0 +1,19 @@
+<h3>Term confirmation</h3>
+
+<div class="well">
+  <p><%= @term.phrase %></p>
+</div>
+<p>Please put the above term into one of the following categories:</p>
+<ul>
+  <% @categories.all.each do |cat| %>
+    <li>
+      <h4><%= cat.name %></h4>
+      <p><%= cat.description %></p>
+    </li>
+  <% end %>
+  <li>
+    <h4>Flag</h4>
+    <p>Does this searchterm need to be removed from TACOS?</p>
+  </li>
+</ul>
+<p>Submit button here</p>
