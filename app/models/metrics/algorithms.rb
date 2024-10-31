@@ -9,13 +9,14 @@
 #  doi                      :integer
 #  issn                     :integer
 #  isbn                     :integer
-#  lcsh                     :integer
 #  pmid                     :integer
 #  unmatched                :integer
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  journal_exact            :integer
 #  suggested_resource_exact :integer
+#  lcsh                     :integer
+#  citation                 :integer
 #
 module Metrics
   # Algorithms aggregates statistics for matches for all SearchEvents
