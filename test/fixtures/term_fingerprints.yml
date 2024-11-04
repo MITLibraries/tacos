@@ -1,0 +1,41 @@
+# == Schema Information
+#
+# Table name: term_fingerprints
+#
+#  id          :integer          not null, primary key
+#  fingerprint :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+cool:
+  fingerprint: cool search super
+
+hi:
+  fingerprint: hello world
+
+pmid_38908367:
+  fingerprint: '2024 38908367 activation aging al and cell dna et hallmarks hs methylation multiple pmid shim targets tert'
+
+lcsh:
+  fingerprint: 'geology massachusetts'
+
+issn_1075_8623:
+  fingerprint: '10758623'
+
+doi:
+  fingerprint: '101016jphysio201012004'
+
+isbn_9781319145446:
+  fingerprint: '11th 2016 9781319145446 al biology d e ed et freeman h hillis isbn life m of sadava science the w'
+
+journal_nature_medicine:
+  fingerprint: 'medicine nature'
+
+suggested_resource_jstor:
+  fingerprint: 'jstor'
+
+multiple_detections:
+  fingerprint: '103389fpubh202000014 32154200 a air and doi environmental frontiers health impacts in of pmid pollution public review'
+
+citation:
+  fingerprint: '12 2 2005 2007 6 a accessed altun available context current dec education experience httpcieedasueduvolume6number12 hypertext in issues july language learners no of on online reading serial the understanding vol web'

@@ -7,20 +7,39 @@
 #
 # Table name: terms
 #
-#  id         :integer          not null, primary key
-#  phrase     :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  flag       :boolean
+#  id                  :integer          not null, primary key
+#  phrase              :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  flag                :boolean
+#  term_fingerprint_id :integer
 #
 class Term < ApplicationRecord
   has_many :search_events, dependent: :destroy
   has_many :detections, dependent: :destroy
   has_many :categorizations, dependent: :destroy
   has_many :confirmations, dependent: :destroy
+  belongs_to :term_fingerprint, optional: true
+
+  before_save :store_fingerprint
+  after_destroy :check_fingerprint_count
 
   scope :user_confirmed, -> { where.associated(:confirmations).distinct }
   scope :user_unconfirmed, -> { where.missing(:confirmations).distinct }
+
+  # The fingerprint method returns the constructed fingerprint field from the related TermFingerprint record. In the
+  # rare condition when no TermFingerprint record exists, this method returns Nil.
+  delegate :fingerprint, to: :term_fingerprint, allow_nil: true
+
+  # The cluster method returns an array of all Term records which share a fingerprint with the current term. The term
+  # itself is not returned, so if a term has no related records, this method returns an empty array.
+  #
+  # @note In the rare case when a Term has no fingerprint, this method returns Nil.
+  #
+  # @return array
+  def cluster
+    term_fingerprint&.terms&.filter { |rel| rel != self }
+  end
 
   # The record_detections method is the one-stop method to call every Detector's record method that is defined within
   # the application.
@@ -67,6 +86,36 @@ class Term < ApplicationRecord
   end
 
   private
+
+  # The store_fingerprint method gets called before a Term record is saved, ensuring that Terms should always have a
+  # related TermFingerprint method.
+  def store_fingerprint
+    self.term_fingerprint = TermFingerprint.find_or_create_by({ fingerprint: calculate_fingerprint })
+  end
+
+  # This is similar to the SuggestedResource fingerprint method, with the exception that it also replaces &quot; with "
+  # during its operation. This switch may also need to be added to the SuggestedResource method, at which point they can
+  # be abstracted to a helper method.
+  def calculate_fingerprint
+    modified = phrase
+    modified = modified.strip
+    modified = modified.downcase
+    modified = modified.gsub('&quot;', '"') # This line does not exist in SuggestedResource implementation.
+    modified = modified.gsub(/\p{P}|\p{S}/, '')
+    modified = modified.to_ascii
+    modified = modified.gsub(/\p{P}|\p{S}/, '')
+    tokens = modified.split
+    tokens = tokens.uniq
+    tokens = tokens.sort
+    tokens.join(' ')
+  end
+
+  # This is called during the after_destroy hook. If removing that term means that its fingerprint is now abandoned,
+  # then we destroy the fingerprint too. In the rare case when a Term does not have a fingerprint, this method does not
+  # cause problems because of the safe operators in the conditional.
+  def check_fingerprint_count
+    term_fingerprint.destroy if term_fingerprint&.terms&.count&.zero?
+  end
 
   # This method looks up all current detections for the given term, and assembles their confidence scores in a format
   # usable by the calculate_categorizations method. It exists to transform data like:
