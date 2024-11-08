@@ -148,6 +148,6 @@ classDiagram
   style Categorization fill:#000,stroke:#8da0cb,color:#8da0cb,stroke-dasharray: 3 5;
   style Detection fill:#000,stroke:#8da0cb,color:#8da0cb,stroke-dasharray: 3 5;
 
-  style Confirmation fill:#000,stroke:#ffd407,stroke-dasharray: 5 10;
-  style User fill:#000,stroke:#ffd407,stroke-dasharray: 5 10;
+  style Confirmation fill:#000,stroke:#ffd407,color:#ffd407,stroke-dasharray: 5 10;
+  style User fill:#000,stroke:#ffd407,color:#ffd407,stroke-dasharray: 5 10;
 ```
