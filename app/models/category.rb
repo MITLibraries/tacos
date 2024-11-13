@@ -14,4 +14,5 @@ class Category < ApplicationRecord
   has_many :detector_categories, dependent: :destroy
   has_many :detectors, through: :detector_categories
   has_many :categorizations, dependent: :destroy
+  has_many :confirmations, dependent: :destroy
 end

@@ -22,6 +22,10 @@ class Ability
 
     # Allow all authenticated users to view reports
     can :view, :report
+
+    # Create manual confirmation
+    can :manage, :confirmations
+    can :manage, Confirmation
     # End of Rules for all authenticated user with no additional roles required
 
     # Rules for admins

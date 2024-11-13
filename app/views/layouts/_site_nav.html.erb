@@ -10,6 +10,9 @@
         <nav class="local-nav" aria-label="Main menu">
           <%= nav_link_to("Home", root_path) %>
           <% if user_signed_in? %>
+            <% if can? :manage, Confirmation %>
+              <%= link_to('Confirm terms', confirm_index_path, class: 'nav-item') %>
+            <% end %>
             <% if can? :index, Term %>
               <%= link_to('Admin', admin_root_path, class: 'nav-item') %>
             <% end %>

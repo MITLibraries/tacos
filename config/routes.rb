@@ -38,6 +38,10 @@ Rails.application.routes.draw do
   get '/report', to: 'report#index'
   get '/report/algorithm_metrics', to: 'report#algorithm_metrics'
 
+  # Confirmation interface
+  get '/confirm', to: 'term#confirm_index', as: 'confirm_index'
+  get '/confirm/:id', to: 'term#confirm_term', as: 'confirm_term'
+
   # Defines the root path route ("/")
   root to: 'static#index'
 end

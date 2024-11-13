@@ -62,4 +62,20 @@ class CategoryTest < ActiveSupport::TestCase
     assert_equal(category_count - 1, Category.count)
     assert_equal(categorization_count - relevant_links, Categorization.count)
   end
+
+  test 'destroying a Category will delete associated Confirmations' do
+    category_count = Category.count
+    confirmation_count = Confirmation.count
+
+    record = categories('transactional')
+
+    relevant_links = record.confirmations.count
+
+    assert_operator(0, :<, relevant_links)
+
+    record.destroy
+
+    assert_equal(category_count - 1, Category.count)
+    assert_equal(confirmation_count - relevant_links, Confirmation.count)
+  end
 end

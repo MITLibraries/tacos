@@ -37,6 +37,9 @@ gem 'omniauth'
 gem 'omniauth_openid_connect'
 gem 'omniauth-rails_csrf_protection'
 
+# Pagy used for pagination on long lists of records
+gem 'pagy', '~> 9.1'
+
 # Parser added explicitly to allow for the namespace to be available for scout
 gem 'parser'
 

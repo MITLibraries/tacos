@@ -1,0 +1,14 @@
+<h3>Terms awaiting confirmation</h3>
+
+<p>The terms listed here have not yet been reviewed by a person and placed into a category. Clicking on any term will
+take you to the form for submitting this information.</p>
+
+<p><%== pagy_info(@pagy) %></p>
+
+<ul class="list-unbulleted">
+<% @records.each do |t| %>
+  <li><%= link_to(t.phrase, confirm_term_path(t)) %></li>
+<% end %>
+</ul>
+
+<%== pagy_nav(@pagy) %>

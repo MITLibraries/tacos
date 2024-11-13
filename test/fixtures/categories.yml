@@ -19,3 +19,7 @@ navigational:
 transactional:
   name: 'Transactional'
   description: '...'
+
+undefined:
+  name: 'Undefined'
+  description: '...'

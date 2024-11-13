@@ -1,12 +1,17 @@
 # Modeling categorization
 
-The application includes the following entities, most of which an be broken into one of the following three areas:
+The application includes the following entities, most of which an be broken into one of the following four areas:
 
-* <font style="color:#66c2a5;border:4px solid #66c2a5;padding:2px;">Search activity</font>, which flow in continuously with Terms and Search Events;
-* A <font style="color:#fc8d62;border:1px solid #fc8d62;padding:2px;">knowledge graph</font>, which includes the categories, detectors, and relationships
-  between the two which TACOS defines and maintains, and which is consulted during categorization; and
-* The <font style="color:#8da0cb;border:1px dashed #8da0cb;padding:2px;">linkages between these search terms and the graph</font>, which record which signals are
-  detected in each term, and how those signals are interpreted to place the term into a category.
+* <font style="color:#66c2a5;border:4px solid #66c2a5;padding:2px;">Search activity</font>, which flow in continuously
+with Terms and Search Events;
+* A <font style="color:#fc8d62;border:1px solid #fc8d62;padding:2px;">knowledge graph</font>, which includes the
+categories, detectors, and relationships
+  between the two which TACOS defines and maintains, and which is consulted during categorization;
+* The <font style="color:#8da0cb;border:1px dashed #8da0cb;padding:2px;">linkages between these search terms and the
+graph</font>, which record which signals are
+  detected in each term, and how those signals are interpreted to place the term into a category; and
+* <font style="color: #ffd407;border: 1px dashed #ffd407;padding:2px;">User activity</font> which is provided by staff
+who review the application's decisions and provide ground truth for future improvements.
 
 ```mermaid
 classDiagram
@@ -23,6 +28,10 @@ classDiagram
   Categorization "0..*" --> "1" Category
 
   Detector "1" --> "0..*" DetectorCategory
+
+  Confirmation --> Term
+  Confirmation --> Category
+  User --> Confirmation : provides many
 
   class User
     User: +String uid
@@ -93,6 +102,12 @@ classDiagram
     DetectorSuggestedResource: record()
     DetectorSuggestedResource: update_fingerprint()
 
+  class Confirmation
+    Confirmation: +Integer id
+    Confirmation: +Integer user_id
+    Confirmation: +Integer term_id
+    Confirmation: +Integer category_id
+    Confirmation: +Boolean flag
 
   namespace SearchActivity{
     class Term
@@ -113,6 +128,12 @@ classDiagram
     class DetectorSuggestedResource["Detector::SuggestedResource"]
   }
 
+  namespace UserActivity {
+    class Confirmation
+    class User
+
+  }
+
   style SearchEvent fill:#000,stroke:#66c2a5,color:#66c2a5,stroke-width:4px;
   style Term fill:#000,stroke:#66c2a5,color:#66c2a5,stroke-width:4px;
 
@@ -126,4 +147,7 @@ classDiagram
 
   style Categorization fill:#000,stroke:#8da0cb,color:#8da0cb,stroke-dasharray: 3 5;
   style Detection fill:#000,stroke:#8da0cb,color:#8da0cb,stroke-dasharray: 3 5;
+
+  style Confirmation fill:#000,stroke:#ffd407,color:#ffd407,stroke-dasharray: 5 10;
+  style User fill:#000,stroke:#ffd407,color:#ffd407,stroke-dasharray: 5 10;
 ```
