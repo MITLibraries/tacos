@@ -69,7 +69,7 @@ class UserTest < ActiveSupport::TestCase
     assert_operator(0, :<, relevant_links)
 
     user.destroy
-    
+
     assert_equal(user_count - 1, User.count)
     assert_equal(confirmation_count - relevant_links, Confirmation.count)
   end
