@@ -39,8 +39,10 @@ Rails.application.routes.draw do
   get '/report/algorithm_metrics', to: 'report#algorithm_metrics'
 
   # Confirmation interface
-  get '/confirm', to: 'term#confirm_index', as: 'confirm_index'
-  get '/confirm/:id', to: 'term#confirm_term', as: 'confirm_term'
+  get '/terms/unconfirmed', to: 'term#unconfirmed', as: 'terms_unconfirmed'
+  resources :terms do
+    resources :confirmation, only: [:new, :create]
+  end
 
   # Defines the root path route ("/")
   root to: 'static#index'

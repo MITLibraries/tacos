@@ -1,0 +1,45 @@
+<h3>Term confirmation form</h3>
+<p>Please put the following term into one of the categories below.</p>
+<div class="well">
+  <p><%= @term.phrase %></p>
+</div>
+<%= form_for @confirmation, url: term_confirmation_index_path(@term)  do |f| %>
+  <fieldset>
+  <legend>Available categories</legend>
+  <ul class="list-unbulleted categories">
+    <% @categories.all.each do |cat| %>
+      <li>
+        <%= f.radio_button :category, cat.id, required: 'required' %>
+        <div>
+          <%= f.label(:category, cat.name, :value => cat.id) do
+            content_tag(:p, cat.name)
+          end %>
+          <p><%= cat.description %></p>
+        </div>
+      </li>
+    <% end %>
+    <li>
+      <%= f.radio_button :category, 'flag', required: 'required' %>
+      <div>
+        <%= f.label(:category, 'flag', :value => 'flag') do
+          content_tag(:p, 'Flag for review')
+        end %>
+        <p>A term that needs to be reviewed for removal from TACOS.</p>
+      </div>
+    </li>
+  </ul>
+  </fieldset>
+  <%= f.submit %>
+<% end %>
+
+<style type="text/css">
+ul.categories li {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+  column-gap: 1rem;
+}
+ul.categories li label p {
+  font-weight: bold;
+}
+</style>
