@@ -214,4 +214,30 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'Transactional', json['data']['lookupTerm']['categories'].first['name']
     assert_in_delta 0.95, json['data']['lookupTerm']['categories'].first['confidence']
   end
+
+  test 'primo searches use the preprocessor to extract actual keywords' do
+    post '/graphql', params: { query: '{
+                                 logSearchEvent(sourceSystem: "primo-test",
+                                                searchTerm: "any,contains,Super cool search") {
+                                   phrase
+                                 }
+                               }' }
+
+    json = response.parsed_body
+
+    assert_equal 'Super cool search', json['data']['logSearchEvent']['phrase']
+  end
+
+  test 'primo searches use the preprocessor and logs complex queries to a specific term' do
+    post '/graphql', params: { query: '{
+                                 logSearchEvent(sourceSystem: "primo-test",
+                                                searchTerm: "any,contains,Super cool search;;any,contains,uh oh this is getting complicated") {
+                                   phrase
+                                 }
+                               }' }
+
+    json = response.parsed_body
+
+    assert_equal 'unhandled complex primo query', json['data']['logSearchEvent']['phrase']
+  end
 end
