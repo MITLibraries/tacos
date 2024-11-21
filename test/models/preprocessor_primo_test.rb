@@ -35,10 +35,18 @@ class PreprocessorPrimoTest < ActiveSupport::TestCase
     assert(PreprocessorPrimo.keyword?(input))
   end
 
-  test 'keyword? returns true for input in which the actual keyword portion includes commas' do
+  test 'keyword? returns false for input with more than 3 array elements' do
+    # NOTE: this query entering tacos would work... but it would have been cleaned up prior to running
+    # keyword? in our application via the normal flow
     input = 'any,contains,popcorn anomoly: why life on the moon is complex, and other cat facts'.split(',')
 
-    assert(PreprocessorPrimo.keyword?(input))
+    assert_not(PreprocessorPrimo.keyword?(input))
+  end
+
+  test 'keyword? returns false for input with less than 3 array elements' do
+    input = 'any,contains'.split(',')
+
+    assert_not(PreprocessorPrimo.keyword?(input))
   end
 
   test 'keyword? returns false for non-any input' do
