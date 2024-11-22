@@ -2,11 +2,12 @@
 
 # PreprocessorPrimo handles manipulating incoming data from the Primo UI into a structure that TACOS can work with
 class PreprocessorPrimo
-  # Processes raw incoming query from Primo, looks at each part to see if it is a keyword anywhere search
+  # to_tacos processes raw incoming query from Primo, looks at each part to see if it is a keyword anywhere search
   # Any portion that is not a keyword anywhere search drops the entire search from TACOS, logging
   # as the shared Term `unhandled complex primo query` to allow us to track how frequently we are
   # dropping terms so we can come back later to build out more complex handing if this is common enough
-  # to warrant the additional work
+  # to warrant the additional work.
+  # @param query [String] example `any,contains,this is a keyword search`
   def self.to_tacos(query)
     # split on agreed upon joiner `;;`
     split_query = query.split(';;')
@@ -23,10 +24,11 @@ class PreprocessorPrimo
     end
   end
 
-  # confirms whether a portion of a primo query is a keyword search
-  # @param [Array] query_part_array
+  # keyword? confirms whether a portion of a primo query is a keyword search
   # Note: we expect only 3 elements to this array for simple keyword searches and that arrays created from the Primo
   # input to be collapsed so commas in the original search have been handled via the comma_handler method
+  # @param query_part_array [Array] example ['any', 'contains', 'this is a keyword search']
+  # @return [Boolean]
   def self.keyword?(query_part_array)
     return false unless query_part_array.count == 3
     return false unless query_part_array[0] == 'any'
@@ -40,27 +42,27 @@ class PreprocessorPrimo
     true
   end
 
-  # extract keyword work at the level of a single keyword query input coming from primo and
+  # extract_keyword works at the level of a single keyword query input coming from primo and
   # returns a string with just that keyword with the operators removed
-  # @param [String] query_part
+  # @param query_part [String] example `any,contains,this is a keyword search`
   # @return [String] the extracted keyword phrase
   def self.extract_keyword(query_part)
     query_part_array = query_part.split(',')
 
     return 'invalid primo query' unless query_part_array.count >= 3
 
-    the_keywords = comma_handler(query_part_array)
+    the_keywords = join_keyword_and_drop_extra_parts(query_part_array)
 
     return 'unhandled complex primo query' unless keyword?([query_part_array[0], query_part_array[1], the_keywords])
 
     the_keywords
   end
 
-  # comma_handler handles the logic necessary to join searches that contain commas into a single ruby string
+  # join_keyword_and_drop_extra_parts handles the logic necessary to join searches that contain commas into a single ruby string
   # after we separate the incoming string into an array based on commas
-  def self.comma_handler(query_part_array)
-    # Join the third to the end of the into a string and join by commas
-    # ex: any,contains,I,am,a,search,with,lots,of,commas -> I am a search with lots of commas
+  # @param query_part [String] example `['any', 'contains', 'this', 'is', 'a', 'keyword', 'search']`
+  # @return [String] example 'this,is,a,keyword,search'
+  def self.join_keyword_and_drop_extra_parts(query_part_array)
     # For complex queries, which we are not handling yet, we'll need to determine how TACOS should handle the final
     # element of the input which will be a boolean operator. For now, we will have stopped processing those by this
     # point during the initial logic in `to_tacos` that splits on `;;` and returns if the result is more than one query
