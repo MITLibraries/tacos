@@ -50,6 +50,9 @@ Lots more [Scout settings](https://scoutapm.com/docs/ruby/configuration#environm
 `SCOUT_LOG_LEVEL`: defaults to INFO which is probably fine. Controls verboseness of Scout logs
 `SCOUT_NAME`: set a unique name per deployed tier to avoid confusion.
 
+`SENTRY_DSN`: The Sentry-provided key to enable exception logging. Sentry integration is skipped if not present.
+`SENTRY_ENV`: Sentry environment for the application. Defaults to 'unknown' if unset.
+
 ### Authentication
 
 #### Required in all environments
