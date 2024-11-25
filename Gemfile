@@ -69,6 +69,10 @@ gem 'rack-cors'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
+# Sentry integration according to their documentation [https://docs.sentry.io/platforms/ruby/guides/rails/]
+gem "sentry-ruby"
+gem "sentry-rails"
+
 gem 'stringex'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
