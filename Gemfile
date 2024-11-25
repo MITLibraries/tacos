@@ -70,7 +70,6 @@ gem 'rack-cors'
 # gem "redis", ">= 4.0.1"
 
 # Sentry integration according to their documentation [https://docs.sentry.io/platforms/ruby/guides/rails/]
-gem "stackprof"
 gem "sentry-ruby"
 gem "sentry-rails"
 
