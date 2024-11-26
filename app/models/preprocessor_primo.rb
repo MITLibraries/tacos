@@ -49,7 +49,12 @@ class PreprocessorPrimo
   def self.extract_keyword(query_part)
     query_part_array = query_part.split(',')
 
-    return 'invalid primo query' unless query_part_array.count >= 3
+    # We don't anticipate this being a normal state so we are tracking it under the Term `invalid primo query` as well
+    # as sending an exception to Sentry so we can understand the context in which this happens if it does
+    if query_part_array.count < 3
+      Sentry.capture_message('PreprocessorPrimo: Invalid Primo query during keyword extraction')
+      return 'invalid primo query'
+    end
 
     the_keywords = join_keyword_and_drop_extra_parts(query_part_array)
 
