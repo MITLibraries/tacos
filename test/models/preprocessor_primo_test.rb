@@ -5,7 +5,7 @@ require 'test_helper'
 
 class PreprocessorPrimoTest < ActiveSupport::TestCase
   test 'to_tacos returns unhandled for complex queries' do
-    input = 'any,contains,space;;any,contains,madness'
+    input = 'any,contains,space;;;any,contains,madness'
 
     assert_equal('unhandled complex primo query', PreprocessorPrimo.to_tacos(input))
   end

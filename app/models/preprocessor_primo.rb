@@ -9,8 +9,8 @@ class PreprocessorPrimo
   # to warrant the additional work.
   # @param query [String] example `any,contains,this is a keyword search`
   def self.to_tacos(query)
-    # split on agreed upon joiner `;;`
-    split_query = query.split(';;')
+    # Primo and TACOS agreed upon joiner is `;;;`
+    split_query = query.split(';;;')
 
     if split_query.count > 1
       Rails.logger.debug('Multipart primo query detected')

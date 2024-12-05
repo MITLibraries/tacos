@@ -231,7 +231,7 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
   test 'primo searches use the preprocessor and logs complex queries to a specific term' do
     post '/graphql', params: { query: '{
                                  logSearchEvent(sourceSystem: "primo-test",
-                                                searchTerm: "any,contains,Super cool search;;any,contains,uh oh this is getting complicated") {
+                                                searchTerm: "any,contains,Super cool search;;;any,contains,uh oh this is getting complicated") {
                                    phrase
                                  }
                                }' }
