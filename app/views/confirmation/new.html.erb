@@ -9,24 +9,15 @@
   <ul class="list-unbulleted categories">
     <% @categories.all.each do |cat| %>
       <li>
-        <%= f.radio_button :category, cat.id, required: 'required' %>
+        <%= f.radio_button :category_id, cat.id, required: 'required' %>
         <div>
-          <%= f.label(:category, cat.name, :value => cat.id) do
+          <%= f.label(:category_id, cat.name, :value => cat.id) do
             content_tag(:p, cat.name)
           end %>
           <p><%= cat.description %></p>
         </div>
       </li>
     <% end %>
-    <li>
-      <%= f.radio_button :category, 'flag', required: 'required' %>
-      <div>
-        <%= f.label(:category, 'flag', :value => 'flag') do
-          content_tag(:p, 'Flag for review')
-        end %>
-        <p>A term that needs to be reviewed for removal from TACOS.</p>
-      </div>
-    </li>
   </ul>
   </fieldset>
   <%= f.submit %>

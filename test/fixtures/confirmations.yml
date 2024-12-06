@@ -5,14 +5,14 @@
 #  id          :integer          not null, primary key
 #  user_id     :integer          not null
 #  term_id     :integer          not null
-#  category_id :integer
-#  flag        :boolean
+#  category_id :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 minimal:
   user: valid
   term: hi
+  category: undefined
 
 unsure:
   user: admin

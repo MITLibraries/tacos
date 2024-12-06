@@ -11,6 +11,7 @@
 #  phrase     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  flag       :boolean
 #
 class Term < ApplicationRecord
   has_many :search_events, dependent: :destroy

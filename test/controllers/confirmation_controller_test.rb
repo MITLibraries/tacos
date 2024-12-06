@@ -30,12 +30,12 @@ class ConfirmationControllerTest < ActionDispatch::IntegrationTest
   # Submitting confirmation form
   test 'anonymous users cannot submit confirmation form' do
     term = terms(:doi)
-    category = categories(:transactional).id
+    category = categories(:transactional)
 
     post term_confirmation_index_path(term),
          params: {
-           term:,
-           confirmation: { category: }
+           term_id: term.id,
+           confirmation: { category_id: category.id }
          }
 
     assert_response :redirect
@@ -47,14 +47,14 @@ class ConfirmationControllerTest < ActionDispatch::IntegrationTest
 
   test 'basic users can submit confirmation form' do
     term = terms(:doi)
-    category = categories(:transactional).id
+    category = categories(:transactional)
 
     sign_in users(:basic)
 
     post term_confirmation_index_path(term),
          params: {
-           term:,
-           confirmation: { category: }
+           term_id: term.id,
+           confirmation: { category_id: category.id }
          }
 
     assert_response :redirect
@@ -66,14 +66,14 @@ class ConfirmationControllerTest < ActionDispatch::IntegrationTest
 
   test 'admin users can submit confirmation form' do
     term = terms(:doi)
-    category = categories(:transactional).id
+    category = categories(:transactional)
 
     sign_in users(:admin)
 
     post term_confirmation_index_path(term),
          params: {
-           term:,
-           confirmation: { category: }
+           term_id: term.id,
+           confirmation: { category_id: category.id }
          }
 
     assert_response :redirect
@@ -90,15 +90,14 @@ class ConfirmationControllerTest < ActionDispatch::IntegrationTest
 
     assert_select 'main ul li:first-child a' do |links|
       first_link = links.first
-      href = first_link['href']
       text = first_link.text
 
       term = Term.find_by(phrase: text)
 
-      post term_confirmation_index_path(href),
+      post term_confirmation_index_path(term),
            params: {
-             term:,
-             confirmation: { category: categories(:informational).id }
+             term_id: term.id,
+             confirmation: { category_id: categories(:informational).id }
            }
 
       assert_response :redirect
@@ -111,13 +110,14 @@ class ConfirmationControllerTest < ActionDispatch::IntegrationTest
 
   test 'confirmation forms that flag a term get a relevant feedback message' do
     term = terms(:doi)
+    category = categories(:flagged)
 
     sign_in users(:basic)
 
     post term_confirmation_index_path(term),
          params: {
-           term:,
-           confirmation: { category: 'flag' }
+           term_id: term.id,
+           confirmation: { category_id: category.id }
          }
 
     assert_response :redirect
@@ -127,18 +127,62 @@ class ConfirmationControllerTest < ActionDispatch::IntegrationTest
     assert_select 'div.alert', text: 'Term flagged for review', count: 1
   end
 
+  test 'confirmation forms that flag a term cause that Term to have its flag set' do
+    term = terms(:doi)
+    category = categories(:flagged)
+
+    assert_not term.flag
+
+    sign_in users(:basic)
+
+    post term_confirmation_index_path(term),
+         params: {
+           term_id: term.id,
+           confirmation: { category_id: category.id }
+         }
+
+    assert_response :redirect
+    follow_redirect!
+
+    term.reload
+
+    assert term.flag
+  end
+
+  test 'confirmation forms that do not flag a term do not change the Term record' do
+    term = terms(:doi)
+    category = categories(:transactional)
+
+    assert_not term.flag
+
+    sign_in users(:basic)
+
+    post term_confirmation_index_path(term),
+         params: {
+           term_id: term.id,
+           confirmation: { category_id: category.id }
+         }
+
+    assert_response :redirect
+    follow_redirect!
+
+    term.reload
+
+    assert_not term.flag
+  end
+
   test 'submitting a confirmation again generates an error, but not an ugly one' do
-    record = confirmations(:informational)
-    term = record.term
-    category = record.category
-    user = record.user
+    existing_record = confirmations(:informational)
+    term = existing_record.term
+    category = existing_record.category
+    user = existing_record.user
 
     sign_in user
 
     post term_confirmation_index_path(term),
          params: {
-           term:,
-           confirmation: { category: }
+           term_id: term.id,
+           confirmation: { category_id: category.id }
          }
 
     assert_response :redirect

@@ -15,10 +15,18 @@ class ConfirmationController < ApplicationController
   def create
     confirmation = Confirmation.new({
                                       term_id: params[:term_id],
+                                      category_id: params[:confirmation][:category_id],
                                       user: current_user
                                     })
-    set_category(confirmation, params[:confirmation][:category])
-    feedback_for(confirmation.save)
+
+    # Guard clause in case saving fails
+    error_cannot_save unless confirmation.save
+
+    # Now that the confirmation has saved, set the flag on the related Term record.
+    flag_term(params[:term_id]) if confirmation_flag?(params[:confirmation][:category_id])
+
+    # By this point, saving has succeeded
+    feedback_for(confirmation_flag?(params[:confirmation][:category_id]))
     redirect_to terms_unconfirmed_path
   end
 
@@ -28,15 +36,18 @@ class ConfirmationController < ApplicationController
   #
   # The final else clause is likely to be difficult to provoke, so we are sending a Sentry message in that block in
   # order to prompt further investigation.
-  def feedback_for(result)
-    if result == true && params[:confirmation][:category] == 'flag'
+  def feedback_for(flagged)
+    if flagged == true
       flash[:success] = 'Term flagged for review'
-    elsif result == true
-      flash[:success] = "Term confirmed as #{Category.find_by(id: params[:confirmation][:category]).name}"
     else
-      flash[:error] = 'Unable to finish confirming this term. Please try again, or try a different term.'
-      Sentry.capture_message('Unable to confirm term in a category')
+      flash[:success] = "Term confirmed as #{Category.find_by(id: params[:confirmation][:category_id]).name}"
     end
+  end
+
+  def error_cannot_save
+    flash[:error] = 'Unable to finish confirming this term. Please try again, or try a different term.'
+    Sentry.capture_message('Unable to confirm term in a category')
+    redirect_to terms_unconfirmed_path
   end
 
   # error_not_unique catches the RecordNotUnique error in case a duplicate confirmation is ever submitted, and shows an
@@ -47,16 +58,19 @@ class ConfirmationController < ApplicationController
     redirect_to terms_unconfirmed_path
   end
 
-  # The confirmation form lists options for each Category record, and then one extra option to flag the term for
-  # removal. "Flag" is not a category, but a separate boolean field on the Confirmation model.
+  # flag_term sets the "flagged" boolean field on a Term record when a Confirmation comes in for that category.
+  def flag_term(term_id)
+    t = Term.find_by(id: term_id)
+    t.flag = true
+    t.save
+  end
+
+  # confirmation_flag? compares the submitted category (coerced to an integer) to the ID value for the "flagged" category. We
+  # do this at least twice in this controller.
   #
-  # set_category takes the submitted "category" field from the form and either assigns the appropriate numeric value for
-  # the chosen cateogory, or sets the boolean "flag" field to true.
-  def set_category(confirmation, category)
-    if category == 'flag'
-      confirmation.flag = true
-    else
-      confirmation.category_id = category
-    end
+  # @param submission e.g. params[:confirmation][:category]
+  # @return boolean
+  def confirmation_flag?(submission)
+    submission.to_i == Category.find_by(name: 'Flagged').id
   end
 end
