@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_29_181747) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_04_214748) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -35,8 +35,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_29_181747) do
   create_table "confirmations", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "term_id", null: false
-    t.integer "category_id"
-    t.boolean "flag"
+    t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_confirmations_on_category_id"
@@ -124,6 +123,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_29_181747) do
     t.string "phrase"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "flag"
     t.index ["phrase"], name: "unique_phrase", unique: true
   end
 

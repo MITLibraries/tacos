@@ -7,8 +7,7 @@
 #  id          :integer          not null, primary key
 #  user_id     :integer          not null
 #  term_id     :integer          not null
-#  category_id :integer
-#  flag        :boolean
+#  category_id :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
@@ -42,7 +41,8 @@ class ConfirmationTest < ActiveSupport::TestCase
     old_record = confirmations('minimal')
     new_record = {
       user: old_record.user,
-      term: old_record.term
+      term: old_record.term,
+      category: old_record.category
     }
 
     assert_raises(ActiveRecord::RecordNotUnique) do
@@ -71,6 +71,17 @@ class ConfirmationTest < ActiveSupport::TestCase
 
     assert_equal(confirmation_count - 1, Confirmation.count)
     assert_equal(term_count, Term.count)
+  end
+
+  test 'confirmations must have a Category' do
+    sample = confirmations('minimal')
+
+    assert_predicate sample.category, :present?
+    assert_predicate sample, :valid?
+
+    sample.category = nil
+
+    assert_not_predicate sample, :valid?
   end
 
   test 'destroying a Confirmation will not affect that Category' do

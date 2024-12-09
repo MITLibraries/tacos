@@ -23,3 +23,7 @@ transactional:
 undefined:
   name: 'Undefined'
   description: '...'
+
+flagged:
+  name: 'Flagged'
+  description: '...'

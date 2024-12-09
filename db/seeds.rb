@@ -27,6 +27,10 @@ Category.find_or_create_by(
   name: 'Undefined',
   description: 'A search which has not been placed in one of the other categories.'
 )
+Category.find_or_create_by(
+  name: 'Flagged',
+  description: 'A search which has sensitive information that should be excluded from further processing.'
+)
 
 # Detectors
 Detector.find_or_create_by(name: 'DOI')
