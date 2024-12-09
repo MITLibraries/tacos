@@ -4,6 +4,8 @@
   <p><%= @term.phrase %></p>
 </div>
 <%= form_for @confirmation, url: term_confirmation_index_path(@term)  do |f| %>
+  <%= hidden_field(:confirmation, :term_id, :value => @term.id) %>
+  <%= hidden_field(:confirmation, :user_id, :value => current_user.id) %>
   <fieldset>
   <legend>Available categories</legend>
   <ul class="list-unbulleted categories">

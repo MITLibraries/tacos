@@ -13,24 +13,25 @@ class ConfirmationController < ApplicationController
   # create receives the submission from the new confirmation form, creating the needed record with the help of various
   # private methods.
   def create
-    confirmation = Confirmation.new({
-                                      term_id: params[:term_id],
-                                      category_id: params[:confirmation][:category_id],
-                                      user: current_user
-                                    })
+    new_record = Confirmation.new(confirmation_params)
 
-    # Guard clause in case saving fails
-    error_cannot_save unless confirmation.save
+    if new_record.save
+      # Now that the confirmation has saved, set the flag on the related Term record.
+      flag_term(params[:term_id]) if confirmation_flag?(params[:confirmation][:category_id])
 
-    # Now that the confirmation has saved, set the flag on the related Term record.
-    flag_term(params[:term_id]) if confirmation_flag?(params[:confirmation][:category_id])
-
-    # By this point, saving has succeeded
-    feedback_for(confirmation_flag?(params[:confirmation][:category_id]))
-    redirect_to terms_unconfirmed_path
+      # By this point, saving has succeeded
+      feedback_for(confirmation_flag?(params[:confirmation][:category_id]))
+      redirect_to terms_unconfirmed_path
+    else
+      error_cannot_save
+    end
   end
 
   private
+
+  def confirmation_params
+    params.require(:confirmation).permit(:term_id, :category_id, :user_id)
+  end
 
   # feedback_for takes the result of the confirmation.save directive above and sets an appropriate flash message.
   #
@@ -44,6 +45,7 @@ class ConfirmationController < ApplicationController
     end
   end
 
+  # error_cannot_save catches cases where the received Confirmation record cannot be saved, for whatever reason.
   def error_cannot_save
     flash[:error] = 'Unable to finish confirming this term. Please try again, or try a different term.'
     Sentry.capture_message('Unable to confirm term in a category')
