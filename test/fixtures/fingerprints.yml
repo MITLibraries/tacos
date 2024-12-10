@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: term_fingerprints
+# Table name: fingerprints
 #
 #  id          :integer          not null, primary key
 #  fingerprint :string

@@ -7,19 +7,19 @@
 #
 # Table name: terms
 #
-#  id                  :integer          not null, primary key
-#  phrase              :string
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  flag                :boolean
-#  term_fingerprint_id :integer
+#  id             :integer          not null, primary key
+#  phrase         :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  flag           :boolean
+#  fingerprint_id :integer
 #
 class Term < ApplicationRecord
   has_many :search_events, dependent: :destroy
   has_many :detections, dependent: :destroy
   has_many :categorizations, dependent: :destroy
   has_many :confirmations, dependent: :destroy
-  belongs_to :term_fingerprint, optional: true
+  belongs_to :fingerprint, optional: true
 
   before_save :store_fingerprint
   after_destroy :check_fingerprint_count
@@ -27,9 +27,9 @@ class Term < ApplicationRecord
   scope :user_confirmed, -> { where.associated(:confirmations).distinct }
   scope :user_unconfirmed, -> { where.missing(:confirmations).distinct }
 
-  # The fingerprint method returns the constructed fingerprint field from the related TermFingerprint record. In the
-  # rare condition when no TermFingerprint record exists, this method returns Nil.
-  delegate :fingerprint, to: :term_fingerprint, allow_nil: true
+  # The fingerprint method returns the constructed fingerprint field from the related Fingerprint record. In the
+  # rare condition when no Fingerprint record exists, this method returns Nil.
+  delegate :fingerprint_value, to: :fingerprint, allow_nil: true
 
   # The cluster method returns an array of all Term records which share a fingerprint with the current term. The term
   # itself is not returned, so if a term has no related records, this method returns an empty array.
@@ -38,7 +38,7 @@ class Term < ApplicationRecord
   #
   # @return array
   def cluster
-    term_fingerprint&.terms&.filter { |rel| rel != self }
+    fingerprint&.terms&.filter { |rel| rel != self }
   end
 
   # The record_detections method is the one-stop method to call every Detector's record method that is defined within
@@ -88,9 +88,9 @@ class Term < ApplicationRecord
   private
 
   # The store_fingerprint method gets called before a Term record is saved, ensuring that Terms should always have a
-  # related TermFingerprint method.
+  # related Fingerprint method.
   def store_fingerprint
-    self.term_fingerprint = TermFingerprint.find_or_create_by({ fingerprint: calculate_fingerprint })
+    self.fingerprint = Fingerprint.find_or_create_by({ fingerprint: calculate_fingerprint })
   end
 
   # This is similar to the SuggestedResource fingerprint method, with the exception that it also replaces &quot; with "
@@ -114,7 +114,7 @@ class Term < ApplicationRecord
   # then we destroy the fingerprint too. In the rare case when a Term does not have a fingerprint, this method does not
   # cause problems because of the safe operators in the conditional.
   def check_fingerprint_count
-    term_fingerprint.destroy if term_fingerprint&.terms&.count&.zero?
+    fingerprint.destroy if fingerprint&.terms&.count&.zero?
   end
 
   # This method looks up all current detections for the given term, and assembles their confidence scores in a format
