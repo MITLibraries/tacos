@@ -6,6 +6,30 @@ There is a `Makefile` that contains some useful command shortcuts for typical de
 
 To see a current list of commands, run `make help`.
 
+### Development containers (aka devcontainers)
+
+This repository provides [devcontainers](https://containers.dev). Rather than taking the time to configure your local
+environment, consider using the provided devcontainers. You can still use your prefered code editors as if you were
+working locally, but all execution of code will happen in containers in a way that will be consistent across all
+developers using these containers.
+
+#### VScode
+
+[VScode can detect and manage devcontainers](https://code.visualstudio.com/docs/devcontainers/containers)
+for you. It can build and reopen the code in the container and then the terminal within VScode will execute
+commands in the container.
+
+This requires a functional Docker environment and the [VScode Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+
+#### Non-VScode
+
+If you prefer an editor other than VSCode, you can manage [Dev Containers from the CLI](https://containers.dev/supporting#devcontainer-cli) or look to see if your chosen editor may have direct support for Dev Containers.
+
+[DevPod](https://github.com/loft-sh/devpod) is also something to consider. It provides a VScode-via-web-browser-in-a-box
+as well as allowing you to use whatever editor you want and only using DevPod to start/stop the containers and run your
+terminals. Local for editor, DevPod managed Dev Container for everything else.
+
+
 ### Generating cassettes for tests
 
 We use [VCR](https://github.com/vcr/vcr) to record transactions with remote systems for testing. This includes the rake
