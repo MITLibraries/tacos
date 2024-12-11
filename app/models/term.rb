@@ -21,7 +21,7 @@ class Term < ApplicationRecord
   has_many :confirmations, dependent: :destroy
   belongs_to :fingerprint, optional: true
 
-  before_save :store_fingerprint
+  before_save :register_fingerprint
   after_destroy :check_fingerprint_count
 
   scope :user_confirmed, -> { where.associated(:confirmations).distinct }
@@ -87,27 +87,13 @@ class Term < ApplicationRecord
 
   private
 
-  # The store_fingerprint method gets called before a Term record is saved, ensuring that Terms should always have a
+  # register_fingerprint method gets called before a Term record is saved, ensuring that Terms should always have a
   # related Fingerprint method.
-  def store_fingerprint
-    self.fingerprint = Fingerprint.find_or_create_by({ fingerprint: calculate_fingerprint })
-  end
-
-  # This is similar to the SuggestedResource fingerprint method, with the exception that it also replaces &quot; with "
-  # during its operation. This switch may also need to be added to the SuggestedResource method, at which point they can
-  # be abstracted to a helper method.
-  def calculate_fingerprint
-    modified = phrase
-    modified = modified.strip
-    modified = modified.downcase
-    modified = modified.gsub('&quot;', '"') # This line does not exist in SuggestedResource implementation.
-    modified = modified.gsub(/\p{P}|\p{S}/, '')
-    modified = modified.to_ascii
-    modified = modified.gsub(/\p{P}|\p{S}/, '')
-    tokens = modified.split
-    tokens = tokens.uniq
-    tokens = tokens.sort
-    tokens.join(' ')
+  def register_fingerprint
+    new_record = {
+      fingerprint: Fingerprint.calculate(phrase)
+    }
+    self.fingerprint = Fingerprint.find_or_create_by(new_record)
   end
 
   # This is called during the after_destroy hook. If removing that term means that its fingerprint is now abandoned,
