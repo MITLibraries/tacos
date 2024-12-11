@@ -33,10 +33,8 @@ class ConfirmationController < ApplicationController
     params.require(:confirmation).permit(:term_id, :category_id, :user_id)
   end
 
-  # feedback_for takes the result of the confirmation.save directive above and sets an appropriate flash message.
-  #
-  # The final else clause is likely to be difficult to provoke, so we are sending a Sentry message in that block in
-  # order to prompt further investigation.
+  # feedback_for defines an appropriate flash message, based on whether the user has placed the term in the "flagged"
+  # category or not.
   def feedback_for(flagged)
     if flagged == true
       flash[:success] = 'Term flagged for review'
@@ -67,8 +65,8 @@ class ConfirmationController < ApplicationController
     t.save
   end
 
-  # confirmation_flag? compares the submitted category (coerced to an integer) to the ID value for the "flagged" category. We
-  # do this at least twice in this controller.
+  # confirmation_flag? compares the submitted category (coerced to an integer) to the ID value for the "flagged"
+  # category.
   #
   # @param submission e.g. params[:confirmation][:category]
   # @return boolean
