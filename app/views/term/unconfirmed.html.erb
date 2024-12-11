@@ -7,7 +7,7 @@ take you to the form for submitting this information.</p>
 
 <ul class="list-unbulleted">
 <% @records.each do |t| %>
-  <li><%= link_to(t.phrase, confirm_term_path(t)) %></li>
+  <li><%= link_to(t.phrase, new_term_confirmation_path(t)) %></li>
 <% end %>
 </ul>
 

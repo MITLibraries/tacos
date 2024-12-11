@@ -112,6 +112,7 @@ Rails/I18nLocaleTexts:
   Exclude:
     - 'app/controllers/admin/application_controller.rb'
     - 'app/controllers/application_controller.rb'
+    - 'app/controllers/confirmation_controller.rb'
 
 # Offense count: 25
 # Configuration parameters: AllowedConstants.
