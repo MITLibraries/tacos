@@ -12,48 +12,36 @@
 
 cool:
   phrase: Super cool search
-  fingerprint: cool
 
 cool_cluster:
   phrase: Super. Cool. Search.
-  fingerprint: cool
 
 hi:
   phrase: hello world
-  fingerprint: hi
 
 pmid_38908367:
   phrase: 'TERT activation targets DNA methylation and multiple aging hallmarks. Shim HS, et al. Cell. 2024. PMID: 38908367'
-  fingerprint: pmid_38908367
 
 lcsh:
   phrase: 'Geology -- Massachusetts'
-  fingerprint: lcsh
 
 issn_1075_8623:
   phrase: 1075-8623
-  fingerprint: issn_1075_8623
 
 doi:
   phrase: '10.1016/j.physio.2010.12.004'
-  fingerprint: doi
 
 isbn_9781319145446:
   phrase: 'Sadava, D. E., D. M. Hillis, et al. Life The Science of Biology. 11th ed. W. H. Freeman, 2016. ISBN: 9781319145446'
-  fingerprint: isbn_9781319145446
 
 journal_nature_medicine:
   phrase: 'nature medicine'
-  fingerprint: journal_nature_medicine
 
 suggested_resource_jstor:
   phrase: 'jstor'
-  fingerprint: suggested_resource_jstor
 
 multiple_detections:
   phrase: 'Environmental and Health Impacts of Air Pollution: A Review. Frontiers in Public Health. PMID: 32154200. DOI: 10.3389/fpubh.2020.00014'
-  fingerprint: multiple_detections
 
 citation:
   phrase: "A. Altun, &quot;Understanding hypertext in the context of reading on the web: Language learners' experience,&quot; Current Issues in Education, vol. 6, no. 12, July, 2005. [Online serial]. Available: http://cie.ed.asu.edu/volume6/number12/. [Accessed Dec. 2, 2007]."
-  fingerprint: citation
