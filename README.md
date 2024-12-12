@@ -13,22 +13,26 @@ environment, consider using the provided devcontainers. You can still use your p
 working locally, but all execution of code will happen in containers in a way that will be consistent across all
 developers using these containers.
 
-#### VScode
+#### Visual Studio Code
 
-[VScode can detect and manage devcontainers](https://code.visualstudio.com/docs/devcontainers/containers)
-for you. It can build and reopen the code in the container and then the terminal within VScode will execute
-commands in the container.
+[Visual Studio Code can detect and manage devcontainers](https://code.visualstudio.com/docs/devcontainers/containers)
+for you. It can build and reopen the code in the container and then the terminal within Visual Studio Code will execute
+commands in the container. The first time you start the container, it is a bit slow but subsequent launches are fairly
+quick.
 
-This requires a functional Docker environment and the [VScode Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+This requires a functional Docker environment and the [Visual Studio Code Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
 
-#### Non-VScode
+Note: when Visual Studio Code reopens in the container, it does not automaticaly launch the server. Instead, you use the
+terminal within Visual Studio Code to run the same commands you would in a local environment, such as `bin/rails s` or
+`bin/rails test`. In this repo, we also have a series of command shortcuts you can see via `make`.
 
-If you prefer an editor other than VSCode, you can manage [Dev Containers from the CLI](https://containers.dev/supporting#devcontainer-cli) or look to see if your chosen editor may have direct support for Dev Containers.
+#### Non-Visual Studio Code
+
+If you prefer an editor other than Visual Studio Code, you can manage [Dev Containers from the CLI](https://containers.dev/supporting#devcontainer-cli) or look to see if your chosen editor may have direct support for Dev Containers.
 
 [DevPod](https://github.com/loft-sh/devpod) is also something to consider. It provides a VScode-via-web-browser-in-a-box
 as well as allowing you to use whatever editor you want and only using DevPod to start/stop the containers and run your
-terminals. Local for editor, DevPod managed Dev Container for everything else.
-
+terminals. With this approach you could use your local editor, and the DevPod managed Dev Container for everything else.
 
 ### Generating cassettes for tests
 
