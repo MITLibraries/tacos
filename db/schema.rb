@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_04_214748) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_11_195504) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -95,6 +95,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_04_214748) do
     t.index ["name"], name: "index_detectors_on_name", unique: true
   end
 
+  create_table "fingerprints", force: :cascade do |t|
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["value"], name: "unique_fingerprint", unique: true
+  end
+
   create_table "metrics_algorithms", force: :cascade do |t|
     t.date "month"
     t.integer "doi"
@@ -124,6 +131,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_04_214748) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "flag"
+    t.integer "fingerprint_id"
+    t.index ["fingerprint_id"], name: "index_terms_on_fingerprint_id"
     t.index ["phrase"], name: "unique_phrase", unique: true
   end
 
@@ -146,4 +155,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_04_214748) do
   add_foreign_key "detections", "terms"
   add_foreign_key "detector_categories", "categories"
   add_foreign_key "detector_categories", "detectors"
+  add_foreign_key "terms", "fingerprints"
 end

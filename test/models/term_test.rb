@@ -4,11 +4,12 @@
 #
 # Table name: terms
 #
-#  id         :integer          not null, primary key
-#  phrase     :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  flag       :boolean
+#  id             :integer          not null, primary key
+#  phrase         :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  flag           :boolean
+#  fingerprint_id :integer
 #
 require 'test_helper'
 
@@ -28,6 +29,22 @@ class TermTest < ActiveSupport::TestCase
     post_duplicate_count = Term.count
 
     assert_equal(post_create_count, post_duplicate_count)
+  end
+
+  test 'Creating a term will spawn its associated fingerprint' do
+    term_count = Term.count
+    fingerprint_count = Fingerprint.count
+
+    new_term = {
+      phrase: 'foo'
+    }
+
+    assert_nil Fingerprint.find_by(value: 'foo')
+
+    Term.create!(new_term)
+
+    assert_equal term_count + 1, Term.count
+    assert_equal fingerprint_count + 1, Fingerprint.count
   end
 
   test 'destroying a Term will delete associated SearchEvents' do
@@ -77,6 +94,87 @@ class TermTest < ActiveSupport::TestCase
 
     assert_equal(term_count - 1, Term.count)
     assert_equal(confirmation_count - relevant_links, Confirmation.count)
+  end
+
+  test 'destroying a Term will delete its Fingerprint if no cluster exists' do
+    term = terms('hi')
+    term.save
+    term.reload
+
+    term_pre_count = Term.count
+    fingerprints_pre_count = Fingerprint.count
+
+    assert_equal 1, term.fingerprint.terms.count
+
+    term.destroy
+
+    assert_equal term_pre_count - 1, Term.count
+    assert_equal fingerprints_pre_count - 1, Fingerprint.count
+  end
+
+  test 'destroying a Term will not delete its Fingerprint if other terms exist in that cluster' do
+    # Setup
+    term = terms('cool')
+    term_cluster = terms('cool_cluster')
+    term.save
+    term_cluster.save
+    term.reload
+
+    # Initial conditions
+    term_pre_count = Term.count
+    fingerprints_pre_count = Fingerprint.count
+    fingerprint = term.fingerprint
+    cluster_size = fingerprint.terms.count
+
+    assert_operator 1, :<, cluster_size
+
+    # Change
+    term.destroy
+
+    # Verify impact
+    assert_equal term_pre_count - 1, Term.count
+    assert_equal fingerprints_pre_count, Fingerprint.count
+    assert_equal cluster_size - 1, fingerprint.terms.count
+  end
+
+  # This test, and maybe the actual dynamic, may need to be refactored. For right now I'm confirming this behavior via
+  # the test here.
+  test 'a Term without a Fingerprint is valid (but regenerates on next save)' do
+    target_term = terms('hi')
+    target_fingerprint = target_term.fingerprint
+
+    assert_not_nil target_term.fingerprint
+
+    target_fingerprint.destroy
+    target_term.reload
+
+    assert_nil target_term.fingerprint
+    assert_predicate target_term, :valid?
+
+    target_term.save
+
+    assert_not_nil target_term.fingerprint
+    assert_predicate target_term, :valid?
+  end
+
+  test 'deleting a Term without a Fingerprint succeeds without problem' do
+    term_count = Term.count
+
+    target = fingerprints('hi')
+    target_term = terms('hi')
+
+    target.destroy
+    target_term.reload
+
+    assert_predicate target_term, :valid?
+    assert_instance_of NilClass, target_term.fingerprint
+    assert_equal term_count, Term.count
+
+    # Delete the term, and nothing should blow up - the after_destroy method has safe operators that allow success
+    target_term.destroy
+
+    # There is now one fewer term.
+    assert_equal term_count - 1, Term.count
   end
 
   test 'destroying a SearchEvent does not delete the Term' do
@@ -261,5 +359,68 @@ class TermTest < ActiveSupport::TestCase
 
     # The count should now be one less.
     assert_equal unconfirmed_count - 1, Term.user_unconfirmed.count
+  end
+
+  test 'Term.fingerprint_value is a delegate of the Fingerprint method' do
+    t = terms('cool')
+    t.save
+    t.reload
+
+    tf = t.fingerprint
+
+    assert_equal t.fingerprint_value, tf.value
+  end
+
+  test 'Term.fingerprint returns nil of there is no fingerprint' do
+    # Terms without fingerprints are a legacy condition - fingerprints are generated when saving the term - but one that
+    # we still need to confirm is stable.
+    target_term = terms('hi')
+    target_fingerprint = target_term.fingerprint
+
+    assert_not_nil target_term.fingerprint
+
+    target_fingerprint.destroy
+    target_term.reload
+
+    assert_instance_of NilClass, target_term.fingerprint
+  end
+
+  test 'Term.cluster returns empty array if no related record exists' do
+    t = terms('hi')
+    t.save
+    t.reload
+
+    assert_equal 1, t.fingerprint.terms.count
+    assert_empty t.cluster
+  end
+
+  test 'Term.cluster returns array of terms if other terms share a fingerprint' do
+    t = terms('cool')
+    t.save
+    t2 = terms('cool_cluster')
+    t2.save
+    t.reload
+
+    assert_operator 1, :<, t.fingerprint.terms.count
+    assert_instance_of Array, t.cluster
+    assert_instance_of Term, t.cluster.first
+    # The cluster method does not return the term itself, so the length is one less
+    assert_equal t.fingerprint.terms.count - 1, t.cluster.length
+  end
+
+  test 'Term.cluster returns nil if there is no fingerprint' do
+    # Setup
+    target_term = terms('hi')
+    target_fingerprint = target_term.fingerprint
+
+    # Initial condition
+    assert_instance_of Array, target_term.cluster
+
+    # Delete the fingerprint, leave the term - this will only ever be a temporary condition, but one that might exist.
+    target_fingerprint.destroy
+    target_term.reload
+
+    # Verify impact
+    assert_nil target_term.cluster
   end
 end

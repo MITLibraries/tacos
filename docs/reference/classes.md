@@ -18,6 +18,7 @@ classDiagram
   direction LR
   
   Term --> SearchEvent : has many
+  Fingerprint --> Term : has many
 
   Term "1" --> "1..*" Detection
   Term "1" --> "0..*" Categorization
@@ -41,8 +42,15 @@ classDiagram
   class Term
     Term: id
     Term: +String phrase
-    Term: combinedScores()
-    Term: recordDetections()
+    Term: calculate_categorizations()
+    Term: calculate_confidence(values)
+    Term: cluster()
+    Term: fingerprint()
+    Term: record_detections()
+
+  class Fingerprint
+    Fingerprint: id
+    Fingerprint: +String fingerprint
 
   class SearchEvent
     SearchEvent: +Integer id
@@ -111,17 +119,17 @@ classDiagram
 
   namespace SearchActivity{
     class Term
+    class Fingerprint
     class SearchEvent
   }
 
   namespace KnowledgeGraph{
-    class Detectors
+    class Detector
     class DetectorCategory
     class Category
   }
 
   namespace Detectors {
-    class Detector
     class DetectorJournal["Detector::Journal"]
     class DetectorLcsh["Detector::Lcsh"]
     class DetectorStandardIdentifier["Detector::StandardIdentifiers"]
@@ -136,6 +144,7 @@ classDiagram
 
   style SearchEvent fill:#000,stroke:#66c2a5,color:#66c2a5,stroke-width:4px;
   style Term fill:#000,stroke:#66c2a5,color:#66c2a5,stroke-width:4px;
+  style Fingerprint fill:#000,stroke:#66c2a5,color:#66c2a5,stroke-width:4px;
 
   style Category fill:#000,stroke:#fc8d62,color:#fc8d62
   style DetectorCategory fill:#000,stroke:#fc8d62,color:#fc8d62
