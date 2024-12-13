@@ -141,12 +141,17 @@ class TermTest < ActiveSupport::TestCase
   # the test here.
   test 'a Term without a Fingerprint is valid (but regenerates on next save)' do
     target_term = terms('hi')
+    target_fingerprint = target_term.fingerprint
+
+    assert_not_nil target_term.fingerprint
+
+    target_fingerprint.destroy
+    target_term.reload
 
     assert_nil target_term.fingerprint
     assert_predicate target_term, :valid?
 
     target_term.save
-    target_term.reload
 
     assert_not_nil target_term.fingerprint
     assert_predicate target_term, :valid?
@@ -370,15 +375,9 @@ class TermTest < ActiveSupport::TestCase
     # Terms without fingerprints are a legacy condition - fingerprints are generated when saving the term - but one that
     # we still need to confirm is stable.
     target_term = terms('hi')
-
-    assert_nil target_term.fingerprint
-
-    target_term.save
-    target_term.reload
+    target_fingerprint = target_term.fingerprint
 
     assert_not_nil target_term.fingerprint
-
-    target_fingerprint = target_term.fingerprint
 
     target_fingerprint.destroy
     target_term.reload
@@ -412,16 +411,9 @@ class TermTest < ActiveSupport::TestCase
   test 'Term.cluster returns nil if there is no fingerprint' do
     # Setup
     target_term = terms('hi')
-
-    # Initial condition
-    assert_nil target_term.cluster
-
-    # Changes
-    target_term.save
-    target_term.reload
     target_fingerprint = target_term.fingerprint
 
-    # Verify impact
+    # Initial condition
     assert_instance_of Array, target_term.cluster
 
     # Delete the fingerprint, leave the term - this will only ever be a temporary condition, but one that might exist.
