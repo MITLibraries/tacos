@@ -91,7 +91,7 @@ class Term < ApplicationRecord
   # related Fingerprint method.
   def register_fingerprint
     new_record = {
-      fingerprint: Fingerprint.calculate(phrase)
+      value: Fingerprint.calculate(phrase)
     }
     self.fingerprint = Fingerprint.find_or_create_by(new_record)
   end

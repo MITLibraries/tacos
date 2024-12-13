@@ -39,7 +39,7 @@ class TermTest < ActiveSupport::TestCase
       phrase: 'foo'
     }
 
-    assert_nil Fingerprint.find_by(fingerprint: 'foo')
+    assert_nil Fingerprint.find_by(value: 'foo')
 
     Term.create!(new_term)
 
@@ -368,7 +368,7 @@ class TermTest < ActiveSupport::TestCase
 
     tf = t.fingerprint
 
-    assert_equal t.fingerprint_value, tf.fingerprint
+    assert_equal t.fingerprint_value, tf.value
   end
 
   test 'Term.fingerprint returns nil of there is no fingerprint' do

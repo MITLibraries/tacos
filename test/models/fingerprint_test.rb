@@ -4,10 +4,10 @@
 #
 # Table name: fingerprints
 #
-#  id          :integer          not null, primary key
-#  fingerprint :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id         :integer          not null, primary key
+#  value      :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 require 'test_helper'
 
@@ -16,7 +16,7 @@ class FingerprintTest < ActiveSupport::TestCase
     tf = Fingerprint.first
 
     assert_raises(ActiveRecord::RecordInvalid) do
-      Fingerprint.create!(fingerprint: tf.fingerprint)
+      Fingerprint.create!(value: tf.value)
     end
   end
 

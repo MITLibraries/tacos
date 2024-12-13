@@ -96,10 +96,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_11_195504) do
   end
 
   create_table "fingerprints", force: :cascade do |t|
-    t.string "fingerprint"
+    t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["fingerprint"], name: "unique_fingerprint", unique: true
+    t.index ["value"], name: "unique_fingerprint", unique: true
   end
 
   create_table "metrics_algorithms", force: :cascade do |t|

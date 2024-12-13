@@ -4,17 +4,17 @@
 #
 # Table name: fingerprints
 #
-#  id          :integer          not null, primary key
-#  fingerprint :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id         :integer          not null, primary key
+#  value      :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 class Fingerprint < ApplicationRecord
   has_many :terms, dependent: :nullify
 
-  validates :fingerprint, uniqueness: true
+  validates :value, uniqueness: true
 
-  alias_attribute :fingerprint_value, :fingerprint
+  alias_attribute :fingerprint_value, :value
 
   # This is similar to the SuggestedResource fingerprint method, with the exception that it also replaces &quot; with "
   # during its operation. This switch may also need to be added to the SuggestedResource method, at which point they can
