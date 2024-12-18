@@ -15,7 +15,7 @@ require 'test_helper'
 class Detector
   class JournalTest < ActiveSupport::TestCase
     test 'exact term match on journal name' do
-      expected = detector_journals('the_new_england_journal_of_medicine')
+      expected = journals('the_new_england_journal_of_medicine')
       actual = Detector::Journal.full_term_match('the new england journal of medicine')
 
       assert_equal 1, actual.count
@@ -23,7 +23,7 @@ class Detector
     end
 
     test 'mixed case exact term match on journal name' do
-      expected = detector_journals('the_new_england_journal_of_medicine')
+      expected = journals('the_new_england_journal_of_medicine')
       actual = Detector::Journal.full_term_match('The New England Journal of Medicine')
 
       assert_equal 1, actual.count

@@ -11,8 +11,8 @@
 #  updated_at      :datetime         not null
 #
 class Detector
-  # Detector::Journal stores information about academic journals loaded from external sources to allow us to check our
-  # incoming Terms against these information
+  # Detector::Journal handles the comparison between incoming Term records and our known list of academic journals
+  # (which are managed by the separate Journal model).
   class Journal < ApplicationRecord
     before_save :downcase_fields!
 
@@ -30,9 +30,9 @@ class Detector
     #
     # @param phrase [String]. A string representation of a search term (not an actual Term object!)
     #
-    # @return [Set of Detector::Journal] A set of ActiveRecord Detector::Journal relations.
+    # @return [Set of Journal] A set of ActiveRecord Journal records.
     def self.full_term_match(phrase)
-      Journal.where(name: phrase.downcase)
+      ::Journal.where(name: phrase.downcase)
     end
 
     # Identify journals in which the incoming phrase contains one or more Journal names
@@ -41,12 +41,12 @@ class Detector
     #
     # @param phrase [String]. A string representation of a search term (not an actual Term object!)
     #
-    # @return [Set of Detector::Journal] A set of ActiveRecord Detector::Journal relations.
+    # @return [Set of Journal] A set of ActiveRecord Journal records.
     def self.partial_term_match(phrase)
-      Journal.all.select { |journal| phrase.downcase.include?(journal.name) }
+      ::Journal.all.select { |journal| phrase.downcase.include?(journal.name) }
     end
 
-    # Look up any matching Detector::Journal records, building on the full_term_match method. If a match is found, a
+    # Look up any matching Journal records, building on the full_term_match method. If a match is found, a
     # Detection record is created to indicate this success.
     #
     # @note This does not care whether multiple matching journals are detected. If _any_ match is found, a Detection

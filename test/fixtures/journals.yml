@@ -1,0 +1,29 @@
+# == Schema Information
+#
+# Table name: journals
+#
+#  id              :integer          not null, primary key
+#  name            :string
+#  additional_info :json
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
+# Note: fixtures bypass ActiveRecord callbacks so while our model auto downcases titles,
+# these fixtures will be stored mixed case unless they are all manually downcased here.
+# Put another way, please make sure to always use downcase/lowercase for the 'name' in these fixtures
+# to properly match the real behavior of the application.
+nature: {
+  name: nature,
+  additional_info: {issns: ['0028-0836', '1476-4687']}
+}
+
+the_new_england_journal_of_medicine: {
+  name: the new england journal of medicine,
+  additional_info: {issns: ['0028-4793', '1533-4406']}
+}
+
+nature_medicine: {
+  name: nature medicine,
+  additional_info: {issns: ['1078-8956', '1546-170X']}
+}
