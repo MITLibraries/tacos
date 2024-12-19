@@ -99,7 +99,8 @@ group :development, :test do
   gem 'dotenv-rails'
 
   # Use sqlite as the database for Active Record in dev and test
-  gem 'sqlite3'
+  # This needs to be 1.7 until we figure out how to avoid the problem of forked processes that we ran into with 2.x
+  gem 'sqlite3', '~> 1.7'
 end
 
 group :development do
