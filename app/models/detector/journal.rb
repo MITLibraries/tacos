@@ -1,25 +1,9 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: detector_journals
-#
-#  id              :integer          not null, primary key
-#  name            :string
-#  additional_info :json
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#
 class Detector
   # Detector::Journal handles the comparison between incoming Term records and our known list of academic journals
   # (which are managed by the separate Journal model).
-  class Journal < ApplicationRecord
-    before_save :downcase_fields!
-
-    def self.table_name_prefix
-      'detector_'
-    end
-
+  class Journal
     # Identify journals in which the incoming phrase matches a Journal.name exactly
     #
     # @note We always store the Journal.name downcased, so we should also always downcase the phrase
@@ -64,14 +48,6 @@ class Detector
       )
 
       nil
-    end
-
-    private
-
-    # Downcasing all names before saving allows for more efficient matching by ensuring our index is lowercase.
-    # If we find we need the non-lowercase Journal name in the future, we could store that as `additional_info` json
-    def downcase_fields!
-      name.downcase!
     end
   end
 end
