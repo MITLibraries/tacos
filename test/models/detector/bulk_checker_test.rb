@@ -11,7 +11,9 @@ class Detector
     end
 
     test 'journal_bulk_checker' do
-      skip 'Detector::Journal does not yet support bulk_checker'
+      bulk = Detector::Journal.check_all_matches(output: true)
+
+      assert_equal(1, bulk.count)
     end
 
     test 'lcsh_bulk_checker' do

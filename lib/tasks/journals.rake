@@ -93,18 +93,18 @@ namespace :journals do
     end
 
     # Delete all journals. We do this to simplify the loader process to avoid consideration of updates/deletes.
-    Detector::Journal.delete_all
+    Journal.delete_all
 
     # not ideal, we should consider streaming the file rather than loading it fully into memory
     json = JSON.parse(data)
 
     json['core'].each do |journal|
-      Detector::Journal.create(name: journal['title'],
-                               additional_info: { issns: journal['issns'],
-                                                  publisher: journal['publisher'],
-                                                  alternate_titles: journal['alternate_titles'],
-                                                  type: journal['type'],
-                                                  abbreviated_title: journal['abbreviated_title'] })
+      Journal.create(name: journal['title'],
+                     additional_info: { issns: journal['issns'],
+                                        publisher: journal['publisher'],
+                                        alternate_titles: journal['alternate_titles'],
+                                        type: journal['type'],
+                                        abbreviated_title: journal['abbreviated_title'] })
     end
   end
 end

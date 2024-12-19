@@ -30,6 +30,8 @@ classDiagram
 
   Detector "1" --> "0..*" DetectorCategory
 
+  DetectorJournal -- Journal : references
+
   Confirmation --> Term
   Confirmation --> Category
   User --> Confirmation : provides many
@@ -110,6 +112,11 @@ classDiagram
     DetectorSuggestedResource: record()
     DetectorSuggestedResource: update_fingerprint()
 
+  class Journal
+    Journal: +Integer id
+    Journal: +String name
+    Journal: +JSON additional_info
+
   class Confirmation
     Confirmation: +Integer id
     Confirmation: +Integer user_id
@@ -134,6 +141,7 @@ classDiagram
     class DetectorLcsh["Detector::Lcsh"]
     class DetectorStandardIdentifier["Detector::StandardIdentifiers"]
     class DetectorSuggestedResource["Detector::SuggestedResource"]
+    class Journal
   }
 
   namespace UserActivity {
@@ -153,6 +161,7 @@ classDiagram
   style DetectorLcsh fill:#000,stroke:#fc8d62,color:#fc8d62
   style DetectorStandardIdentifier fill:#000,stroke:#fc8d62,color:#fc8d62
   style DetectorSuggestedResource fill:#000,stroke:#fc8d62,color:#fc8d62
+  style Journal fill:#000,stroke:#fc8d62,color:#fc8d62
 
   style Categorization fill:#000,stroke:#8da0cb,color:#8da0cb,stroke-dasharray: 3 5;
   style Detection fill:#000,stroke:#8da0cb,color:#8da0cb,stroke-dasharray: 3 5;

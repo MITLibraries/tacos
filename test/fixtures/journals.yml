@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: detector_journals
+# Table name: journals
 #
 #  id              :integer          not null, primary key
 #  name            :string
