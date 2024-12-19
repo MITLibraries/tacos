@@ -4,6 +4,15 @@ class Detector
   # Detector::Journal handles the comparison between incoming Term records and our known list of academic journals
   # (which are managed by the separate Journal model).
   class Journal
+    attr_reader :detections
+
+    # shared singleton methods
+    extend Detector::BulkChecker
+
+    def initialize(phrase)
+      @detections = Detector::Journal.full_term_match(phrase)
+    end
+
     # Identify journals in which the incoming phrase matches a Journal.name exactly
     #
     # @note We always store the Journal.name downcased, so we should also always downcase the phrase
