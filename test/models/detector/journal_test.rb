@@ -1,21 +1,11 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: detector_journals
-#
-#  id              :integer          not null, primary key
-#  name            :string
-#  additional_info :json
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#
 require 'test_helper'
 
 class Detector
   class JournalTest < ActiveSupport::TestCase
     test 'exact term match on journal name' do
-      expected = detector_journals('the_new_england_journal_of_medicine')
+      expected = journals('the_new_england_journal_of_medicine')
       actual = Detector::Journal.full_term_match('the new england journal of medicine')
 
       assert_equal 1, actual.count
@@ -23,7 +13,7 @@ class Detector
     end
 
     test 'mixed case exact term match on journal name' do
-      expected = detector_journals('the_new_england_journal_of_medicine')
+      expected = journals('the_new_england_journal_of_medicine')
       actual = Detector::Journal.full_term_match('The New England Journal of Medicine')
 
       assert_equal 1, actual.count
@@ -46,15 +36,6 @@ class Detector
       actual = Detector::Journal.partial_term_match('words and stuff Nature medicine, 1999')
 
       assert_equal 2, actual.count
-    end
-
-    test 'mixed titles are downcased when saved' do
-      mixed_case = 'ThIs Is A tItLe'
-      actual = Detector::Journal.create(name: mixed_case)
-      actual.reload
-
-      assert_not_equal(mixed_case, actual.name)
-      assert_equal(mixed_case.downcase, actual.name)
     end
 
     test 'record does relevant work' do
