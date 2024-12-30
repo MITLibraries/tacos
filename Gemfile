@@ -100,7 +100,7 @@ group :development, :test do
 
   # Use sqlite as the database for Active Record in dev and test
   # This needs to be 1.7 until we figure out how to avoid the problem of forked processes that we ran into with 2.x
-  gem 'sqlite3', '~> 1.7'
+  gem 'sqlite3', '~> 2.5'
 end
 
 group :development do
