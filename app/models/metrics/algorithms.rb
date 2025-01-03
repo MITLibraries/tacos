@@ -63,7 +63,7 @@ module Metrics
     def count_matches(events)
       matches = Hash.new(0)
 
-      events.each do |event|
+      events.find_each do |event|
         event_matches(event, matches)
       end
 
