@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://mit.alma.exlibrisgroup.com/view/sru/01MIT_INST?operation=searchRetrieve&query=alma.all_for_ui=this-is-not-a-barcode&recordSchema=dc&version=1.2
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Connection:
+      - close
+      Host:
+      - mit.alma.exlibrisgroup.com
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Request-Id:
+      - 5DiPmu4VUb
+      P3p:
+      - CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+      Set-Cookie:
+      - JSESSIONID=01FDF1A50F30A39D241E61768F0F6D53.app03.na06.prod.alma.dc01.hosted.exlibrisgroup.com:1801;
+        Path=/; HttpOnly; SameSite=None; Secure
+      - __Secure-UqZBpD3n3naPR20-9Fvn5i-TQ-tFoshbYtbA9YCEpg3UXgo_=v1SeoKgw__ob6; Expires=Sun,
+        07-Jan-2035 19:31:48 GMT; Path=/; Secure; SameSite=None
+      - urm_se=1736451708493; Path=/; SameSite=None; Secure
+      - urm_st=1736451108493; Path=/; SameSite=None; Secure
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Headers:
+      - "*"
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - 'object-src blob: ''self'' *.exlibrisgroup.com *.exlibrisgroup.com.cn www.google-analytics.com
+        stats.g.doubleclick.net s3.amazonaws.com www.youtube.com youtube.com artic.contentdm.oclc.org
+        ;worker-src blob: ''self'' *.exlibrisgroup.com *.exlibrisgroup.com.cn www.google-analytics.com
+        stats.g.doubleclick.net s3.amazonaws.com www.youtube.com youtube.com artic.contentdm.oclc.org
+        ;upgrade-insecure-requests; report-uri /infra/CSPReportEndpoint.jsp; report-to
+        csp-report-endpoint; '
+      Report-To:
+      - '{"max_age":10886400,"endpoints":[{"url":"https://na06.alma.exlibrisgroup.com/infra/CSPReportEndpoint.jsp"}],"group":"csp-report-endpoint"}'
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Content-Length:
+      - '420'
+      Date:
+      - Thu, 09 Jan 2025 19:31:48 GMT
+      Connection:
+      - close
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?><searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+          <version>1.2</version>
+          <numberOfRecords>0</numberOfRecords>
+          <records/>
+          <extraResponseData xmlns:xb="http://www.exlibris.com/repository/search/xmlbeans/">
+            <xb:exact>true</xb:exact>
+            <xb:responseDate>2025-01-09T14:31:48-0500</xb:responseDate>
+          </extraResponseData>
+        </searchRetrieveResponse>
+  recorded_at: Thu, 09 Jan 2025 19:31:48 GMT
+recorded_with: VCR 6.3.1

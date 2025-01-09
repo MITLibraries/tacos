@@ -72,6 +72,30 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
     assert_equal('10.1038/nphys1170', json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['value'])
   end
 
+  test 'search event query can return detected barcodes' do
+    VCR.use_cassette('barcode 39080027236626') do
+      post '/graphql', params: { query: '{
+        logSearchEvent(sourceSystem: "timdex", searchTerm: "39080027236626") {
+          detectors {
+            standardIdentifiers {
+              kind
+              value
+              details {
+                title
+              }
+            }
+          }
+        }
+      }' }
+
+      json = response.parsed_body
+
+      assert_equal('barcode', json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['kind'])
+      assert_equal('39080027236626', json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['value'])
+      assert_equal('Transactions of the Institution of Naval Architects.', json['data']['logSearchEvent']['detectors']['standardIdentifiers'].first['details']['title'])
+    end
+  end
+
   test 'search event query can return detected journals' do
     post '/graphql', params: { query: '{
                                  logSearchEvent(sourceSystem: "timdex", searchTerm: "nature") {
