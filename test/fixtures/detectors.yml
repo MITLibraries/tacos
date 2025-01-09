@@ -7,6 +7,9 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+barcode:
+  name: 'Barcode'
+
 citation:
   name: 'Citation'
 

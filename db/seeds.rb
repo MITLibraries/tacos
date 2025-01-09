@@ -41,8 +41,14 @@ Detector.find_or_create_by(name: 'PMID')
 Detector.find_or_create_by(name: 'Journal')
 Detector.find_or_create_by(name: 'SuggestedResource')
 Detector.find_or_create_by(name: 'Citation')
+Detector.find_or_create_by(name: 'Barcode')
 
 # DetectorCategories
+DetectorCategory.find_or_create_by(
+  detector: Detector.find_by(name: 'Barcode'),
+  category: Category.find_by(name: 'Transactional'),
+  confidence: 0.95
+)
 DetectorCategory.find_or_create_by(
   detector: Detector.find_by(name: 'Citation'),
   category: Category.find_by(name: 'Transactional'),

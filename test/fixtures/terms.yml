@@ -57,3 +57,11 @@ multiple_detections:
 citation:
   phrase: "A. Altun, &quot;Understanding hypertext in the context of reading on the web: Language learners' experience,&quot; Current Issues in Education, vol. 6, no. 12, July, 2005. [Online serial]. Available: http://cie.ed.asu.edu/volume6/number12/. [Accessed Dec. 2, 2007]."
   fingerprint: citation
+
+barcode:
+  phrase: '39080678901234'
+  fingerprint: barcode
+
+not_a_barcode:
+  phrase: '39080678901234 with some extra text'
+  fingerprint: not_a_barcode
