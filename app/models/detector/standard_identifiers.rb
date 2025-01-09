@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Detector
-  # Detector::StandardIdentifiers detects the identifiers DOI, ISBN, ISSN, PMID.
+  # Detector::StandardIdentifiers detects the identifiers Barcode, DOI, ISBN, ISSN, PMID.
   # See /docs/reference/pattern_detection_and_enhancement.md for details.
   class StandardIdentifiers
     attr_reader :detections
@@ -52,6 +52,7 @@ class Detector
     # patterns are regex patterns to be applied to the basic search box input
     def patterns
       {
+        barcode: /^39080[0-9]{9}$/,
         isbn: /\b(ISBN-*(1[03])* *(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})\b/,
         issn: /\b[0-9]{4}-[0-9]{3}[0-9xX]\b/,
         pmid: /\b((pmid|PMID):\s?(\d{7,8}))\b/,
