@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_19_144452) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_10_164046) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -115,6 +115,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_19_144452) do
     t.integer "suggested_resource_exact"
     t.integer "lcsh"
     t.integer "citation"
+    t.integer "barcode"
   end
 
   create_table "search_events", force: :cascade do |t|

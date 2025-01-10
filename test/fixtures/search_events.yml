@@ -55,3 +55,10 @@ old_suggested_resource_jstor:
   term: suggested_resource_jstor
   source: test
   created_at: <%= 1.year.ago %>
+current_month_barcode:
+  term: barcode
+  source: test
+old_barcode:
+  term: barcode
+  source: test
+  created_at: <%= 1.year.ago %>

@@ -15,6 +15,7 @@
     <% else %>
       <th>Month</th>
     <% end %>
+    <th>Barcode</th>
     <th>DOI</th>
     <th>ISSN</th>
     <th>ISBN</th>
@@ -31,6 +32,7 @@
     <% else %>
       <td><%= metric.month.strftime("%B %Y") %></td>
     <% end %>
+    <td><%= metric.barcode %></td>
     <td><%= metric.doi %></td>
     <td><%= metric.issn %></td>
     <td><%= metric.isbn %></td>
