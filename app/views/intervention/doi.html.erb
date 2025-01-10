@@ -1,0 +1,31 @@
+<% return unless @json.present? %>
+
+<div id="doi-fact" class="panel fact">
+  <% unless params[:slim].present? %>
+    <div class="panel-heading">
+      <%= @json[:title] %> <br />
+    </div>
+  <% end %>
+
+  <div class="panel-body">
+    In: <%= @json[:journal_name] %>, <%= @json[:year] %>
+
+    <ul>
+      <li>
+        Open Access: 
+        <% if @json[:oa] %>
+          <%= @json[:oa_status] %>
+        <% else %>
+          unknown
+        <% end %>
+      </li>
+      <li>Publisher: <%= @json[:publisher] %></li>
+
+      <% if @json[:oa] %>
+        <li><%= link_to('Open Access Link', @json[:best_oa_location]["url"]) %>
+      <% end %>
+
+      <li><%= link_to('Check MIT Subscription Access', @json[:link_resolver_url]) %>
+    </ul>
+  </div>
+</div>

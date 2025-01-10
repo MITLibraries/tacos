@@ -76,5 +76,5 @@ Rails.application.configure do
 
   # Local logging overrides
   config.logger = Logger.new(STDOUT)
-  config.log_level = :debug
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "debug")
 end

@@ -1,0 +1,36 @@
+/* basic search bar */
+.basic-search {
+  background-color: #989898;
+  margin-bottom: 0rem;
+  padding: 2.4rem 2rem 1.6rem 2rem;
+
+  details {
+    &:first-of-type {
+      margin-top: 1rem;
+    }
+
+    .field-container {
+      margin-top: 1rem;
+    }
+  }
+
+  .field-label {
+    color: 999;
+    display: block;
+    margin-bottom: .25rem;
+    font-size: $fs-small;
+    font-weight: $fw-normal;
+  }
+
+  .basic-search-input,
+  summary {
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    width: 100%;
+    margin-bottom: .8rem;
+    padding: 6px 12px;
+    margin-bottom: 0;
+  }
+}
