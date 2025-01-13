@@ -17,6 +17,7 @@
 #  suggested_resource_exact :integer
 #  lcsh                     :integer
 #  citation                 :integer
+#  barcode                  :integer
 #
 module Metrics
   # Algorithms aggregates statistics for matches for all SearchEvents
@@ -49,8 +50,8 @@ module Metrics
                 else
                   count_matches(SearchEvent.includes(:term))
                 end
-      Metrics::Algorithms.create(month:, citation: matches[:citation], doi: matches[:doi], issn: matches[:issn],
-                                 isbn: matches[:isbn], lcsh: matches[:lcsh], pmid: matches[:pmid],
+      Metrics::Algorithms.create(month:, barcode: matches[:barcode], citation: matches[:citation], doi: matches[:doi],
+                                 issn: matches[:issn], isbn: matches[:isbn], lcsh: matches[:lcsh], pmid: matches[:pmid],
                                  journal_exact: matches[:journal_exact],
                                  suggested_resource_exact: matches[:suggested_resource_exact],
                                  unmatched: matches[:unmatched])
@@ -122,7 +123,7 @@ module Metrics
     # @param matches [Hash] a Hash that keeps track of how many of each algorithm we match
     # @return [Array] an array of matched StandardIdentifiers
     def match_standard_identifiers(event, matches)
-      known_ids = %i[unmatched pmid isbn issn doi]
+      known_ids = %i[unmatched pmid isbn issn doi barcode]
       ids = Detector::StandardIdentifiers.new(event.term.phrase)
 
       known_ids.each do |id|

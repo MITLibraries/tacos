@@ -1,0 +1,105 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://mit.alma.exlibrisgroup.com/view/sru/01MIT_INST?operation=searchRetrieve&query=alma.all_for_ui=39080027236626&recordSchema=dc&version=1.2
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Connection:
+      - close
+      Host:
+      - mit.alma.exlibrisgroup.com
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Request-Id:
+      - bex2voghPT
+      P3p:
+      - CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+      Set-Cookie:
+      - "<FAKE_COOKIE_DATA>"
+      - "<FAKE_COOKIE_DATA>"
+      - "<FAKE_COOKIE_DATA>"
+      - "<FAKE_COOKIE_DATA>"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Headers:
+      - "*"
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - 'object-src blob: ''self'' *.exlibrisgroup.com *.exlibrisgroup.com.cn www.google-analytics.com
+        stats.g.doubleclick.net s3.amazonaws.com www.youtube.com youtube.com artic.contentdm.oclc.org
+        ;worker-src blob: ''self'' *.exlibrisgroup.com *.exlibrisgroup.com.cn www.google-analytics.com
+        stats.g.doubleclick.net s3.amazonaws.com www.youtube.com youtube.com artic.contentdm.oclc.org
+        ;upgrade-insecure-requests; report-uri /infra/CSPReportEndpoint.jsp; report-to
+        csp-report-endpoint; '
+      Report-To:
+      - '{"max_age":10886400,"endpoints":[{"url":"https://na06.alma.exlibrisgroup.com/infra/CSPReportEndpoint.jsp"}],"group":"csp-report-endpoint"}'
+      X-Content-Type-Options:
+      - nosniff
+      Vary:
+      - accept-encoding
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Content-Length:
+      - '2150'
+      Date:
+      - Mon, 13 Jan 2025 18:30:12 GMT
+      Connection:
+      - close
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?><searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+          <version>1.2</version>
+          <numberOfRecords>1</numberOfRecords>
+          <records>
+            <record>
+              <recordSchema>dc</recordSchema>
+              <recordPacking>xml</recordPacking>
+              <recordData>
+                <srw_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:srw_dc="info:srw/schema/1/dc-schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="info:srw/schema/1/dc-schema http://www.loc.gov/standards/sru/resources/dc-schema.xsd">
+                  <dc:title>Transactions of the Institution of Naval Architects.</dc:title>
+                  <dc:contributor>Institution of Naval Architects.</dc:contributor>
+                  <dc:type>text</dc:type>
+                  <dc:publisher>London,</dc:publisher>
+                  <dc:publisher>Institution of Naval Architects.</dc:publisher>
+                  <dc:date>1860</dc:date>
+                  <dc:language>eng</dc:language>
+                  <dc:description>List of members in each volume.</dc:description>
+                  <dc:description>Vols. for 1911 and 1913 issued in 2 parts.</dc:description>
+                  <dc:description>Vols. 1-101, 1860-1959. 1 v.</dc:description>
+                  <dc:description>FAX050446</dc:description>
+                  <dc:subject>VM1 .I5</dc:subject>
+                  <dc:subject>Naval architecture</dc:subject>
+                  <dc:subject>Naval architecture.</dc:subject>
+                  <dc:relation>Transactions</dc:relation>
+                  <dc:identifier>(MCM)000293343</dc:identifier>
+                  <dc:identifier>(MCM)000293343MIT01</dc:identifier>
+                  <dc:identifier>(OCoLC)04331602</dc:identifier>
+                  <dc:identifier>FAX050446</dc:identifier>
+                  <dc:identifier>alma:01MIT_INST/bibs/990002933430106761</dc:identifier>
+                </srw_dc:dc>
+              </recordData>
+              <recordIdentifier>990002933430106761</recordIdentifier>
+              <recordPosition>1</recordPosition>
+            </record>
+          </records>
+          <extraResponseData xmlns:xb="http://www.exlibris.com/repository/search/xmlbeans/">
+            <xb:exact>true</xb:exact>
+            <xb:responseDate>2025-01-13T13:30:12-0500</xb:responseDate>
+          </extraResponseData>
+        </searchRetrieveResponse>
+  recorded_at: Mon, 13 Jan 2025 18:30:12 GMT
+recorded_with: VCR 6.3.1

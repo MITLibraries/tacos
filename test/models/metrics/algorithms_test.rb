@@ -17,11 +17,18 @@
 #  suggested_resource_exact :integer
 #  lcsh                     :integer
 #  citation                 :integer
+#  barcode                  :integer
 #
 require 'test_helper'
 
 class Algorithms < ActiveSupport::TestCase
   # Monthlies
+  test 'barcode counts are included in monthly aggregation' do
+    aggregate = Metrics::Algorithms.new.generate(DateTime.now)
+
+    assert_equal 1, aggregate.barcode
+  end
+
   test 'citation counts are included in monthly aggregation' do
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
 
@@ -92,6 +99,11 @@ class Algorithms < ActiveSupport::TestCase
     # drop all searchevents to make math easier and minimize fragility over time as more fixtures are created
     SearchEvent.delete_all
 
+    barcode_expected_count = rand(1...100)
+    barcode_expected_count.times do
+      SearchEvent.create(term: terms(:barcode), source: 'test')
+    end
+
     citation_expected_count = rand(1...100)
     citation_expected_count.times do
       SearchEvent.create(term: terms(:citation), source: 'test')
@@ -129,6 +141,7 @@ class Algorithms < ActiveSupport::TestCase
 
     aggregate = Metrics::Algorithms.new.generate(DateTime.now)
 
+    assert_equal barcode_expected_count, aggregate.barcode
     assert_equal citation_expected_count, aggregate.citation
     assert_equal doi_expected_count, aggregate.doi
     assert_equal issn_expected_count, aggregate.issn
@@ -139,6 +152,12 @@ class Algorithms < ActiveSupport::TestCase
   end
 
   # Total
+  test 'barcode counts are included in total aggregation' do
+    aggregate = Metrics::Algorithms.new.generate
+
+    assert_equal 2, aggregate.barcode
+  end
+
   test 'citation counts are included in total aggregation' do
     aggregate = Metrics::Algorithms.new.generate
 
@@ -197,6 +216,11 @@ class Algorithms < ActiveSupport::TestCase
     # drop all searchevents to make math easier and minimize fragility over time as more fixtures are created
     SearchEvent.delete_all
 
+    barcode_expected_count = rand(1...100)
+    barcode_expected_count.times do
+      SearchEvent.create(term: terms(:barcode), source: 'test')
+    end
+
     citation_expected_count = rand(1...100)
     citation_expected_count.times do
       SearchEvent.create(term: terms(:citation), source: 'test')
@@ -239,6 +263,7 @@ class Algorithms < ActiveSupport::TestCase
 
     aggregate = Metrics::Algorithms.new.generate
 
+    assert_equal barcode_expected_count, aggregate.barcode
     assert_equal citation_expected_count, aggregate.citation
     assert_equal doi_expected_count, aggregate.doi
     assert_equal issn_expected_count, aggregate.issn

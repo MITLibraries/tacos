@@ -25,7 +25,7 @@ class Detector
     test 'standard_identifier_bulk_checker' do
       bulk = Detector::StandardIdentifiers.check_all_matches(output: true)
 
-      assert_equal(5, bulk.count)
+      assert_equal(6, bulk.count)
     end
 
     test 'suggested_resources_bulk_checker' do

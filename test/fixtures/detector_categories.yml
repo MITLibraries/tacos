@@ -43,3 +43,8 @@ seven:
   detector: citation
   category: transactional
   confidence: 0.3
+
+eight:
+  detector: barcode
+  category: transactional
+  confidence: 0.95

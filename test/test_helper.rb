@@ -38,6 +38,11 @@ VCR.configure do |config|
     header&.each do |redacted_text|
       interaction.filter!(redacted_text, '<REDACTED_NEL>')
     end
+
+    header = interaction.response&.headers&.[]('Set-Cookie')
+    header&.each do |redacted_text|
+      interaction.filter!(redacted_text, '<FAKE_COOKIE_DATA>')
+    end
   end
 end
 
