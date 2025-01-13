@@ -14,14 +14,14 @@ http_interactions:
       Host:
       - eutils.ncbi.nlm.nih.gov
       User-Agent:
-      - http.rb/5.1.1
+      - http.rb/5.2.0
   response:
     status:
       code: 400
       message: Bad Request
     headers:
       Date:
-      - Fri, 17 Nov 2023 17:34:04 GMT
+      - Mon, 13 Jan 2025 14:40:12 GMT
       Server:
       - Finatra
       Strict-Transport-Security:
@@ -31,9 +31,9 @@ http_interactions:
       Referrer-Policy:
       - origin-when-cross-origin
       Ncbi-Sid:
-      - 4F4503D287162994_A463SID
+      - BE097B0128FEB7F4_EF6ESID
       Ncbi-Phid:
-      - D0BD49FBABD19BD500004D63451EE40A.1.1.m_1
+      - 939B684A59FD7FC5000060FE40BF4196.1.1.m_1
       Content-Type:
       - text/xml; charset=UTF-8
       Cache-Control:
@@ -47,8 +47,8 @@ http_interactions:
       Access-Control-Expose-Headers:
       - X-RateLimit-Limit,X-RateLimit-Remaining
       Set-Cookie:
-      - ncbi_sid=4F4503D287162994_A463SID; domain=.nih.gov; path=/; expires=Sun, 17
-        Nov 2024 17:34:04 GMT
+      - ncbi_sid=BE097B0128FEB7F4_EF6ESID; domain=.nih.gov; path=/; expires=Tue, 13
+        Jan 2026 14:40:13 GMT
       Vary:
       - Accept-Encoding
       X-Ua-Compatible:
@@ -64,5 +64,5 @@ http_interactions:
       string: "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!DOCTYPE eEfetchResult
         PUBLIC \"-//NLM//DTD efetch 20131226//EN\" \"https://eutils.ncbi.nlm.nih.gov/eutils/dtd/20131226/efetch.dtd\">\n<eFetchResult>\n\t<ERROR>ID
         list is empty! Possibly it has no correct IDs.</ERROR>\n</eFetchResult>\n"
-  recorded_at: Fri, 17 Nov 2023 17:34:04 GMT
-recorded_with: VCR 6.2.0
+  recorded_at: Mon, 13 Jan 2025 14:40:13 GMT
+recorded_with: VCR 6.3.1

@@ -11,7 +11,7 @@
     "LINKRESOLVER_BASEURL": {
       "required": false
     },
-    "UNPAYWALL_EMAIL": {
+    "TACOS_EMAIL": {
       "required": false
     }
   },

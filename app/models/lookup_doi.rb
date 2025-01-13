@@ -30,7 +30,7 @@ class LookupDoi
   end
 
   def url(doi)
-    "https://api.unpaywall.org/v2/#{doi}?email=#{ENV.fetch('UNPAYWALL_EMAIL')}"
+    "https://api.unpaywall.org/v2/#{doi}?email=#{ENV.fetch('TACOS_EMAIL')}"
   end
 
   def fetch(doi)
