@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       Accept:
-      - application/json
+      - application/xml
       Connection:
       - close
       Host:
@@ -21,16 +21,14 @@ http_interactions:
       message: OK
     headers:
       X-Request-Id:
-      - 5DiPmu4VUb
+      - nynJnwo8lm
       P3p:
       - CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
       Set-Cookie:
-      - JSESSIONID=01FDF1A50F30A39D241E61768F0F6D53.app03.na06.prod.alma.dc01.hosted.exlibrisgroup.com:1801;
-        Path=/; HttpOnly; SameSite=None; Secure
-      - __Secure-UqZBpD3n3naPR20-9Fvn5i-TQ-tFoshbYtbA9YCEpg3UXgo_=v1SeoKgw__ob6; Expires=Sun,
-        07-Jan-2035 19:31:48 GMT; Path=/; Secure; SameSite=None
-      - urm_se=1736451708493; Path=/; SameSite=None; Secure
-      - urm_st=1736451108493; Path=/; SameSite=None; Secure
+      - "<FAKE_COOKIE_DATA>"
+      - "<FAKE_COOKIE_DATA>"
+      - "<FAKE_COOKIE_DATA>"
+      - "<FAKE_COOKIE_DATA>"
       Access-Control-Allow-Methods:
       - GET
       Access-Control-Allow-Headers:
@@ -53,7 +51,7 @@ http_interactions:
       Content-Length:
       - '420'
       Date:
-      - Thu, 09 Jan 2025 19:31:48 GMT
+      - Mon, 13 Jan 2025 18:30:12 GMT
       Connection:
       - close
       Strict-Transport-Security:
@@ -67,8 +65,8 @@ http_interactions:
           <records/>
           <extraResponseData xmlns:xb="http://www.exlibris.com/repository/search/xmlbeans/">
             <xb:exact>true</xb:exact>
-            <xb:responseDate>2025-01-09T14:31:48-0500</xb:responseDate>
+            <xb:responseDate>2025-01-13T13:30:12-0500</xb:responseDate>
           </extraResponseData>
         </searchRetrieveResponse>
-  recorded_at: Thu, 09 Jan 2025 19:31:48 GMT
+  recorded_at: Mon, 13 Jan 2025 18:30:12 GMT
 recorded_with: VCR 6.3.1
