@@ -65,7 +65,7 @@ changes, this is the signal which indicates that terms need to be re-evaluated.
 
 `ORIGINS`: comma-separated list of domains allowed to connect to (and thus query or contribute to) the application. Be sure to specify the port number if a connecting application is not using the standard ports (this applies mostly to local development). If not defined, no external connections will be permitted.
 
-`UNPAYWALL_EMAIL`: email address to include in API call as required in their [documentation](https://unpaywall.org/products/api). Your personal email is appropriate for development. Deployed and for tests, use the timdex moira list email.
+`TACOS_EMAIL`: email address to include in API calls or contact information. Currently used in API calls to [Unpaywall](https://unpaywall.org/products/api) and [OpenLibrary](https://openlibrary.org/developers/api). Your personal email is appropriate for development. Deployed and for tests, use the tacos-help moira list email.
 
 ### Optional
 

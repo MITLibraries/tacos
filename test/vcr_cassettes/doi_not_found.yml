@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.unpaywall.org/v2/123456?email=timdex@mit.edu
+    uri: https://api.unpaywall.org/v2/123456?email=FAKE_TACOS_EMAIL
     body:
       encoding: ASCII-8BIT
       string: ''
@@ -14,24 +14,24 @@ http_interactions:
       Host:
       - api.unpaywall.org
       User-Agent:
-      - http.rb/5.1.1
+      - http.rb/5.2.0
   response:
     status:
       code: 404
       message: Not Found
     headers:
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1700240669&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=BtnuqhUFIjq4XdK5GrNboBWBkxLQHGOWd5xwkbPOFCw%3D"}]}'
+      - "<REDACTED_REPORT_TO>"
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1700240669&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=BtnuqhUFIjq4XdK5GrNboBWBkxLQHGOWd5xwkbPOFCw%3D
+      - "<REDACTED_REPORTING_ENDPOINT>"
       Nel:
-      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      - "<REDACTED_NEL>"
       Connection:
       - close
       Server:
       - gunicorn
       Date:
-      - Fri, 17 Nov 2023 17:04:29 GMT
+      - Mon, 13 Jan 2025 14:40:13 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -52,5 +52,5 @@ http_interactions:
             "error": true,
             "message": "'123456' isn't in Unpaywall. See https://support.unpaywall.org/a/solutions/articles/44001900286"
         }
-  recorded_at: Fri, 17 Nov 2023 17:04:29 GMT
-recorded_with: VCR 6.2.0
+  recorded_at: Mon, 13 Jan 2025 14:40:13 GMT
+recorded_with: VCR 6.3.1

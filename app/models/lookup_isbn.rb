@@ -36,7 +36,10 @@ class LookupIsbn
   end
 
   def parse_response(url)
-    resp = HTTP.headers(accept: 'application/json', 'Content-Type': 'application/json').follow.get(url)
+    email = ENV.fetch('TACOS_EMAIL')
+    resp = HTTP.headers(accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        'User-Agent': "MITL TACOS (#{email})").follow.get(url)
 
     if resp.status == 200
       JSON.parse(resp.to_s)
