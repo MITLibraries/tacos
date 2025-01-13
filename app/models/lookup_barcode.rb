@@ -33,11 +33,11 @@ class LookupBarcode
 
   def extract_metadata(xml)
     {
-      recordId: xml.xpath('//recordIdentifier').text,
-      title: xml.xpath('//title').text,
-      date: xml.xpath('//date').text,
-      publisher: xml.xpath('//publisher').text,
-      authors: xml.xpath('//contributor').text
+      recordId: xml.xpath('//default:recordIdentifier', 'default' => 'http://www.loc.gov/zing/srw/').text,
+      title: xml.xpath('//dc:title', 'dc' => 'http://purl.org/dc/elements/1.1/').text,
+      date: xml.xpath('//dc:date', 'dc' => 'http://purl.org/dc/elements/1.1/').text,
+      publisher: xml.xpath('//dc:publisher', 'dc' => 'http://purl.org/dc/elements/1.1/').text,
+      authors: xml.xpath('//dc:contributor', 'dc' => 'http://purl.org/dc/elements/1.1/').text
     }
   end
 
@@ -49,12 +49,13 @@ class LookupBarcode
     resp = HTTP.headers(accept: 'application/xml').get(url(barcode))
 
     if resp.status == 200
-      Nokogiri::XML(resp.to_s).remove_namespaces!
+      Nokogiri::XML(resp.to_s)
     else
       Rails.logger.debug do
         "Barcode lookup error. Barcode #{barcode} detected but Primo returned an error status"
       end
       Rails.logger.debug { "URL: #{url(barcode)}" }
+      Sentry.capture_message('Primo API error after barcode detection')
       'Error'
     end
   end
