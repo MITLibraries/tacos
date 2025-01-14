@@ -24,9 +24,10 @@ class Detector
     end
 
     test 'ISBN-13 examples' do
-      samples = ['978-99921-58-10-7', '979-9971-5-0210-0', '978-960-425-059-0', '979-80-902734-1-6', '978-85-359-0277-5',
-                 '979-1-84356-028-3', '978-0-684-84328-5', '979-0-8044-2957-X', '978-0-85131-041-9', '979-93-86954-21-4',
-                 '978-0-943396-04-2', '979-0-9752298-0-X']
+      samples = ['978-99921-58-10-4', '978-9971-5-0210-2', '978-960-425-059-2', '978-80-902734-1-2',
+                 '978-85-359-0277-8', '978-1-84356-028-9', '978-0-684-84328-5', '978-0-8044-2957-3',
+                 '978-0-85131-041-1', '978-93-86954-21-3', '978-0-943396-04-0', '978-0-9752298-0-4', '9798531132178',
+                 '9798577456832', '979-8-886-45174-0', '9781319145446']
 
       samples.each do |isbn|
         actual = Detector::StandardIdentifiers.new(isbn).detections
@@ -36,7 +37,7 @@ class Detector
     end
 
     test 'not ISBNs' do
-      samples = ['orange cats like popcorn', '1234-6798', 'another ISBN not found here']
+      samples = ['orange cats like popcorn', '1234-6798', 'another ISBN not found here', '99921-58-10-1', '979-8-886-45174-1']
 
       samples.each do |notisbn|
         actual = Detector::StandardIdentifiers.new(notisbn).detections

@@ -17,12 +17,15 @@ class Detector
     extend Detector::BulkChecker
 
     # Initialization process will run pattern checkers and strip invalid ISSN detections.
-    #   @param phrase String. Often a `Term.phrase`.
-    #   @return Nothing intentional. Data is written to Hash `@detections` during processing.
+    #
+    # @param phrase String. Often a `Term.phrase`.
+    # @return nil. Data is written to Hash `@detections` during processing. Things technically get
+    #   returned here but it is a side effect and should not be relied on.
     def initialize(phrase)
       @detections = {}
       pattern_checker(phrase)
       strip_invalid_issns
+      strip_invalid_isbns
     end
 
     # The record method will consult the set of regex-based detectors that are defined in
@@ -53,13 +56,76 @@ class Detector
     def patterns
       {
         barcode: /^39080[0-9]{9}$/,
-        isbn: /\b(ISBN-*(1[03])* *(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})\b/,
+        isbn: /\b(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})\b/,
         issn: /\b[0-9]{4}-[0-9]{3}[0-9xX]\b/,
         pmid: /\b((pmid|PMID):\s?(\d{7,8}))\b/,
         doi: %r{\b10\.(\d+\.*)+/(([^\s.])+\.*)+\b}
       }
     end
 
+    # strip_invalid_isbns coordinates the logic to remove ISBNs that are not valid from our list of detected ISBNs
+    #
+    # ISBNs cannot be validated via regex. Regex gives us a list of candidates that look like ISBNs. We remove invalid
+    # ISBNs by following validation specifications defined in the standard.
+    def strip_invalid_isbns
+      return unless @detections[:isbn]
+
+      @detections.delete(:isbn) unless valid_isbn?(@detections[:isbn])
+    end
+
+    # valid_isbn? checks for 10 or 13 digit ISBNs and defers to appropriate methods for each
+    #
+    # @param candidate String. A string representation of a regex detected ISBN.
+    # @return boolean
+    def valid_isbn?(candidate)
+      digits = candidate.delete('-').chars
+
+      # check 10 digit
+      if digits.length == 10
+        valid_isbn_10?(digits)
+      # check 13 digit
+      elsif digits.length == 13
+        valid_isbn_13?(digits)
+      # This shouldn't happen, log an error.
+      else
+        Rails.logger.error("Non-10 or 13 digit sequence detected as ISBN: #{candidate}")
+        Sentry.capture_message('Non-10 or 13 digit sequence detected as ISBN')
+        false
+      end
+    end
+
+    # valid_isbn_10? follows the ISBN 10 specification for validation
+    # https://en.wikipedia.org/wiki/ISBN#ISBN-10_check_digits
+    #
+    # @param digits Array. An array of strings representing each character from a detected ISBN candidate.
+    # @return boolean
+    def valid_isbn_10?(digits)
+      sum = 0
+      digits.each_with_index do |digit, index|
+        digit = '10' if digit.downcase == 'x'
+        sum += digit.to_i * (10 - index)
+      end
+      (sum % 11).zero?
+    end
+
+    # valid_isbn_13? follows the ISBN 13 specification for validation
+    # https://en.wikipedia.org/wiki/ISBN#ISBN-13_check_digit_calculation
+    #
+    # @param digits Array. An array of strings representing each character from a detected ISBN candidate.
+    # @return boolean
+    def valid_isbn_13?(digits)
+      sum = 0
+      digits.map(&:to_i).each_with_index do |digit, index|
+        sum += digit * (index.even? ? 1 : 3)
+      end
+
+      (sum % 10).zero?
+    end
+
+    # strip_invalid_issns coordinates the logic to remove ISSNs that are not valid from our list of detected ISSNs
+    #
+    # ISSNs cannot be validated via regex. Regex gives us a list of candidates that look like ISSNs. We remove invalid
+    # ISSNs by following validation specifications defined in the standard.
     def strip_invalid_issns
       return unless @detections[:issn]
 
