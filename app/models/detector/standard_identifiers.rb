@@ -102,7 +102,7 @@ class Detector
     def valid_isbn_10?(digits)
       sum = 0
       digits.each_with_index do |digit, index|
-        digit = '10' if digit.downcase == 'x'
+        digit = '10' if digit.casecmp('x').zero?
         sum += digit.to_i * (10 - index)
       end
       (sum % 11).zero?
