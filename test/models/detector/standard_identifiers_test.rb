@@ -23,6 +23,19 @@ class Detector
       end
     end
 
+    test 'ISBN-10 examples with incorrect check digits are not detected' do
+      # from wikipedia
+      samples = ['99921-58-10-1', '9971-5-0210-1', '960-425-059-1', '80-902734-1-1', '85-359-0277-1',
+                 '1-84356-028-1', '0-684-84328-1', '0-8044-2957-1', '0-85131-041-1', '93-86954-21-1', '0-943396-04-1',
+                 '0-9752298-0-1']
+
+      samples.each do |isbn|
+        actual = Detector::StandardIdentifiers.new(isbn).detections
+
+        assert_nil(actual[:isbn])
+      end
+    end
+
     test 'ISBN-13 examples' do
       samples = ['978-99921-58-10-4', '978-9971-5-0210-2', '978-960-425-059-2', '978-80-902734-1-2',
                  '978-85-359-0277-8', '978-1-84356-028-9', '978-0-684-84328-5', '978-0-8044-2957-3',
@@ -33,6 +46,19 @@ class Detector
         actual = Detector::StandardIdentifiers.new(isbn).detections
 
         assert_equal(isbn, actual[:isbn])
+      end
+    end
+
+    test 'ISBN-13 examples with incorrect check digits are not detected' do
+      samples = ['978-99921-58-10-1', '978-9971-5-0210-1', '978-960-425-059-1', '978-80-902734-1-1',
+                 '978-85-359-0277-1', '978-1-84356-028-1', '978-0-684-84328-1', '978-0-8044-2957-1',
+                 '978-0-85131-041-2', '978-93-86954-21-1', '978-0-943396-04-1', '978-0-9752298-0-1', '9798531132171',
+                 '9798577456831', '979-8-886-45174-1', '9781319145441']
+
+      samples.each do |isbn|
+        actual = Detector::StandardIdentifiers.new(isbn).detections
+
+        assert_nil(actual[:isbn])
       end
     end
 
