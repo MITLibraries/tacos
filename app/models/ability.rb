@@ -23,6 +23,15 @@ class Ability
     # Allow all authenticated users to view reports
     can :view, :report
 
+    # All users can see search events and terms
+    can %w[index show], :search_event
+    can %i[read view], SearchEvent
+    can %w[index show], :term
+    can %i[read view], Term
+
+    # All users can use playground
+    can :view, :playground
+
     # Create manual confirmation
     can :manage, :confirmations
     can :manage, Confirmation

@@ -26,14 +26,11 @@ class StaticControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'playground url is not accessible to basic users when authenticated' do
+  test 'playground url is accessible to basic users when authenticated' do
     sign_in users(:basic)
 
     get '/playground'
 
-    assert_redirected_to '/'
-    follow_redirect!
-
-    assert_select 'div.alert', text: 'Not authorized.', count: 1
+    assert_response :success
   end
 end
