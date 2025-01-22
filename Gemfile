@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '3.2.2'
+ruby '3.4.1'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
@@ -14,6 +14,8 @@ gem 'bootsnap', require: false
 
 # Use CanCanCan for authorization
 gem 'cancancan'
+
+gem 'csv'
 
 # Use Devise for authentication
 gem 'devise'
@@ -99,8 +101,7 @@ group :development, :test do
   gem 'dotenv-rails'
 
   # Use sqlite as the database for Active Record in dev and test
-  # This needs to be 1.7 until we figure out how to avoid the problem of forked processes that we ran into with 2.x
-  gem 'sqlite3', '~> 1.7'
+  gem 'sqlite3'
 end
 
 group :development do

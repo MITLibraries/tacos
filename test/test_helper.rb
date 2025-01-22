@@ -10,6 +10,8 @@ SimpleCov.formatters = [
 ]
 SimpleCov.start('rails')
 
+SQLite3::ForkSafety.suppress_warnings!
+
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
