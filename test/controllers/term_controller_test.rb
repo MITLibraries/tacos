@@ -25,4 +25,21 @@ class TermControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
   end
+
+  test 'confirmation index can show two different sets of terms' do
+    sign_in users(:basic)
+    get terms_unconfirmed_path
+
+    # default_pagy will be something like "Displaying 10 items"
+    default_pagy = response.parsed_body.xpath('//main//span').first.text
+    default_pagy_count = default_pagy.split.second.to_i
+
+    get terms_unconfirmed_path(show: 'all')
+
+    # The '?type=all' route asks for more records, so the count should be higher
+    all_pagy = response.parsed_body.xpath('//main//span').first.text
+    all_pagy_count = all_pagy.split.second.to_i
+
+    assert_operator all_pagy_count, :>, default_pagy_count
+  end
 end

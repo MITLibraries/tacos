@@ -299,6 +299,32 @@ class TermTest < ActiveSupport::TestCase
     end
   end
 
+  test 'categorized scope returns an active record relation' do
+    assert_kind_of ActiveRecord::Relation, Term.categorized
+  end
+
+  test 'categorized scope accounts for terms with multiple categorizations' do
+    categorized_count = Term.categorized.count
+    t = terms('doi')
+
+    term_category_count = t.categorizations.count
+
+    # term has been categorized already
+    assert_operator 1, :<=, term_category_count
+
+    new_record = {
+      term: t,
+      category: categories('navigational'),
+      confidence: 0.5,
+      detector_version: '1'
+    }
+    Categorization.create!(new_record)
+
+    # The term has gained a category, but the categorized scope has not changed size.
+    assert_operator term_category_count, :<, t.categorizations.count
+    assert_equal categorized_count, Term.categorized.count
+  end
+
   test 'user_confirmed scope returns an active record relation' do
     assert_kind_of ActiveRecord::Relation, Term.user_confirmed
   end
