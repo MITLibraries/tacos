@@ -3,10 +3,12 @@
 <p>The terms listed here have not yet been reviewed by a person and placed into a category. Clicking on any term will
 take you to the form for submitting this information.</p>
 
+<% if can? :confirm_uncategorized, Term %>
 <p class="wrap-filters">View:
   <a class="btn button-small button-secondary" href="<%= terms_unconfirmed_path %>">Categorized terms</a>
   <a class="btn button-small button-secondary" href="<%= terms_unconfirmed_path(show: 'all') %>">All terms</a>
 </p>
+<% end %>
 
 <p><%== pagy_info(@pagy) %></p>
 

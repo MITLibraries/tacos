@@ -26,8 +26,39 @@ class TermControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'confirmation index can show two different sets of terms' do
+  test 'basic users see only one confirmation option' do
     sign_in users(:basic)
+    get terms_unconfirmed_path
+
+    assert_select 'p.wrap-filters', text: "View:\n  Categorized terms\n  All terms", count: 0
+  end
+
+  test 'admin users see two confirmation options' do
+    sign_in users(:admin)
+    get terms_unconfirmed_path
+
+    assert_select 'p.wrap-filters', text: "View:\n  Categorized terms\n  All terms", count: 1
+  end
+
+  test 'basic users cannot access the confirmation option for uncategorized terms' do
+    sign_in users(:basic)
+    get terms_unconfirmed_path(show: 'all')
+
+    assert_redirected_to '/'
+    follow_redirect!
+
+    assert_select 'div.alert', text: 'Not authorized.', count: 1
+  end
+
+  test 'admin users can access the confirmation option for uncategorized terms' do
+    sign_in users(:admin)
+    get terms_unconfirmed_path(show: 'all')
+
+    assert_response :success
+  end
+
+  test 'confirmation index can show two different sets of terms for admin users' do
+    sign_in users(:admin)
     get terms_unconfirmed_path
 
     # default_pagy will be something like "Displaying 10 items"

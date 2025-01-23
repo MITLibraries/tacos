@@ -40,6 +40,7 @@ class Ability
     # Rules for admins
     return unless user.admin?
 
+    can :confirm_uncategorized, Term
     can :manage, :all
   end
 end

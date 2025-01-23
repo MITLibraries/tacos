@@ -8,6 +8,7 @@ class TermController < ApplicationController
   # confirmed.
   def unconfirmed
     terms = if params[:show] == 'all'
+              authorize! :confirm_uncategorized, Term
               Term.user_unconfirmed
             else
               Term.categorized.user_unconfirmed
