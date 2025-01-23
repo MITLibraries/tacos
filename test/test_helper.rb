@@ -10,8 +10,6 @@ SimpleCov.formatters = [
 ]
 SimpleCov.start('rails')
 
-SQLite3::ForkSafety.suppress_warnings!
-
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
@@ -57,7 +55,13 @@ end
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
-    parallelize(workers: :number_of_processors)
+    # parallelize(workers: :number_of_processors)
+    # Setting to 1 manually to avoid sqlite fork warnings. Locally this seems to marginally
+    # increase total test time, but not enough that it seemed like a bad idea at this time.
+    # If our tests get slow, we can renable parallel tests and instead supress (or actually fix
+    # but it's unclear exactly how) the sqlite error.
+    # SQLite3::ForkSafety.suppress_warnings!
+    parallelize(workers: 1)
 
     parallelize_setup do |worker|
       SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
