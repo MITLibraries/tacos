@@ -24,6 +24,7 @@ class Term < ApplicationRecord
   before_save :register_fingerprint
   after_destroy :check_fingerprint_count
 
+  scope :categorized, -> { where.associated(:categorizations).distinct }
   scope :user_confirmed, -> { where.associated(:confirmations).distinct }
   scope :user_unconfirmed, -> { where.missing(:confirmations).distinct }
 
