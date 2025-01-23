@@ -54,14 +54,10 @@ end
 
 module ActiveSupport
   class TestCase
+    SQLite3::ForkSafety.suppress_warnings!
+
     # Run tests in parallel with specified workers
-    # parallelize(workers: :number_of_processors)
-    # Setting to 1 manually to avoid sqlite fork warnings. Locally this seems to marginally
-    # increase total test time, but not enough that it seemed like a bad idea at this time.
-    # If our tests get slow, we can renable parallel tests and instead supress (or actually fix
-    # but it's unclear exactly how) the sqlite error.
-    # SQLite3::ForkSafety.suppress_warnings!
-    parallelize(workers: 1)
+    parallelize(workers: :number_of_processors)
 
     parallelize_setup do |worker|
       SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
