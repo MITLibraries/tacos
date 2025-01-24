@@ -54,6 +54,8 @@ end
 
 module ActiveSupport
   class TestCase
+    SQLite3::ForkSafety.suppress_warnings!
+
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
