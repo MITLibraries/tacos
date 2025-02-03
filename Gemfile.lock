@@ -166,9 +166,10 @@ GEM
     fiber-storage (1.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    graphql (2.4.8)
+    graphql (2.4.9)
       base64
       fiber-storage
+      logger
     hashdiff (1.1.2)
     hashie (5.0.0)
     http (5.2.0)
