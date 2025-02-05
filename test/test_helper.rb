@@ -23,6 +23,15 @@ VCR.configure do |config|
     ENV.fetch('TACOS_EMAIL', nil).to_s
   end
 
+  # Filter Libkey Key
+  config.filter_sensitive_data('FAKE_LIBKEY_KEY') do
+    ENV.fetch('LIBKEY_KEY', nil).to_s
+  end
+  # Filter LibKey ID
+  config.filter_sensitive_data('FAKE_LIBKEY_ID') do
+    ENV.fetch('LIBKEY_ID', nil).to_s
+  end
+
   config.before_record do |interaction|
     header = interaction.response&.headers&.[]('Report-To')
     header&.each do |redacted_text|

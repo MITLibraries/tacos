@@ -195,7 +195,7 @@ class Detector
     test 'pmid detected in string' do
       actual = Detector::StandardIdentifiers.new('Citation and stuff PMID: 35648703 more stuff.').detections
 
-      assert_equal('PMID: 35648703', actual[:pmid])
+      assert_equal('35648703', actual[:pmid])
     end
 
     test 'pmid examples' do
@@ -204,7 +204,7 @@ class Detector
       samples.each do |pmid|
         actual = Detector::StandardIdentifiers.new(pmid).detections
 
-        assert_equal(pmid, actual[:pmid])
+        assert_equal(pmid.gsub(/PMID:|pmid:/, '').strip, actual[:pmid])
       end
     end
 

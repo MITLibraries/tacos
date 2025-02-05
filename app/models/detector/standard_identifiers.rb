@@ -26,6 +26,7 @@ class Detector
       pattern_checker(phrase)
       strip_invalid_issns
       strip_invalid_isbns
+      strip_pmid_prefix
     end
 
     # The record method will consult the set of regex-based detectors that are defined in
@@ -61,6 +62,12 @@ class Detector
         pmid: /\b((pmid|PMID):\s?(\d{7,8}))\b/,
         doi: %r{\b10\.(\d+\.*)+/(([^\s.])+\.*)+\b}
       }
+    end
+
+    # strip_pmid_prefix removes the PMID:/pmid: prefix from the detected value. The regex needs that, but the
+    # actual value of the identifier should not include those prefixes.
+    def strip_pmid_prefix
+      @detections[:pmid] = @detections[:pmid].gsub(/pmid:|PMID:/, '').strip if @detections[:pmid].present?
     end
 
     # strip_invalid_isbns coordinates the logic to remove ISBNs that are not valid from our list of detected ISBNs
