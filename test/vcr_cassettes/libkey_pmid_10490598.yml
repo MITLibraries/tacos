@@ -1,0 +1,69 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_LIBKEY_ID/articles/pmid/10490598?access_token=FAKE_LIBKEY_KEY&include=journal
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Connection:
+      - close
+      Host:
+      - public-api.thirdiron.com
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Report-To:
+      - "<REDACTED_REPORT_TO>"
+      Reporting-Endpoints:
+      - "<REDACTED_REPORTING_ENDPOINT>"
+      Nel:
+      - "<REDACTED_NEL>"
+      Connection:
+      - close
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type, Authorization
+      Access-Control-Allow-Methods:
+      - DELETE,GET,PATCH,POST,PUT
+      Content-Security-Policy:
+      - default-src 'none'; frame-ancestors 'none'
+      X-Ratelimit-Limit:
+      - '7000'
+      X-Ratelimit-Remaining:
+      - '6997'
+      X-Ratelimit-Reset:
+      - '1738013436'
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1733'
+      Etag:
+      - W/"6c5-fzhN39I+RJs1ywgC2Gpo7+YkiVs"
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Mon, 27 Jan 2025 21:29:35 GMT
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":56753128,"type":"articles","title":"The Borgs, a New
+        Family of Cdc42 and TC10 GTPase-Interacting Proteins","date":"2023-03-28","authors":"Joberty,
+        Gérard; Perlungher, Richard R.; Macara, Ian G.","inPress":false,"abandoned":false,"doi":"10.1128/MCB.19.10.6585","linkResolverOpenUrl":"https://mit.primo.exlibrisgroup.com/openurl/01MIT_INST/01MIT_INST:LIBKEY?genre=article&aulast=Joberty&issn=0270-7306&title=Molecular%20and%20Cellular%20Biology&atitle=The%20Borgs%2C%20a%20New%20Family%20of%20Cdc42%20and%20TC10%20GTPase-Interacting%20Proteins&volume=19&issue=10&spage=6585&epage=6597&date=2023-03-28&doi=10.1128%2FMCB.19.10.6585&rft_id=info:pmid/10490598&sid=LibKey","pmid":"10490598","openAccess":true,"unpaywallUsable":true,"fullTextFile":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/56753128/full-text-file?utm_source=api_3735","contentLocation":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/56753128/content-location?utm_source=api_3735","availableThroughBrowzine":true,"startPage":"6585","endPage":"6597","browzineWebLink":"https://browzine.com/libraries/FAKE_LIBKEY_ID/journals/18106/issues/7975387?showArticleInContext=doi:10.1128%2FMCB.19.10.6585&utm_source=api_3735","relationships":{"journal":{"data":{"type":"journals","id":18106}}},"bestIntegratorLink":{"bestLink":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/56753128/full-text-file?utm_source=api_3735","linkType":"fullTextFile","recommendedLinkText":"Download
+        PDF"}},"included":[{"id":18106,"type":"journals","title":"Molecular and Cellular
+        Biology","issn":"02707306","sjrValue":1.452,"coverImageUrl":"https://assets.thirdiron.com/images/covers/0270-7306.png","browzineEnabled":true,"browzineWebLink":"https://browzine.com/libraries/FAKE_LIBKEY_ID/journals/18106?utm_source=api_3735"}]}'
+  recorded_at: Mon, 27 Jan 2025 21:29:35 GMT
+recorded_with: VCR 6.3.1

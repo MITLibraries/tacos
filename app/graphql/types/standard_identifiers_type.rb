@@ -15,12 +15,30 @@ module Types
       when :barcode
         LookupBarcode.new.info(@object[:value])
       when :doi
-        LookupDoi.new.info(@object[:value])
+        doi
       when :isbn
         LookupIsbn.new.info(@object[:value])
       when :issn
         LookupIssn.new.info(@object[:value])
       when :pmid
+        pmid
+      end
+    end
+
+    # doi handles determining which doi lookup method to use
+    def doi
+      if ENV.fetch('LIBKEY_DOI', false)
+        LookupLibkey.info(doi: @object[:value])
+      else
+        LookupDoi.new.info(@object[:value])
+      end
+    end
+
+    # pmid handles determining which pmid lookup method to use
+    def pmid
+      if ENV.fetch('LIBKEY_PMID', false)
+        LookupLibkey.info(pmid: @object[:value])
+      else
         LookupPmid.new.info(@object[:value].split.last)
       end
     end

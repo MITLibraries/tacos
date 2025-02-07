@@ -69,6 +69,11 @@ changes, this is the signal which indicates that terms need to be re-evaluated.
 
 ### Optional
 
+`LIBKEY_KEY`: LibKey API key. Required if `LIBKEY_DOI` or `LIBKEY_PMID` are set.
+`LIBKEY_ID`: LibKey Library ID. Required if `LIBKEY_DOI` or `LIBKEY_PMID` are set.
+`LIBKEY_DOI`: If set, use LibKey for DOI metadata lookups. If not set, Unpaywall is used.
+`LIBKEY_PMID`: If set, use LibKey for PMID metadata lookups. If not set, NCBI Entrez is used.
+
 `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes
 from our theme gem.
 

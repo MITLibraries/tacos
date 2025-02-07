@@ -1,0 +1,59 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_LIBKEY_ID/articles/pmid/nonsense?access_token=FAKE_LIBKEY_KEY&include=journal
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Connection:
+      - close
+      Host:
+      - public-api.thirdiron.com
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - Cowboy
+      Report-To:
+      - "<REDACTED_REPORT_TO>"
+      Reporting-Endpoints:
+      - "<REDACTED_REPORTING_ENDPOINT>"
+      Nel:
+      - "<REDACTED_NEL>"
+      Connection:
+      - close
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type, Authorization
+      Access-Control-Allow-Methods:
+      - DELETE,GET,PATCH,POST,PUT
+      Content-Security-Policy:
+      - default-src 'none'; frame-ancestors 'none'
+      X-Ratelimit-Limit:
+      - '7000'
+      X-Ratelimit-Remaining:
+      - '6998'
+      X-Ratelimit-Reset:
+      - '1738347313'
+      Date:
+      - Fri, 31 Jan 2025 18:14:52 GMT
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+  recorded_at: Fri, 31 Jan 2025 18:14:52 GMT
+recorded_with: VCR 6.3.1

@@ -32,7 +32,7 @@ class LookupIsbn
       json = parse_response(url)
       json['name']
     end
-    author_names.join(' ; ')
+    author_names.join(';')
   end
 
   def parse_response(url)

@@ -7,10 +7,13 @@ module Types
     field :date, String
     field :doi, String
     field :issns, [String]
+    field :journal_image, String
+    field :journal_link, String
     field :journal_name, String
     field :link_resolver_url, String
     field :oa, Boolean
     field :oa_status, String
+    field :pmid, String
     field :publisher, String
     field :title, String
 
@@ -19,7 +22,7 @@ module Types
     end
 
     def authors
-      @object[:authors]&.split(',')
+      @object[:authors]&.split(';')
     end
   end
 end

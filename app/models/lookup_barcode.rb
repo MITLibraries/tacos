@@ -37,8 +37,16 @@ class LookupBarcode
       title: xml.xpath('//dc:title', 'dc' => 'http://purl.org/dc/elements/1.1/').text,
       date: xml.xpath('//dc:date', 'dc' => 'http://purl.org/dc/elements/1.1/').text,
       publisher: xml.xpath('//dc:publisher', 'dc' => 'http://purl.org/dc/elements/1.1/').text,
-      authors: xml.xpath('//dc:contributor', 'dc' => 'http://purl.org/dc/elements/1.1/').text
+      authors: authors(xml)
     }
+  end
+
+  def authors(xml)
+    authors = []
+    xml.xpath('//dc:contributor', 'dc' => 'http://purl.org/dc/elements/1.1/').each do |author|
+      authors << author.text
+    end
+    authors.join(';')
   end
 
   def url(barcode)
