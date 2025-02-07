@@ -448,4 +448,21 @@ class TermTest < ActiveSupport::TestCase
     # Verify impact
     assert_nil target_term.cluster
   end
+
+  test 'does not destroy records with suggested resource' do
+    term = terms(:jstor)
+    assert term.suggested_resource
+
+    term.destroy
+    assert term.present?
+  end
+
+  test 'destroys record successfully if no suggested resource is present' do
+    term = terms(:hi)
+    count = Term.count
+    assert_nil term.suggested_resource
+
+    term.destroy
+    assert count - 1, Term.count
+  end
 end

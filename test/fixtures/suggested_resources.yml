@@ -15,23 +15,15 @@
 jstor:
   title: JSTOR
   url: https://libguides.mit.edu/jstor
-  phrase: jstor
-  fingerprint: jstor
 
 web_of_science:
   title: Web of Science
   url: https://libguides.mit.edu/webofsci
-  phrase: web of science
-  fingerprint: of science web
 
 web_of_knowledge:
   title: Web of Knowledge
   url: https://libguides.mit.edu/webofsci
-  phrase: web of knowledge
-  fingerprint: knowledge of web
 
 nobel_laureate:
   title: Professor Moungi Bawendi
   url: https://news.mit.edu/2023/mit-chemist-moungi-bawendi-shares-nobel-prize-chemistry-1004
-  phrase: moungi bawendi
-  fingerprint: bawendi moungi

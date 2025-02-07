@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://static.lndo.site/suggested_resources.csv
+    uri: http://static.lndo.site/suggested_resources_existing_term.csv
     body:
       encoding: US-ASCII
       string: ''
@@ -21,20 +21,20 @@ http_interactions:
       Accept-Ranges:
       - bytes
       Content-Length:
-      - '126'
+      - '137'
       Content-Type:
       - text/csv
       Date:
-      - Fri, 14 Feb 2025 18:16:48 GMT
+      - Fri, 14 Feb 2025 18:20:05 GMT
       Etag:
-      - '"7e-62e1e0ebf7b37"'
+      - '"89-62e1e0617f220"'
       Last-Modified:
-      - Fri, 14 Feb 2025 18:08:11 GMT
+      - Fri, 14 Feb 2025 18:05:46 GMT
       Server:
       - Apache/2.4.54 (Debian)
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        77u/dGl0bGUsdXJsLHBocmFzZQ0KTmV3IEV4YW1wbGUsaHR0cHM6Ly9leGFtcGxlLm9yZyxuZXcgZXhhbXBsZSBzZWFyY2gNCldlYiBvZiBTY2llbmNlLGh0dHBzOi8vbGlicmFyaWVzLm1pdC5lZHUvd2Vib2ZzY2ksZm9v
-  recorded_at: Fri, 14 Feb 2025 18:16:48 GMT
+        77u/dGl0bGUsdXJsLHBocmFzZQ0KTmV3IEV4YW1wbGUsaHR0cHM6Ly9leGFtcGxlLm9yZyxuZXcgZXhhbXBsZSBzZWFyY2gNCldlYiBvZiBTY2llbmNlLGh0dHBzOi8vbGlicmFyaWVzLm1pdC5lZHUvd2Vib2ZzY2ksd2ViIG9mIHNjaWVuY2U=
+  recorded_at: Fri, 14 Feb 2025 18:20:05 GMT
 recorded_with: VCR 6.3.1
