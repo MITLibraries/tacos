@@ -97,7 +97,7 @@ class LookupLibkeyTest < ActiveSupport::TestCase
   end
 
   test 'construct url with no pmid or do returns nil' do
-    actual_url = LookupLibkey.send(:construct_url)
+    actual_url = LookupLibkey.construct_url
 
     assert_nil(actual_url)
   end
