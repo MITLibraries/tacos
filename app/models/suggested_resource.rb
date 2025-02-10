@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: suggested_resources
+#
+#  id         :integer          not null, primary key
+#  title      :string
+#  url        :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 # SuggestedResource stores custom hints that we want to send to the
 # user in response to specific strings. For example, a search for "web of
 # science" should be met with our custom login link to Web of Science via MIT.

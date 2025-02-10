@@ -7,12 +7,13 @@
 #
 # Table name: terms
 #
-#  id             :integer          not null, primary key
-#  phrase         :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  flag           :boolean
-#  fingerprint_id :integer
+#  id                    :integer          not null, primary key
+#  phrase                :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  flag                  :boolean
+#  fingerprint_id        :integer
+#  suggested_resource_id :integer
 #
 class Term < ApplicationRecord
   has_many :search_events, dependent: :destroy

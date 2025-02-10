@@ -17,7 +17,6 @@
 #  suggested_resource_exact :integer
 #  lcsh                     :integer
 #  citation                 :integer
-#  barcode                  :integer
 #
 require 'test_helper'
 
