@@ -43,6 +43,9 @@ Rails.application.routes.draw do
   get '/demo', to: 'demo#index'
   post '/demo', to: 'demo#view'
 
+  # Interventions
+  get '/intervention/doi', to: 'intervention#doi'
+
   # Defines the root path route ("/")
   root to: 'static#index'
 end
