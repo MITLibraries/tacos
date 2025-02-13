@@ -1,0 +1,110 @@
+<%= render "form" %>
+
+<hr />
+
+<% if @term.present? %>
+  <div class="alert alert-banner success">
+    <p><i class="fa fa-check-circle fa-lg"></i> We have seen this search term in non-simulation runs.</p>
+  </div>
+<% else %>
+  <div class="alert alert-banner">
+    <p><i class="fa fa-info-circle fa-lg"></i> We have not seen this search term in non-simulation runs.</p>
+  </div>
+<% end %>
+
+<h2>Citation?</h2>
+<% if @detections[:citation].present? %>
+  <p>We think this might be a citation.</p>
+  <ul>
+    <li>Score: <%= @detections[:citation][2] %></li>
+    <li>Patterns:
+      <ul>
+      <% @detections[:citation][0].each do |p| %>
+        <li><%= p[0] %>: <%= p[1] %></li>
+      <% end %>
+      </ul>
+    </li>
+    <li>APA Volume/Issue: <%= @detections[:citation][1][:apa_volume_issue] %>
+    <li>Pages: <%= @detections[:citation][1][:pages] %>
+    <li>Lastnames:
+      <ul>
+        <% @detections[:citation][1][:lastnames].each do |name| %>
+          <li><%= name %></li>
+        <% end %>
+      </ul>    
+    </li>
+  </ul>
+<% else %>
+  <p>No citation detected.</p>
+<% end %>
+
+<hr />
+
+<h2>Identifiers</h2>
+<% if @detections[:standard_identifiers].present? %>
+  <p>We found some identifiers.</p>
+  <% if @detections[:standard_identifiers][:isbn].present? %>
+    ISBN: <%= @detections[:standard_identifiers][:isbn] %>
+  <% end %>
+
+  <% if @detections[:standard_identifiers][:issn].present? %>
+    ISSN: <%= @detections[:standard_identifiers][:issn] %>
+  <% end %>
+
+  <% if @detections[:standard_identifiers][:doi].present? %>
+    DOI: <%= @detections[:standard_identifiers][:doi] %>
+
+    <div id="doi" data-controller="content-loader"
+     data-content-loader-url-value="/intervention/doi?doi=<%= @detections[:standard_identifiers][:doi] %>"></div>
+
+  <% end %>
+
+  <% if @detections[:standard_identifiers][:pmid].present? %>
+    PMID: <%= @detections[:standard_identifiers][:pmid] %>
+  <% end %>
+<% else %>
+  <p>No identifiers found.</p>
+<% end %>
+
+<hr />
+
+<h2>Journal names</h2>
+<% if @detections[:journals].present? %>
+  <p>We found an exact journal name.</p>
+  <% @detections[:journals].each do |j| %>
+    <h3><%= j[:name] %></h3>
+    <ul>
+      <li>ISSNs: <%= j[:additional_info]['issns']&.join(', ') %></li>
+      <li>Publisher: <%= j[:additional_info]['publisher'] %></li>
+      <li>Alternate titles: <%= j[:additional_info]['alternate_titles']&.join('; ') %></li>
+      <li>Abbreviated title: <%= j[:additional_info]['abbreviated_title'] %></li>
+    </ul>
+  <% end %>
+<% else %>
+  <p>No exact journal name found.</p>
+<% end %>
+
+<hr />
+
+<h2>LCSH Subject headings</h2>
+<% if @detections[:lcsh].present? %>
+  <p>We found an LCSH pattern. We have not validated whether this is a real LCSH heading.</p>
+  <h3><%= @detections[:lcsh][:separator] %></h3>
+<% else %>
+  <p>No LCSH pattern found.</p>
+<% end %>
+
+<hr />
+
+<h2>Suggested Resource</h2>
+<% if @detections[:suggested_resources].present? %>
+  <p>Suggested resoure found.</p>
+
+  <% @detections[:suggested_resources].each do |sr| %>
+    <h3><%= sr.title %></h3>
+    <p>URL: <%= link_to(sr.url, sr.url) %></p>
+  <% end %>
+
+<% else %>
+  <p>No suggested resoure found.</p>
+<% end %>
