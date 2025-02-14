@@ -6,7 +6,7 @@ class InterventionController < ApplicationController
   def doi
     @doi = params[:doi]
 
-    raise ActionController::RoutingError.new('Not Found') unless params[:doi].present?
+    raise ActionController::RoutingError, 'Not Found' if params[:doi].blank?
 
     @json = if ENV.fetch('LIBKEY_DOI', nil)
               LookupLibkey.info(doi: @doi)
