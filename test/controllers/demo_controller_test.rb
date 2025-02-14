@@ -53,7 +53,7 @@ class DemoControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'suggested resources data is provided' do
-    post '/demo', params: { query: terms('suggested_resource_jstor').phrase }
+    post '/demo', params: { query: terms('jstor').phrase }
 
     assert_equal('JSTOR', @controller.instance_variable_get(:@detections)[:suggested_resources].first.title)
   end
