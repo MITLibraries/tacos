@@ -7,12 +7,13 @@
 #
 # Table name: terms
 #
-#  id             :integer          not null, primary key
-#  phrase         :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  flag           :boolean
-#  fingerprint_id :integer
+#  id                    :integer          not null, primary key
+#  phrase                :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  flag                  :boolean
+#  fingerprint_id        :integer
+#  suggested_resource_id :integer
 #
 class Term < ApplicationRecord
   has_many :search_events, dependent: :destroy
@@ -20,8 +21,10 @@ class Term < ApplicationRecord
   has_many :categorizations, dependent: :destroy
   has_many :confirmations, dependent: :destroy
   belongs_to :fingerprint, optional: true
+  belongs_to :suggested_resource, optional: true
 
   before_save :register_fingerprint
+  before_destroy :check_suggested_resource
   after_destroy :check_fingerprint_count
 
   scope :categorized, -> { where.associated(:categorizations).distinct }
@@ -102,6 +105,17 @@ class Term < ApplicationRecord
   # cause problems because of the safe operators in the conditional.
   def check_fingerprint_count
     fingerprint.destroy if fingerprint&.terms&.count&.zero?
+  end
+
+  # This is called before_destroy to avoid orphaning SuggestedResource records. Deleting terms should be an unlikely
+  # event, so this should come up rarely. If it does, it warrants the extra care to delete the record manually in the
+  # Rails console.
+  def check_suggested_resource
+    return unless suggested_resource
+
+    Rails.logger.error('Cannot delete term with associated suggested resource')
+    Sentry.capture_message('Cannot delete term with associated suggested resource')
+    throw :abort
   end
 
   # This method looks up all current detections for the given term, and assembles their confidence scores in a format

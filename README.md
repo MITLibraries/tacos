@@ -47,9 +47,13 @@ config:
   webroot: .
 ```
 
+We use Lando here because its use in our WordPress environment. However, any static local webserver will work.
+
 If you need to regenerate these cassettes, the following procedure should be sufficient:
 
-1. Use the configuration above to ensure the needed files are visible at `http://static.lndo.site/filename.ext`.
+1. Use the configuration above to ensure the needed files are visible at `http://static.lndo.site/filename.ext` (i.e.,
+run `lando start` in `tacos/test/fixtures/files`). If you are using a server other than Lando, configure it such that
+`tacos/test/fixtures/files` is the root directory, then start the server.
 2. Delete any existing cassette files which need to be regenerated.
 3. Run the test(s).
 4. Commit the resulting files along with your other work.

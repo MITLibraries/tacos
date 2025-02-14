@@ -17,7 +17,6 @@
 #  suggested_resource_exact :integer
 #  lcsh                     :integer
 #  citation                 :integer
-#  barcode                  :integer
 #
 require 'test_helper'
 
@@ -253,7 +252,7 @@ class Algorithms < ActiveSupport::TestCase
 
     suggested_resource_exact_count = rand(1...100)
     suggested_resource_exact_count.times do
-      SearchEvent.create(term: terms(:suggested_resource_jstor), source: 'test')
+      SearchEvent.create(term: terms(:jstor), source: 'test')
     end
 
     unmatched_expected_count = rand(1...100)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_22_181312) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_13_213433) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -69,17 +69,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_22_181312) do
     t.index ["detector_id"], name: "index_detector_categories_on_detector_id"
   end
 
-  create_table "detector_suggested_resources", force: :cascade do |t|
-    t.string "title"
-    t.string "url"
-    t.string "phrase"
-    t.string "fingerprint"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["fingerprint"], name: "index_detector_suggested_resources_on_fingerprint", unique: true
-    t.index ["phrase"], name: "index_detector_suggested_resources_on_phrase", unique: true
-  end
-
   create_table "detectors", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -127,14 +116,23 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_22_181312) do
     t.index ["term_id"], name: "index_search_events_on_term_id"
   end
 
+  create_table "suggested_resources", force: :cascade do |t|
+    t.string "title"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "terms", force: :cascade do |t|
     t.string "phrase"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "flag"
     t.integer "fingerprint_id"
+    t.integer "suggested_resource_id"
     t.index ["fingerprint_id"], name: "index_terms_on_fingerprint_id"
     t.index ["phrase"], name: "unique_phrase", unique: true
+    t.index ["suggested_resource_id"], name: "index_terms_on_suggested_resource_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -157,4 +155,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_22_181312) do
   add_foreign_key "detector_categories", "categories"
   add_foreign_key "detector_categories", "detectors"
   add_foreign_key "terms", "fingerprints"
+  add_foreign_key "terms", "suggested_resources", on_delete: :nullify
 end

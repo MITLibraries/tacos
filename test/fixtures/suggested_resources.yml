@@ -1,0 +1,27 @@
+# == Schema Information
+#
+# Table name: suggested_resources
+#
+#  id         :integer          not null, primary key
+#  title      :string
+#  url        :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+
+jstor:
+  title: JSTOR
+  url: https://libguides.mit.edu/jstor
+
+web_of_science:
+  title: Web of Science
+  url: https://libguides.mit.edu/webofsci
+
+web_of_knowledge:
+  title: Web of Knowledge
+  url: https://libguides.mit.edu/webofsci
+
+nobel_laureate:
+  title: Professor Moungi Bawendi
+  url: https://news.mit.edu/2023/mit-chemist-moungi-bawendi-shares-nobel-prize-chemistry-1004

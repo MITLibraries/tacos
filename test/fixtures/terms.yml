@@ -2,12 +2,13 @@
 #
 # Table name: terms
 #
-#  id             :integer          not null, primary key
-#  phrase         :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  flag           :boolean
-#  fingerprint_id :integer
+#  id                    :integer          not null, primary key
+#  phrase                :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  flag                  :boolean
+#  fingerprint_id        :integer
+#  suggested_resource_id :integer
 #
 
 cool:
@@ -46,10 +47,6 @@ journal_nature_medicine:
   phrase: 'nature medicine'
   fingerprint: journal_nature_medicine
 
-suggested_resource_jstor:
-  phrase: 'jstor'
-  fingerprint: suggested_resource_jstor
-
 multiple_detections:
   phrase: 'Environmental and Health Impacts of Air Pollution: A Review. Frontiers in Public Health. PMID: 32154200. DOI: 10.3389/fpubh.2020.00014'
   fingerprint: multiple_detections
@@ -65,3 +62,24 @@ barcode:
 not_a_barcode:
   phrase: '39080678901234 with some extra text'
   fingerprint: not_a_barcode
+
+jstor:
+  phrase: 'jstor'
+  fingerprint: jstor
+  suggested_resource: jstor
+
+web_of_science:
+  phrase: 'web of science'
+  fingerprint: web_of_science
+  suggested_resource: web_of_science
+
+web_of_knowledge:
+  phrase: 'web of knowledge'
+  fingerprint: web_of_knowledge
+  suggested_resource: web_of_knowledge
+
+nobel_laureate:
+  phrase: 'moungi bawendi'
+  fingerprint: nobel_laureate
+  suggested_resource: nobel_laureate
+

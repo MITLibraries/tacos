@@ -31,9 +31,6 @@ isbn_9781319145446:
 journal_nature_medicine:
   value: 'medicine nature'
 
-suggested_resource_jstor:
-  value: 'jstor'
-
 multiple_detections:
   value: '103389fpubh202000014 32154200 a air and doi environmental frontiers health impacts in of pmid pollution public review'
 
@@ -45,3 +42,16 @@ barcode:
 
 not_a_barcode:
   value: '39080678901234 extra some text with'
+
+jstor:
+  value: 'jstor'
+
+web_of_science:
+  value: 'of science web'
+
+web_of_knowledge:
+  value: 'knowledge of web'
+
+nobel_laureate:
+  value: 'bawendi moungi'
+

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://static.lndo.site/suggested_resources.csv
+    uri: http://static.lndo.site/suggested_resources_dup_phrases.csv
     body:
       encoding: US-ASCII
       string: ''
@@ -21,20 +21,20 @@ http_interactions:
       Accept-Ranges:
       - bytes
       Content-Length:
-      - '126'
+      - '111'
       Content-Type:
       - text/csv
       Date:
       - Fri, 14 Feb 2025 18:16:48 GMT
       Etag:
-      - '"7e-62e1e0ebf7b37"'
+      - '"6f-62e1dffe41f20"'
       Last-Modified:
-      - Fri, 14 Feb 2025 18:08:11 GMT
+      - Fri, 14 Feb 2025 18:04:02 GMT
       Server:
       - Apache/2.4.54 (Debian)
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        77u/dGl0bGUsdXJsLHBocmFzZQ0KTmV3IEV4YW1wbGUsaHR0cHM6Ly9leGFtcGxlLm9yZyxuZXcgZXhhbXBsZSBzZWFyY2gNCldlYiBvZiBTY2llbmNlLGh0dHBzOi8vbGlicmFyaWVzLm1pdC5lZHUvd2Vib2ZzY2ksZm9v
+        77u/dGl0bGUsdXJsLHBocmFzZQ0KTmV3IEV4YW1wbGUsaHR0cHM6Ly9leGFtcGxlLm9yZyxmb28NCldlYiBvZiBTY2llbmNlLGh0dHBzOi8vbGlicmFyaWVzLm1pdC5lZHUvd2Vib2ZzY2ksZm9v
   recorded_at: Fri, 14 Feb 2025 18:16:48 GMT
 recorded_with: VCR 6.3.1

@@ -19,10 +19,10 @@ namespace :suggested_resources do
     file = url.open.read.gsub("\xEF\xBB\xBF", '').force_encoding('UTF-8').encode
     data = CSV.parse(file, headers: true)
 
-    Rails.logger.info("Record count before we reload: #{Detector::SuggestedResource.count}")
+    Rails.logger.info("Record count before we reload: #{SuggestedResource.count}")
 
-    Detector::SuggestedResource.bulk_replace(data)
+    SuggestedResource.bulk_replace(data)
 
-    Rails.logger.info("Record count after we reload: #{Detector::SuggestedResource.count}")
+    Rails.logger.info("Record count after we reload: #{SuggestedResource.count}")
   end
 end
