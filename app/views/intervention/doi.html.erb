@@ -1,0 +1,50 @@
+<% return unless @json.present? %>
+
+<div id="doi-fact" class="panel fact">
+  <div class="panel-body">
+    <div class="layout-1q3q layout-band">
+      <div class="col1q">
+        <% if @json[:journal_image].present? %>
+          <%= image_tag(@json[:journal_image], style: '  display: block;
+  margin-left: auto;
+  margin-right: auto;
+') %>
+        <% end %>
+      </div>
+
+      <div class="col3q">
+        <h3><%= @json[:title] %></h3>
+
+        <p>In: <%= @json[:journal_name] %></p>
+
+        <% if @json[:oa_status] %>
+        <p>
+          Open Access: 
+            <%= @json[:oa_status] %>
+        </p>
+        <% end %>
+
+
+        <% if @json[:best_oa_location].present? %>
+          <p><%= link_to('Open Access Link', @json[:best_oa_location]["url"]) %></p>
+        <% end %>
+
+        <% if @json[:journal_link].present? %>
+          <p><%= link_to('Browse issues', @json[:journal_link]) %></p>
+        <% end %>
+
+        <p>
+          <%= link_to('Check MIT Subscription Access', @json[:link_resolver_url], class: 'btn button-primary') %>
+        </p>
+
+      </div>
+    </div>
+
+   
+      
+
+
+      
+    </ul>
+  </div>
+</div>
