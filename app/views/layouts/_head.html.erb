@@ -1,0 +1,64 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= content_for?(:title) ? yield(:title) : "  MIT Libraries" %></title>
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+
+<%= yield :additional_meta_tag %>
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+<!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
+<![endif]-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" integrity="sha512-4oJiHyX3IWAdU3YotQW0piF3VIAU+vzoBYFoBj8fEzqXK9e9N3GUUvgRAgrQxDmtWnbwzZ27BD85R7oQEag55Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic&subset=latin,latin-ext" type="text/css">
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+
+<!-- For all other devices -->
+<!-- Size should be 32 x 32 pixels -->
+<%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
+
+<%= render partial: "layouts/js_exception_handler" %>
+<%= javascript_importmap_tags %>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<%= yield :additional_js %>
+
+<% if (ENV['MATOMO_URL'].present? && ENV['MATOMO_SITE_ID'].present?) %>
+<!-- Matomo -->
+<script type="text/javascript">
+  var _paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u='<%= ENV['MATOMO_URL'] %>';
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '<%= ENV['MATOMO_SITE_ID'] %>']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+  // Lightly modified from https://github.com/turbolinks/turbolinks/issues/436
+  // Send Matomo a new event when navigating to a new page using Turbolinks
+  // (see https://developer.matomo.org/guides/spa-tracking)
+  (function() {
+    var previousPageUrl = null;
+    addEventListener('turbo:load', function(event) {
+      if (previousPageUrl) {
+        _paq.push(['setReferrerUrl', previousPageUrl]);
+        _paq.push(['setCustomUrl', window.location.href]);
+        _paq.push(['setDocumentTitle', document.title]);
+        if (event.data && event.data.timing) {
+          _paq.push(['setGenerationTimeMs', event.data.timing.visitEnd - event.data.timing.visitStart]);
+        }
+        _paq.push(['trackPageView']);
+      }
+      previousPageUrl = window.location.href;
+    });
+  })();
+</script>
+<!-- End Matomo Code -->
+<% end %>

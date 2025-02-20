@@ -1,0 +1,7 @@
+<%= form_with class: 'form-horizontal basic-search', data: { turbo: "false" } do |form| %>
+  <div class="form-group">
+    <%= form.label :query, "Search for:" %>
+    <%= form.search_field :query, class: 'field field-text basic-search-input required', value: @searchterm %>
+    <%= form.submit "Search" %>
+  </div>
+<% end %>
