@@ -14,6 +14,7 @@
 #  flag                  :boolean
 #  fingerprint_id        :integer
 #  suggested_resource_id :integer
+#  label                 :boolean
 #
 class Term < ApplicationRecord
   has_many :search_events, dependent: :destroy

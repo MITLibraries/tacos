@@ -33,4 +33,14 @@ class SearchEventLoaderRakeTest < ActiveSupport::TestCase
     end
     assert_equal 'Source is required', error.message
   end
+
+  test 'csv_loader can accept labelled records' do
+    records_before = SearchEvent.count
+    VCR.use_cassette('search_events:url_loader from remote labelled csv') do
+      remote_file = 'http://static.lndo.site/search_events_labelled.csv'
+      Rake::Task['search_events:csv_loader'].invoke(remote_file, 'test')
+    end
+
+    assert_not_equal records_before, SearchEvent.count
+  end
 end

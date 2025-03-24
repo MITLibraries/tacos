@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_29_202816) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_01_173608) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -146,6 +146,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_29_202816) do
     t.boolean "flag"
     t.integer "fingerprint_id"
     t.integer "suggested_resource_id"
+    t.boolean "label"
     t.index ["fingerprint_id"], name: "index_terms_on_fingerprint_id"
     t.index ["phrase"], name: "unique_phrase", unique: true
     t.index ["suggested_resource_id"], name: "index_terms_on_suggested_resource_id"

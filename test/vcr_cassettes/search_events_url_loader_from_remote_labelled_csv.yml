@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://static.lndo.site/search_events.csv
+    uri: http://static.lndo.site/search_events_labelled.csv
     body:
       encoding: US-ASCII
       string: ''
@@ -21,22 +21,22 @@ http_interactions:
       Accept-Ranges:
       - bytes
       Content-Length:
-      - '92'
+      - '128'
       Content-Type:
       - text/csv
       Date:
-      - Wed, 28 Aug 2024 21:47:08 GMT
+      - Mon, 24 Mar 2025 18:23:42 GMT
       Etag:
-      - '"5c-620c52829ded5"'
+      - '"80-631195dad01d9"'
       Last-Modified:
-      - Wed, 28 Aug 2024 21:36:54 GMT
+      - Mon, 24 Mar 2025 16:47:55 GMT
       Server:
       - Apache/2.4.54 (Debian)
     body:
       encoding: UTF-8
       string: |
-        phrase,created_at
-        first search term,1996-04-13 19:30:00.000000
-        another search term,1999-05-15 19:30:00.000000
-  recorded_at: Wed, 28 Aug 2024 21:47:08 GMT
-recorded_with: VCR 6.2.0
+        phrase,created_at,label
+        first search term,2030-04-13 19:30:00.000000,FALSE
+        another search term,2030-05-15 19:30:00.000000,FALSE
+  recorded_at: Mon, 24 Mar 2025 18:23:42 GMT
+recorded_with: VCR 6.3.1

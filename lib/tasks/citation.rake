@@ -24,6 +24,7 @@ namespace :citations do
         "FingerprintID",
         "ClusterSize",
         "TermID",
+        "Label",
         "Phrase"
       ]
       Term.all.each_with_index do |t, index|
@@ -50,6 +51,7 @@ namespace :citations do
           t.fingerprint_id,
           t.fingerprint.terms.count,
           t.id,
+          t.label,
           t.phrase
         ]
         Rails.logger.info("Completed #{index}") if ((index/100)*100 == index)
