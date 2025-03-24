@@ -1,0 +1,35 @@
+<h3>Score performance</h3>
+
+<p>This allows you to score the algorithm performance based on labelled records in the application.</p>
+
+<p>
+  Terms scored: <%= @scores['scored'] %><br>
+  F1 Score: <%= @scores['f1'] %><br>
+</p>
+
+<table border=1>
+  <thead>
+    <tr>
+      <th colspan="2">&nbsp;</th>
+      <th scope="col" colspan="2">Actual</th>
+    </tr>
+    <tr>
+      <th colspan="2">&nbsp;</th>
+      <th scope="col">Postive</th>
+      <th scope="col">Negative</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th scope="row" rowspan="2">Predicted</th>
+    <th scope="row">Positive</th>
+    <td><%= @buckets['true_positive'] %></td>
+    <td><%= @buckets['false_positive'] %></td>
+  </tr>
+  <tr>
+    <th scope="row">Negative</th>
+    <td><%= @buckets['false_negative'] %></td>
+    <td><%= @buckets['true_negative'] %></td>
+  </tr>
+  </tbody>
+</table>

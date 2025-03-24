@@ -48,6 +48,9 @@ Rails.application.routes.draw do
   # Interventions
   get '/intervention/doi', to: 'intervention#doi'
 
+  # Assess labelled records
+  get '/score', to: 'term#score'
+
   # Defines the root path route ("/")
   root to: 'static#index'
 end
