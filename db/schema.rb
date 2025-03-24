@@ -146,6 +146,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_29_202816) do
     t.boolean "flag"
     t.integer "fingerprint_id"
     t.integer "suggested_resource_id"
+    t.boolean "label"
     t.index ["fingerprint_id"], name: "index_terms_on_fingerprint_id"
     t.index ["phrase"], name: "unique_phrase", unique: true
     t.index ["suggested_resource_id"], name: "index_terms_on_suggested_resource_id"
