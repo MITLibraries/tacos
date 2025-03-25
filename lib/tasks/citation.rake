@@ -1,31 +1,33 @@
+# frozen_string_literal: true
+
 # This is a quick bulk export tool to check the citation calculations
 namespace :citations do
   desc 'Export citation calculations'
   task :export => :environment do
     Rails.logger.info("Preparing to export citation calculations for #{Term.count} phrases")
-    CSV.open('citation_results.csv','w') do |csv|
+    CSV.open('citation_results.csv', 'w') do |csv|
       csv << [
-        "Score",
-        "Characters",
-        "Colons",
-        "Commas",
-        "Periods",
-        "Semicolons",
-        "Words",
-        "APA",
-        "No",
-        "Pages",
-        "PP",
-        "Vol",
-        "Year",
-        "Brackets",
-        "Lastnames",
-        "Quotes",
-        "FingerprintID",
-        "ClusterSize",
-        "TermID",
-        "Label",
-        "Phrase"
+        'Score',
+        'Characters',
+        'Colons',
+        'Commas',
+        'Periods',
+        'Semicolons',
+        'Words',
+        'APA',
+        'No',
+        'Pages',
+        'PP',
+        'Vol',
+        'Year',
+        'Brackets',
+        'Lastnames',
+        'Quotes',
+        'FingerprintID',
+        'ClusterSize',
+        'TermID',
+        'Label',
+        'Phrase'
       ]
       Term.all.each_with_index do |t, index|
         t.save
@@ -54,7 +56,7 @@ namespace :citations do
           t.label,
           t.phrase
         ]
-        Rails.logger.info("Completed #{index}") if ((index/100)*100 == index)
+        Rails.logger.info("Completed #{index}") if (index / 100) * 100 == index
       end
     end
   end
