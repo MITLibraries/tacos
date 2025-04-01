@@ -17,6 +17,7 @@
 #  suggested_resource_exact :integer
 #  lcsh                     :integer
 #  citation                 :integer
+#  barcode                  :integer
 #
 module Metrics
   # Algorithms aggregates statistics for matches for all SearchEvents
