@@ -14,10 +14,7 @@ class TermController < ApplicationController
     @scores['f1'] = 0.0
 
     Term.labelled.each do |subject|
-      Rails.logger.info('-----------------------------------')
-      Rails.logger.info(subject.phrase)
       result = Detector::Citation.new(subject.phrase)
-      Rails.logger.info(result.score)
       if subject.label == true # actual positive
         if result.detection?
           @buckets['true_positive'] += 1
@@ -32,9 +29,6 @@ class TermController < ApplicationController
         end
       end
       @scores['scored'] += 1
-
-      Rails.logger.info("TP: #{@buckets['true_positive']}   FP: #{@buckets['false_positive']}   FN: #{@buckets['false_negative']}   TN: #{@buckets['true_negative']}")
-      Rails.logger.info("\n\n\n")
     end
 
     @scores['f1'] = (2 * @buckets['true_positive']).to_f / ((2 * @buckets['true_positive']) + @buckets['false_positive'] + @buckets['false_negative'])
