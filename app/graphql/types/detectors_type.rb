@@ -25,8 +25,19 @@ module Types
       end
     end
 
+    # Prefer Term based SuggestedResources over Pattern Based Suggested Resources
     def suggested_resources
-      Detector::SuggestedResource.full_term_match(@object).map do |suggested_resource|
+      traditional_suggested_resources.presence || pattern_based_suggested_resources
+    end
+
+    def traditional_suggested_resources
+      Detector::SuggestedResource.full_term_match(@object) do |suggested_resource|
+        { title: suggested_resource.title, url: suggested_resource.url }
+      end
+    end
+
+    def pattern_based_suggested_resources
+      Detector::SuggestedResourcePattern.new(@object).detections do |suggested_resource|
         { title: suggested_resource.title, url: suggested_resource.url }
       end
     end

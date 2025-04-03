@@ -42,6 +42,7 @@ Detector.find_or_create_by(name: 'Journal')
 Detector.find_or_create_by(name: 'SuggestedResource')
 Detector.find_or_create_by(name: 'Citation')
 Detector.find_or_create_by(name: 'Barcode')
+Detector.find_or_create_by(name: 'SuggestedResourcePattern')
 
 # DetectorCategories
 DetectorCategory.find_or_create_by(
@@ -83,6 +84,43 @@ DetectorCategory.find_or_create_by(
   detector: Detector.find_by(name: 'Journal'),
   category: Category.find_by(name: 'Transactional'),
   confidence: 0.2
+)
+DetectorCategory.find_or_create_by(
+  detector: Detector.find_by(name: 'SuggestedResourcePattern'),
+  category: Category.find_by(name: 'Transactional'),
+  confidence: 0.9
+)
+
+# Patterns for Suggested Resources
+SuggestedPattern.find_or_create_by(
+  title: 'Looking for Standards?',
+  url: 'https://libguides.mit.edu/standards',
+  pattern: '(IEC|iec)(\\s)(\\d{5})',
+  shortcode: 'iec'
+)
+SuggestedPattern.find_or_create_by(
+  title: 'Looking for Standards?',
+  url: 'https://libguides.mit.edu/standards',
+  pattern: '(ASCE|asce)(\\s)(\\d)',
+  shortcode: 'asce'
+)
+SuggestedPattern.find_or_create_by(
+  title: 'Looking for Standards?',
+  url: 'https://libguides.mit.edu/standards',
+  pattern: '(IEEE|ieee)\\s+(?:Std\\s+)?([PC]?[0-9]{3,4})',
+  shortcode: 'ieee'
+)
+SuggestedPattern.find_or_create_by(
+  title: 'Looking for Standards?',
+  url: 'https://libguides.mit.edu/standards',
+  pattern: '(ISO|iso)\\s(\\d{1,5})',
+  shortcode: 'iso'
+)
+SuggestedPattern.find_or_create_by(
+  title: 'Looking for Standards?',
+  url: 'https://libguides.mit.edu/standards',
+  pattern: '(ASTM|astm)\\s',
+  shortcode: 'astm'
 )
 
 Rails.logger.info('Seeding DB complete')

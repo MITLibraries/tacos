@@ -55,6 +55,7 @@ class Term < ApplicationRecord
     Detector::Journal.record(self)
     Detector::Lcsh.record(self)
     Detector::SuggestedResource.record(self)
+    Detector::SuggestedResourcePattern.record(self)
 
     nil
   end
