@@ -56,4 +56,28 @@ namespace :citations do
       end
     end
   end
+
+  # The import task is used to ingest labels for use by the citation scoring
+  # process. This process will overwrite any existing labels for records in the
+  # provided CSV file.
+  #
+  # This is meant to be used to load local data only.
+  desc 'Import labels for citations'
+  task :import, %i[path] => :environment do |_task, args|
+    raise ArgumentError.new, 'Path is required' if args.path.blank?
+
+    Rails.logger.info("Loading data from local file #{args.path}")
+    data = File.read(args.path)
+
+    CSV.parse(data, headers: true) do |row|
+      Rails.logger.info("Term: #{row['Phrase']}")
+
+      term = Term.find_or_create_by(phrase: row['Phrase'])
+      term.label = row['Label'].to_s.downcase == "true"
+
+      Rails.logger.info("  Imported label: #{row['Label']} as #{term.label}")
+
+      term.save
+    end
+  end
 end
