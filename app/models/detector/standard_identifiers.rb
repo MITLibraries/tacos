@@ -6,10 +6,6 @@ class Detector
   class StandardIdentifiers
     attr_reader :detections
 
-    def self.table_name_prefix
-      'detector_'
-    end
-
     # shared instance methods
     include Detector::PatternChecker
 
