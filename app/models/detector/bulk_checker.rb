@@ -24,14 +24,16 @@ class Detector
         matches.push [t.phrase, d.detections]
       end
 
-      if Rails.env.development?
-        Rails.logger.ap matches
-
-        Rails.logger.ap "Total Terms: #{Term.count}"
-        Rails.logger.ap "Total Matches: #{count}"
-      end
+      log_summary(matches) if Rails.env.development?
 
       matches if output
+    end
+
+    def log_summary(matches)
+      Rails.logger.info(ap(matches))
+
+      Rails.logger.info "Total Terms  : #{Term.count}"
+      Rails.logger.info "Total Matches: #{matches.count}"
     end
   end
 end
