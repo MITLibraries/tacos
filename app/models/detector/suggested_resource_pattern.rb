@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Detector
-  # Detector::SuggestedResourcePattern handles detections for SuggestedResources based on patterns stored in our
-  # SuggestedPattern model
+  # Detector::SuggestedResourcePattern handles detections for patterns stored in our SuggestedPattern model
   class SuggestedResourcePattern
     attr_reader :detections
 
