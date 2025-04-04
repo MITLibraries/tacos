@@ -85,11 +85,6 @@ DetectorCategory.find_or_create_by(
   category: Category.find_by(name: 'Transactional'),
   confidence: 0.2
 )
-DetectorCategory.find_or_create_by(
-  detector: Detector.find_by(name: 'SuggestedResourcePattern'),
-  category: Category.find_by(name: 'Transactional'),
-  confidence: 0.9
-)
 
 # Patterns for Suggested Resources
 SuggestedPattern.find_or_create_by(
