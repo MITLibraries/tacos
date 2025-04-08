@@ -5,7 +5,7 @@ class Detector
   # singleton class to access it
   # See also: `PatternChecker` for shared instance methods
   module BulkChecker
-    # This method is intended to be used for inspecting detections during development.
+    # check_all_matches is intended to be used for inspecting detections during development.
     # Assumptions include
     #   - the Class including this module implements a `detections` method (either via `attr_reader` or as a method)
     #     that is only populated for Terms in which it has made a detection
@@ -29,6 +29,9 @@ class Detector
       matches if output
     end
 
+    # log_summary formats and logs information collected in check_all_matches
+    #
+    # @param matches [array]. matches should be an array of [phrase, detections]
     def log_summary(matches)
       Rails.logger.info(ap(matches))
 
