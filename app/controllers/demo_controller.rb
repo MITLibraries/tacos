@@ -23,5 +23,6 @@ class DemoController < ApplicationController
     @detections[:lcsh] = Detector::Lcsh.new(@searchterm).detections
     @detections[:standard_identifiers] = Detector::StandardIdentifiers.new(@searchterm).detections
     @detections[:suggested_resources] = Detector::SuggestedResource.full_term_match(@searchterm)
+    @detections[:suggested_resources_patterns] = Detector::SuggestedResourcePattern.new(@searchterm)
   end
 end

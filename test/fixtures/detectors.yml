@@ -33,3 +33,6 @@ journal:
 
 suggestedresource:
   name: 'SuggestedResource'
+
+suggestedresourcepattern:
+  name: 'SuggestedResourcePattern'

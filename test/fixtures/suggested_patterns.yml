@@ -1,0 +1,18 @@
+# == Schema Information
+#
+# Table name: suggested_patterns
+#
+#  id         :integer          not null, primary key
+#  title      :string           not null
+#  url        :string           not null
+#  pattern    :string           not null
+#  shortcode  :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+astm:
+  title: Looking for ASTM Standards?
+  url: 'https://example.com/standards'
+  pattern: '(ASTM|astm)\s'
+  shortcode: astm

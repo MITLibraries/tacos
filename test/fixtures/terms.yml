@@ -83,3 +83,6 @@ nobel_laureate:
   fingerprint: nobel_laureate
   suggested_resource: nobel_laureate
 
+astm:
+  phrase: 'astm 1'
+  fingerprint: astm

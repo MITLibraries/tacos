@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_13_213433) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_31_153721) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -114,6 +114,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_13_213433) do
     t.datetime "updated_at", null: false
     t.index ["source"], name: "index_search_events_on_source"
     t.index ["term_id"], name: "index_search_events_on_term_id"
+  end
+
+  create_table "suggested_patterns", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "url", null: false
+    t.string "pattern", null: false
+    t.string "shortcode", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pattern"], name: "index_suggested_patterns_on_pattern", unique: true
+    t.index ["shortcode"], name: "index_suggested_patterns_on_shortcode", unique: true
   end
 
   create_table "suggested_resources", force: :cascade do |t|
