@@ -35,9 +35,15 @@ namespace :search_events do
 
     # not ideal, we should consider streaming the file rather than loading it fully into memory
     # if you run into issues with this, consider loading subsets (such as a single month) at a time
-    CSV.parse(data) do |row|
-      term = Term.create_or_find_by!(phrase: row.first)
-      term.search_events.create!(source: args.source, created_at: row.last)
+    CSV.parse(data, headers: true) do |row|
+      term = Term.create_or_find_by!(phrase: row['phrase'])
+      if row['label']
+        term.label = row['label']
+      else
+        term.label = nil
+      end
+      term.save
+      term.search_events.create!(source: args.source, created_at: row['created_at'])
     end
   end
 end
