@@ -27,7 +27,8 @@ class Detector
         sps << {
           shortcode: sp.shortcode,
           title: sp.title,
-          url: sp.url
+          url: sp.url,
+          category: sp.category
         }
         @detections = sps
       end
@@ -39,7 +40,7 @@ class Detector
     # @note There are multiple patterns within SuggestedPattern records. Each check is capable of generating
     #       a separate Detection record.
     #
-    # @return nil
+    # @return Category
     def self.record(term)
       sp = Detector::SuggestedResourcePattern.new(term.phrase)
 
@@ -50,8 +51,9 @@ class Detector
           detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
         )
       end
+      return if sp.detections.empty?
 
-      nil
+      sp.detections.first[:category]
     end
   end
 end

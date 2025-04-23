@@ -4,18 +4,18 @@
 #
 # Table name: suggested_resources
 #
-#  id         :integer          not null, primary key
-#  title      :string
-#  url        :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  title       :string
+#  url         :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  category_id :integer
 #
-# SuggestedResource stores custom hints that we want to send to the
-# user in response to specific strings. For example, a search for "web of
-# science" should be met with our custom login link to Web of Science via MIT.
 class SuggestedResource < ApplicationRecord
   has_many :terms, dependent: :nullify
   has_many :fingerprints, through: :terms, dependent: :nullify
+
+  belongs_to :category, optional: true
 
   # This replaces all current SuggestedResource records with a new set from an imported CSV.
   #

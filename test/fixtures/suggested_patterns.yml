@@ -2,13 +2,14 @@
 #
 # Table name: suggested_patterns
 #
-#  id         :integer          not null, primary key
-#  title      :string           not null
-#  url        :string           not null
-#  pattern    :string           not null
-#  shortcode  :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  title       :string           not null
+#  url         :string           not null
+#  pattern     :string           not null
+#  shortcode   :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  category_id :integer
 #
 
 astm:
@@ -16,3 +17,10 @@ astm:
   url: 'https://example.com/standards'
   pattern: '(ASTM|astm)\s'
   shortcode: astm
+
+iso:
+  title: Looking for ISO Standards?
+  url: 'https://example.com/standards'
+  pattern: '(ISO|iso)\s(\d{1,5})'
+  shortcode: iso
+  category: transactional

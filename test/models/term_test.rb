@@ -325,6 +325,46 @@ class TermTest < ActiveSupport::TestCase
     assert_equal categorized_count, Term.categorized.count
   end
 
+  test 'categorization can handle suggested_patterns with a category' do
+    categorization_count = Categorization.count
+
+    t = terms('web_of_knowledge')
+    t.calculate_categorizations
+
+    # We expect an increase because there is a Category assigned to this SuggestedResource
+    assert_operator(categorization_count, :<, Categorization.count)
+  end
+
+  test 'categorization can handle suggested_patterns with NO category' do
+    categorization_count = Categorization.count
+
+    t = terms('nobel_laureate')
+    t.calculate_categorizations
+
+    # We don't expect a change because there is not Category assigned to this SuggestedResource
+    assert_equal(categorization_count, Categorization.count)
+  end
+
+  test 'categorization can handle suggested_resources with a category' do
+    categorization_count = Categorization.count
+
+    t = Term.new(phrase: 'ISO 9001')
+    t.calculate_categorizations
+
+    # We expect an increase because there is a Category assigned to this SuggestedPattern
+    assert_operator(categorization_count, :<, Categorization.count)
+  end
+
+  test 'categorization can handle suggested_resources with NO category' do
+    categorization_count = Categorization.count
+
+    t = Term.new(phrase: 'ASTM 9001')
+    t.calculate_categorizations
+
+    # We don't expect a change because there is not Category assigned to this SuggestedPattern
+    assert_equal(categorization_count, Categorization.count)
+  end
+
   test 'user_confirmed scope returns an active record relation' do
     assert_kind_of ActiveRecord::Relation, Term.user_confirmed
   end
@@ -452,18 +492,22 @@ class TermTest < ActiveSupport::TestCase
 
   test 'does not destroy records with suggested resource' do
     term = terms(:jstor)
+
     assert term.suggested_resource
 
     term.destroy
-    assert term.present?
+
+    assert_predicate term, :present?
   end
 
   test 'destroys record successfully if no suggested resource is present' do
     term = terms(:hi)
     count = Term.count
+
     assert_nil term.suggested_resource
 
     term.destroy
-    assert count - 1, Term.count
+
+    assert_operator count, :-, 1, Term.count
   end
 end

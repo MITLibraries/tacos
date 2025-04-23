@@ -27,7 +27,7 @@ class Detector
     # @note Multiple detections are irrelevant for this method. If _any_ match is found, a Detection record is created.
     #       The uniqueness contraint on Detection records would make multiple detections irrelevant.
     #
-    # @return nil
+    # @return Category
     def self.record(term)
       result = full_term_match(term.phrase)
       return unless result.any?
@@ -38,7 +38,9 @@ class Detector
         detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
       )
 
-      nil
+      return if result.empty?
+
+      result.first.category
     end
   end
 end
