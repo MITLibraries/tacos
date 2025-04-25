@@ -56,7 +56,7 @@ class Detector
         detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
       )
 
-      nil
+      result
     end
   end
 end
