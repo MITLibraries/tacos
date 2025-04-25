@@ -86,7 +86,8 @@ class Detector
     # @return nil
     def self.record(term)
       cit = Detector::Citation.new(term.phrase)
-      return unless cit.detection?
+
+      return cit.summary unless cit.detection?
 
       Detection.find_or_create_by(
         term:,
@@ -94,7 +95,7 @@ class Detector
         detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
       )
 
-      nil
+      cit.summary.merge(cit.subpatterns)
     end
 
     private

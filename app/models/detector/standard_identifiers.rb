@@ -44,7 +44,7 @@ class Detector
         )
       end
 
-      nil
+      si.detections
     end
 
     private

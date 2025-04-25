@@ -50,12 +50,13 @@ class Term < ApplicationRecord
   #
   # @return nil
   def record_detections
-    Detector::Citation.record(self)
-    Detector::StandardIdentifiers.record(self)
-    Detector::Journal.record(self)
+    @citation_summary = Detector::Citation.record(self)
+    @std_identifiers = Detector::StandardIdentifiers.record(self)
+    @journal = Detector::Journal.record(self)
     Detector::Lcsh.record(self)
     @suggested_resource_category = Detector::SuggestedResource.record(self)
     @suggested_pattern_category = Detector::SuggestedResourcePattern.record(self)
+    @ml_citation = Detector::MlCitation.record(features)
 
     nil
   end
@@ -88,6 +89,38 @@ class Term < ApplicationRecord
         )
       end
     end
+  end
+
+  # Currently only works during detection recording. This may be better to rework to be generically useful when
+  # working with Terms
+  def features
+    record_detections if @citation_summary.blank?
+    {
+      counts: {
+        apa_volume_issue: @citation_summary[:apa_volume_issue] || 0,
+        vol: @citation_summary[:vol] || 0,
+        no: @citation_summary[:no] || 0,
+        pages: @citation_summary[:pages]&.count || 0,
+        pp: @citation_summary[:pp]&.count || 0,
+        year_parens: @citation_summary[:year_parens] || 0,
+        brackets: @citation_summary[:brackets] || 0,
+        lastnames: @citation_summary[:lastnames]&.count || 0,
+
+        characters: @citation_summary[:characters] || 0,
+        colons: @citation_summary[:colons] || 0,
+        commas: @citation_summary[:commas] || 0,
+        quotes: @citation_summary[:quotes] || 0,
+        periods: @citation_summary[:periods] || 0,
+        semicolons: @citation_summary[:semicolons] || 0,
+        words: @citation_summary[:words] || 0
+      },
+
+      doi: @std_identifiers[:doi],
+      isbn: @std_identifiers[:isbn],
+      pmid: @std_identifiers[:pmid],
+      journal: @journal&.first&.name,
+      ml_citation: @ml_citation
+    }
   end
 
   private
