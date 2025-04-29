@@ -325,7 +325,7 @@ class TermTest < ActiveSupport::TestCase
     assert_equal categorized_count, Term.categorized.count
   end
 
-  test 'categorization can handle suggested_patterns with a category' do
+  test 'categorization can handle suggested_resources with a category' do
     categorization_count = Categorization.count
 
     t = terms('web_of_knowledge')
@@ -335,7 +335,7 @@ class TermTest < ActiveSupport::TestCase
     assert_operator(categorization_count, :<, Categorization.count)
   end
 
-  test 'categorization can handle suggested_patterns with NO category' do
+  test 'categorization can handle suggested_resources with NO category' do
     categorization_count = Categorization.count
 
     t = terms('nobel_laureate')
@@ -345,7 +345,7 @@ class TermTest < ActiveSupport::TestCase
     assert_equal(categorization_count, Categorization.count)
   end
 
-  test 'categorization can handle suggested_resources with a category' do
+  test 'categorization can handle suggested_patterns with a category' do
     categorization_count = Categorization.count
 
     t = Term.new(phrase: 'ISO 9001')
@@ -355,7 +355,7 @@ class TermTest < ActiveSupport::TestCase
     assert_operator(categorization_count, :<, Categorization.count)
   end
 
-  test 'categorization can handle suggested_resources with NO category' do
+  test 'categorization can handle suggested_patterns with NO category' do
     categorization_count = Categorization.count
 
     t = Term.new(phrase: 'ASTM 9001')
