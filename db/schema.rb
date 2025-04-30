@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_23_125733) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_29_202816) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -123,6 +123,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_23_125733) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "category_id"
+    t.float "confidence", default: 0.9
     t.index ["category_id"], name: "index_suggested_patterns_on_category_id"
     t.index ["pattern"], name: "index_suggested_patterns_on_pattern", unique: true
     t.index ["shortcode"], name: "index_suggested_patterns_on_shortcode", unique: true
@@ -134,6 +135,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_23_125733) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "category_id"
+    t.float "confidence", default: 0.9
     t.index ["category_id"], name: "index_suggested_resources_on_category_id"
   end
 

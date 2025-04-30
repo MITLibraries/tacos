@@ -8,6 +8,7 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :integer
+#  confidence  :float            default(0.9)
 #
 
 
@@ -27,3 +28,8 @@ web_of_knowledge:
 nobel_laureate:
   title: Professor Moungi Bawendi
   url: https://news.mit.edu/2023/mit-chemist-moungi-bawendi-shares-nobel-prize-chemistry-1004
+
+suggested_resource_with_category:
+  title: Categories are cool
+  url: https://example.com/categories-are-cool
+  category: transactional

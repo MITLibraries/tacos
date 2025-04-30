@@ -28,7 +28,8 @@ class Detector
           shortcode: sp.shortcode,
           title: sp.title,
           url: sp.url,
-          category: sp.category
+          category: sp.category,
+          confidence: sp.confidence
         }
         @detections = sps
       end
@@ -40,7 +41,7 @@ class Detector
     # @note There are multiple patterns within SuggestedPattern records. Each check is capable of generating
     #       a separate Detection record.
     #
-    # @return Category
+    # @return Hash with keys :category and :confidence (or nil)
     def self.record(term)
       sp = Detector::SuggestedResourcePattern.new(term.phrase)
 
@@ -53,7 +54,13 @@ class Detector
       end
       return if sp.detections.empty?
 
-      sp.detections.first[:category]
+      # If a category hasn't been set, nil is better than a confidence with no category
+      return if sp.detections.first[:category].blank?
+
+      {
+        category: sp.detections.first[:category],
+        confidence: sp.detections.first[:confidence]
+      }
     end
   end
 end

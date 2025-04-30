@@ -300,6 +300,70 @@ class TermTest < ActiveSupport::TestCase
     end
   end
 
+  test 'calculate_categorization includes SuggestedResources with categories set' do
+    sr = suggested_resources('suggested_resource_with_category')
+    t = terms('suggested_resource_with_category')
+
+    # confirm a category was set
+    assert_equal(categories('transactional'), sr.category)
+
+    # Before categorization
+    categorization_count = Categorization.count
+
+    t.calculate_categorizations
+
+    # Expect categorization count to increase
+    assert_equal categorization_count + 1, Categorization.count
+  end
+
+  test 'calculate_categorization skips SuggestedResources with categories not set' do
+    sr = suggested_resources('nobel_laureate')
+    t = terms('nobel_laureate')
+
+    # confirm no category was set
+    assert_nil(sr.category)
+
+    # Before categorization
+    categorization_count = Categorization.count
+
+    t.calculate_categorizations
+
+    # Expect no change in categorization count
+    assert_equal categorization_count, Categorization.count
+  end
+
+  test 'calculate_categorization includes SuggestedPatterns with categories set' do
+    sp = suggested_patterns('iso')
+    t = Term.find_or_create_by(phrase: 'iso 1234')
+
+    # confirm a category was set
+    assert_equal(categories('transactional'), sp.category)
+
+    # Before categorization
+    categorization_count = Categorization.count
+
+    t.calculate_categorizations
+
+    # Expect categorization count to increase
+    assert_equal categorization_count + 1, Categorization.count
+  end
+
+  test 'calculate_categorization skips SuggestedPatterns with categories not set' do
+    sp = suggested_patterns('astm')
+    t = terms('astm')
+
+    # confirm no category was set
+    assert_nil(sp.category)
+
+    # Before categorization
+    categorization_count = Categorization.count
+
+    t.calculate_categorizations
+
+    # Expect no change in categorization count
+    assert_equal categorization_count, Categorization.count
+  end
+
   test 'categorized scope returns an active record relation' do
     assert_kind_of ActiveRecord::Relation, Term.categorized
   end

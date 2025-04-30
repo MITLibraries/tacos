@@ -27,9 +27,10 @@ class Detector
     # @note Multiple detections are irrelevant for this method. If _any_ match is found, a Detection record is created.
     #       The uniqueness contraint on Detection records would make multiple detections irrelevant.
     #
-    # @return Category
+    # @return Hash with keys :category and :confidence (or nil)
     def self.record(term)
       result = full_term_match(term.phrase)
+
       return unless result.any?
 
       Detection.find_or_create_by(
@@ -40,7 +41,13 @@ class Detector
 
       return if result.empty?
 
-      result.first.category
+      # If a category hasn't been set, nil is better than a confidence with no category
+      return if result.first.category.blank?
+
+      {
+        category: result.first.category,
+        confidence: result.first.confidence
+      }
     end
   end
 end

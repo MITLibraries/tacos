@@ -12,6 +12,7 @@ class SuggestedResourceDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     category: Field::BelongsTo,
+    confidence: Field::Number.with_options(decimals: 2),
     fingerprints: Field::HasMany,
     terms: Field::HasMany,
     title: Field::String,
@@ -30,6 +31,7 @@ class SuggestedResourceDashboard < Administrate::BaseDashboard
     title
     url
     terms
+    category
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -37,7 +39,7 @@ class SuggestedResourceDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     category
-    fingerprints
+    confidence
     terms
     title
     url
@@ -50,6 +52,7 @@ class SuggestedResourceDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     category
+    confidence
     title
     url
   ].freeze

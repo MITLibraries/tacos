@@ -12,6 +12,7 @@ class SuggestedPatternDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     category: Field::BelongsTo,
+    confidence: Field::Number.with_options(decimals: 2),
     pattern: Field::String,
     shortcode: Field::String,
     title: Field::String,
@@ -37,6 +38,7 @@ class SuggestedPatternDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     category
+    confidence
     pattern
     shortcode
     title
@@ -50,6 +52,7 @@ class SuggestedPatternDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     category
+    confidence
     pattern
     shortcode
     title

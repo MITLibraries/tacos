@@ -10,6 +10,7 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :integer
+#  confidence  :float            default(0.9)
 #
 class SuggestedResource < ApplicationRecord
   has_many :terms, dependent: :nullify

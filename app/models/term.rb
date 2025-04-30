@@ -129,9 +129,21 @@ class Term < ApplicationRecord
     # The detections.scores method returns data like [{3=>0.91}, {1=>0.1}] and [{3=>0.95}]
     raw = detections.current.flat_map(&:scores)
     # raw looks like [{3=>0.91}, {1=>0.1}, {3=>0.95}]
-    raw << { @suggested_pattern_category.id => 0.9 } if @suggested_pattern_category.present?
-    raw << { @suggested_resource_category.id => 0.9 } if @suggested_resource_category.present?
+
+    raw << suggested_pattern_score if @suggested_pattern_category.present?
+
+    raw << suggested_resource_score if @suggested_resource_category.present?
 
     raw.group_by { |h| h.keys.first }.map { |k, v| { k => v.map { |h| h.values.first } } }
+  end
+
+  # Retrieve category and score for suggested patterns
+  def suggested_pattern_score
+    { @suggested_pattern_category[:category].id => @suggested_pattern_category[:confidence] }
+  end
+
+  # Retrieve category and score for suggested resources
+  def suggested_resource_score
+    { @suggested_resource_category[:category].id => @suggested_resource_category[:confidence] }
   end
 end
