@@ -86,3 +86,8 @@ nobel_laureate:
 astm:
   phrase: 'astm 1'
   fingerprint: astm
+
+suggested_resource_with_category:
+  phrase: 'categories are cool'
+  fingerprint: suggested_resource_with_category
+  suggested_resource: suggested_resource_with_category

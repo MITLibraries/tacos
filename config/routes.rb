@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :detector_categories
     resources :categories
     resources :categorizations, only: [:index, :show]
+    resources :suggested_patterns
+    resources :suggested_resources
 
     # Search activity models
     resources :search_events, only: [:index, :show]

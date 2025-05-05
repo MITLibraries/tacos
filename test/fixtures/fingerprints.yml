@@ -57,3 +57,6 @@ nobel_laureate:
 
 astm:
   value: 'astm 1'
+
+suggested_resource_with_category:
+  value: 'are categories cool'

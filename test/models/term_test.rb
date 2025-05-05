@@ -300,6 +300,70 @@ class TermTest < ActiveSupport::TestCase
     end
   end
 
+  test 'calculate_categorization includes SuggestedResources with categories set' do
+    sr = suggested_resources('suggested_resource_with_category')
+    t = terms('suggested_resource_with_category')
+
+    # confirm a category was set
+    assert_equal(categories('transactional'), sr.category)
+
+    # Before categorization
+    categorization_count = Categorization.count
+
+    t.calculate_categorizations
+
+    # Expect categorization count to increase
+    assert_equal categorization_count + 1, Categorization.count
+  end
+
+  test 'calculate_categorization skips SuggestedResources with categories not set' do
+    sr = suggested_resources('nobel_laureate')
+    t = terms('nobel_laureate')
+
+    # confirm no category was set
+    assert_nil(sr.category)
+
+    # Before categorization
+    categorization_count = Categorization.count
+
+    t.calculate_categorizations
+
+    # Expect no change in categorization count
+    assert_equal categorization_count, Categorization.count
+  end
+
+  test 'calculate_categorization includes SuggestedPatterns with categories set' do
+    sp = suggested_patterns('iso')
+    t = Term.find_or_create_by(phrase: 'iso 1234')
+
+    # confirm a category was set
+    assert_equal(categories('transactional'), sp.category)
+
+    # Before categorization
+    categorization_count = Categorization.count
+
+    t.calculate_categorizations
+
+    # Expect categorization count to increase
+    assert_equal categorization_count + 1, Categorization.count
+  end
+
+  test 'calculate_categorization skips SuggestedPatterns with categories not set' do
+    sp = suggested_patterns('astm')
+    t = terms('astm')
+
+    # confirm no category was set
+    assert_nil(sp.category)
+
+    # Before categorization
+    categorization_count = Categorization.count
+
+    t.calculate_categorizations
+
+    # Expect no change in categorization count
+    assert_equal categorization_count, Categorization.count
+  end
+
   test 'categorized scope returns an active record relation' do
     assert_kind_of ActiveRecord::Relation, Term.categorized
   end
@@ -323,6 +387,46 @@ class TermTest < ActiveSupport::TestCase
     # The term has gained a category, but the categorized scope has not changed size.
     assert_operator orig_categorization_count, :<, t.categorizations.count
     assert_equal categorized_count, Term.categorized.count
+  end
+
+  test 'categorization can handle suggested_resources with a category' do
+    categorization_count = Categorization.count
+
+    t = terms('web_of_knowledge')
+    t.calculate_categorizations
+
+    # We expect an increase because there is a Category assigned to this SuggestedResource
+    assert_operator(categorization_count, :<, Categorization.count)
+  end
+
+  test 'categorization can handle suggested_resources with NO category' do
+    categorization_count = Categorization.count
+
+    t = terms('nobel_laureate')
+    t.calculate_categorizations
+
+    # We don't expect a change because there is not Category assigned to this SuggestedResource
+    assert_equal(categorization_count, Categorization.count)
+  end
+
+  test 'categorization can handle suggested_patterns with a category' do
+    categorization_count = Categorization.count
+
+    t = Term.new(phrase: 'ISO 9001')
+    t.calculate_categorizations
+
+    # We expect an increase because there is a Category assigned to this SuggestedPattern
+    assert_operator(categorization_count, :<, Categorization.count)
+  end
+
+  test 'categorization can handle suggested_patterns with NO category' do
+    categorization_count = Categorization.count
+
+    t = Term.new(phrase: 'ASTM 9001')
+    t.calculate_categorizations
+
+    # We don't expect a change because there is not Category assigned to this SuggestedPattern
+    assert_equal(categorization_count, Categorization.count)
   end
 
   test 'user_confirmed scope returns an active record relation' do
@@ -452,18 +556,22 @@ class TermTest < ActiveSupport::TestCase
 
   test 'does not destroy records with suggested resource' do
     term = terms(:jstor)
+
     assert term.suggested_resource
 
     term.destroy
-    assert term.present?
+
+    assert_predicate term, :present?
   end
 
   test 'destroys record successfully if no suggested resource is present' do
     term = terms(:hi)
     count = Term.count
+
     assert_nil term.suggested_resource
 
     term.destroy
-    assert count - 1, Term.count
+
+    assert_operator count, :-, 1, Term.count
   end
 end

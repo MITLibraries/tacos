@@ -4,11 +4,13 @@
 #
 # Table name: suggested_resources
 #
-#  id         :integer          not null, primary key
-#  title      :string
-#  url        :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  title       :string
+#  url         :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  category_id :integer
+#  confidence  :float            default(0.9)
 #
 require 'test_helper'
 
