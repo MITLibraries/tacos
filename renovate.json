@@ -1,6 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>MITLibraries/renovate-config:renovate-ruby"
+    "local>MITLibraries/renovate-config:renovate-ruby"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "ruby"
+      ],
+      "allowedVersions": "<3.5"
+    },
+    {
+      "matchPackageNames": [
+        "rails"
+      ],
+      "allowedVersions": "<8"
+    }
   ]
 }
