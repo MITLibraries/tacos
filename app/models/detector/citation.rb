@@ -10,7 +10,7 @@ class Detector
   # hallmarks of being a citation.
   # Phrases whose score is higher than the REQUIRED_SCORE value can be registered as a Detection.
   class Citation
-    attr_reader :score, :subpatterns, :summary
+    attr_reader :features, :score, :subpatterns, :summary
 
     # shared singleton methods
     extend Detector::BulkChecker
@@ -67,10 +67,13 @@ class Detector
     # @return Nothing intentional. Data is written to Hashes `@subpatterns`, `@summary`,
     #   and `@score` during processing.
     def initialize(phrase)
+      @features = {}
       @subpatterns = {}
       @summary = {}
       pattern_checker(phrase)
       summarize(phrase)
+      @features = @subpatterns.deep_dup.transform_values(&:length).merge(summary)
+      @subpatterns.delete_if { |_, v| v == [] }
       @score = calculate_score
     end
 
@@ -141,7 +144,7 @@ class Detector
     # @return hash
     def pattern_checker(phrase)
       CITATION_PATTERNS.each_pair do |type, pattern|
-        @subpatterns[type.to_sym] = scan(pattern, phrase) if scan(pattern, phrase).present?
+        @subpatterns[type.to_sym] = scan(pattern, phrase)
       end
     end
 
