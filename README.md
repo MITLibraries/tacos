@@ -73,6 +73,10 @@ changes, this is the signal which indicates that terms need to be re-evaluated.
 
 ### Optional
 
+`DETECTOR_LAMBDA_CHALLENGE_SECRET`: The secret phrase required by the external citation detector to process any request. If not present, the detector will not respond.
+`DETECTOR_LAMBDA_PATH`: The path specified by the external citation detector for prediction requests. If not present, the citation detector will not be consulted.
+`DETECTOR_LAMBDA_URL`: The address for an external citation detector, if present. If not present, the citation detector will not be consulted.
+
 `LIBKEY_KEY`: LibKey API key. Required if `LIBKEY_DOI` or `LIBKEY_PMID` are set.
 `LIBKEY_ID`: LibKey Library ID. Required if `LIBKEY_DOI` or `LIBKEY_PMID` are set.
 `LIBKEY_DOI`: If set, use LibKey for DOI metadata lookups. If not set, Unpaywall is used.

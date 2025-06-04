@@ -48,3 +48,8 @@ eight:
   detector: barcode
   category: transactional
   confidence: 0.95
+
+nine:
+  detector: mlcitation
+  category: transactional
+  confidence: 0.95
