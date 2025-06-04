@@ -10,7 +10,7 @@ class Detector
   # hallmarks of being a citation.
   # Phrases whose score is higher than the REQUIRED_SCORE value can be registered as a Detection.
   class Citation
-    attr_reader :score, :subpatterns, :summary
+    attr_reader :features, :score, :subpatterns, :summary
 
     # shared singleton methods
     extend Detector::BulkChecker
@@ -67,10 +67,13 @@ class Detector
     # @return Nothing intentional. Data is written to Hashes `@subpatterns`, `@summary`,
     #   and `@score` during processing.
     def initialize(phrase)
+      @features = {}
       @subpatterns = {}
       @summary = {}
       pattern_checker(phrase)
       summarize(phrase)
+      extract_features
+      @subpatterns.delete_if { |_, v| v == [] }
       @score = calculate_score
     end
 
@@ -135,13 +138,25 @@ class Detector
       phrase.count(',')
     end
 
+    # This converts the already-built @subpatterns and @summary instance variables into the @features instance variable,
+    # which has a format suitable for sending to our prediction algorithm.
+    def extract_features
+      # Need to create a separate instance variable, so use .deep_dup
+      @features = @subpatterns.deep_dup
+      # Convert the @subpattern structure of {no: = [], pages: ['194-204']} (a hash of matched substrings, with some
+      # empty) into {no: 0, pages: 1} (a hash of integers, some zero)
+      @features = @features.transform_values(&:length)
+      # Now join the re-shaped hash with the @summary variable, so everything is in one place.
+      @features = @features.merge(summary)
+    end
+
     # This builds one of the two main components of the Citation detector - the subpattern report. It uses each of the
     # regular expressions in the CITATION_PATTERNS constant, extracting all matches using the scan method.
     #
     # @return hash
     def pattern_checker(phrase)
       CITATION_PATTERNS.each_pair do |type, pattern|
-        @subpatterns[type.to_sym] = scan(pattern, phrase) if scan(pattern, phrase).present?
+        @subpatterns[type.to_sym] = scan(pattern, phrase)
       end
     end
 
