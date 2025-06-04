@@ -50,6 +50,7 @@ class Term < ApplicationRecord
   #
   # @return nil
   def record_detections
+    Detector::MlCitation.record(self) if Detector::MlCitation.expected_env?
     Detector::Citation.record(self)
     Detector::StandardIdentifiers.record(self)
     Detector::Journal.record(self)
