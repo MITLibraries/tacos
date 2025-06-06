@@ -11,10 +11,8 @@ class Detector
     def initialize(phrase)
       return unless self.class.expected_env?
 
-      external_data = fetch(phrase)
-      return if external_data == 'Error'
-
-      @detections = external_data
+      response = fetch(phrase)
+      @detections = response unless response == 'Error'
     end
 
     def detection?
@@ -117,7 +115,8 @@ class Detector
         JSON.parse(response.body)['response'] == 'true'
       else
         Rails.logger.error(response.body)
-        Rails.logger.error(response.body['error'])
+        Sentry.set_extras({ body: response.body })
+        Sentry.capture_message('Non-200 response received from detector lambda')
 
         'Error'
       end

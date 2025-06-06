@@ -43,44 +43,6 @@ class Detector
       end
     end
 
-    # These next three tests may not be needed, since the expected_env? method is tested above.
-    test 'DETECTOR_LAMBDA_CHALLENGE_SECRET is required' do
-      with_enabled_mlcitation do
-        ClimateControl.modify DETECTOR_LAMBDA_CHALLENGE_SECRET: nil do
-          result = Detector::MlCitation.new('ping')
-
-          assert_instance_of Detector::MlCitation, result
-
-          assert_nil(result.detections)
-        end
-      end
-    end
-
-    test 'DETECTOR_LAMBDA_PATH is required' do
-      with_enabled_mlcitation do
-        ClimateControl.modify DETECTOR_LAMBDA_PATH: nil do
-          result = Detector::MlCitation.new('ping')
-
-          assert_instance_of Detector::MlCitation, result
-
-          assert_nil(result.detections)
-        end
-      end
-    end
-
-    test 'DETECTOR_LAMBDA_URL is required' do
-      with_enabled_mlcitation do
-        ClimateControl.modify DETECTOR_LAMBDA_URL: nil do
-          result = Detector::MlCitation.new('ping')
-
-          assert_instance_of Detector::MlCitation, result
-
-          assert_nil(result.detections)
-        end
-      end
-    end
-    # End of the maybe-not-needed tests
-
     # Class initalization
     test 'lookup returns true when lambda running' do
       with_enabled_mlcitation do
@@ -96,7 +58,7 @@ class Detector
       end
     end
 
-    test 'lookup returns nil when challenge_secret is wrong' do
+    test 'non 200 http status responses result in no detection' do
       with_enabled_mlcitation do
         ClimateControl.modify DETECTOR_LAMBDA_CHALLENGE_SECRET: 'something wrong' do
           VCR.use_cassette('lambda with wrong secret') do
