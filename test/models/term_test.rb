@@ -235,6 +235,24 @@ class TermTest < ActiveSupport::TestCase
     assert_equal(detection_count, Detection.count)
   end
 
+  test 'record_detections includes the external lambda with appropriate env defined' do
+    # No new mlcitation is created without the lambda enabled.
+    mlcitation_before_count = Detection.where(detector_id: Detector.find_by(name: 'MlCitation').id ).count
+    t = terms('citation')
+    t.record_detections
+
+    assert_equal mlcitation_before_count, Detection.where(detector_id: Detector.find_by(name: 'MlCitation').id ).count
+
+    # However, with the lambda enabled, the same term triggers a detection.
+    with_enabled_mlcitation do
+      VCR.use_cassette('lambda citation') do
+        t.record_detections
+
+        assert_operator mlcitation_before_count, :<, Detection.where(detector_id: Detector.find_by(name: 'MlCitation').id ).count
+      end
+    end
+  end
+
   test 'calculate_confidence returns an average of a list with multiple numbers' do
     t = Term.new
 

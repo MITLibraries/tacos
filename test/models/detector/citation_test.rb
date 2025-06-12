@@ -4,9 +4,11 @@ require 'test_helper'
 
 class Detector
   class CitationTest < ActiveSupport::TestCase
-    test 'detector::citation exposes three instance variables' do
+    test 'detector::citation exposes four instance variables' do
       t = terms('citation')
       result = Detector::Citation.new(t.phrase)
+
+      assert_predicate result.features, :present?
 
       assert_predicate result.score, :present?
 
@@ -194,6 +196,29 @@ class Detector
       result = Detector::Citation.new('Science Education and Cultural Diversity: Mapping the Field. Studies in Science Education, 24(1), 49–73.')
 
       assert_operator 0, :<, result.score
+    end
+
+    test 'features instance method is a hash of integers' do
+      result = Detector::Citation.new('simple search phrase')
+
+      assert_instance_of(Hash, result.features)
+
+      assert(result.features.all? { |_, v| v.integer? })
+    end
+
+    test 'features instance method includes all elements of citation detector regardless of search string' do
+      result_simple = Detector::Citation.new('simple')
+      result_complex = Detector::Citation.new('Science Education and Cultural Diversity: Mapping the Field. Studies in Science Education, 24(1), 49–73.')
+
+      assert_equal result_simple.features.length, result_complex.features.length
+    end
+
+    test 'features instance method should include all elements of citation patterns and summary thresholds' do
+      patterns = Detector::Citation.const_get :CITATION_PATTERNS
+      summary = Detector::Citation.const_get :SUMMARY_THRESHOLDS
+      result = Detector::Citation.new('simple')
+
+      assert_equal (patterns.length + summary.length), result.features.length
     end
 
     test 'detection? convenience method returns true for obvious citations' do

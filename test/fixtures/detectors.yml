@@ -13,6 +13,9 @@ barcode:
 citation:
   name: 'Citation'
 
+mlcitation:
+  name: 'MlCitation'
+
 doi:
   name: 'DOI'
 

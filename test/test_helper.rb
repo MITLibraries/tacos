@@ -15,6 +15,7 @@ require_relative '../config/environment'
 require 'rails/test_help'
 
 VCR.configure do |config|
+  config.ignore_localhost = false
   config.cassette_library_dir = 'test/vcr_cassettes'
   config.hook_into :webmock
 
@@ -99,4 +100,23 @@ module ActiveSupport
       OmniAuth.config.mock_auth[:openid_connect] = nil
     end
   end
+end
+
+# Most tests don't rely on the external ML Citation detector's behavior - so the needed env vars have not been added to
+# the .env.test file. Any test which does require the ML Citation detector should wrap its test in a block calling this
+# helper function.
+#
+# Please note that enabling this feature will almost certainly require your test to provide a cassette to simulate the
+# detector's response.
+def with_enabled_mlcitation
+  old_env = ENV.to_hash
+  ClimateControl.modify(
+    DETECTOR_LAMBDA_CHALLENGE_SECRET: 'secret_phrase',
+    DETECTOR_LAMBDA_PATH: '/foo',
+    DETECTOR_LAMBDA_URL: 'http://localhost:3000'
+  ) {
+    yield
+  }
+ensure
+  ENV.replace(old_env)
 end

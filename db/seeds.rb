@@ -41,6 +41,7 @@ Detector.find_or_create_by(name: 'PMID')
 Detector.find_or_create_by(name: 'Journal')
 Detector.find_or_create_by(name: 'SuggestedResource')
 Detector.find_or_create_by(name: 'Citation')
+Detector.find_or_create_by(name: 'MlCitation')
 Detector.find_or_create_by(name: 'Barcode')
 Detector.find_or_create_by(name: 'SuggestedResourcePattern')
 
@@ -74,6 +75,11 @@ DetectorCategory.find_or_create_by(
   detector: Detector.find_by(name: 'LCSH'),
   category: Category.find_by(name: 'Informational'),
   confidence: 0.7
+)
+DetectorCategory.find_or_create_by(
+  detector: Detector.find_by(name: 'MlCitation'),
+  category: Category.find_by(name: 'Transactional'),
+  confidence: 0.95
 )
 DetectorCategory.find_or_create_by(
   detector: Detector.find_by(name: 'PMID'),
