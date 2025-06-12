@@ -54,14 +54,41 @@ class Detector
       nil
     end
 
+    # lambda_path reads and returns the value of one environment variable.
+    #
+    # @note This is a public class method because the entire class ends up getting called in both class and instance
+    #   contexts, due to how detectors are built. The ideal state would be a private method, but that would require
+    #   changing how the class calls itself via the fetch method.
+    #
+    # @see Detector::MlCitation.expected_env?
+    # @see Detector::MlCitation.fetch
+    # @return String or nil
     def self.lambda_path
       ENV.fetch('DETECTOR_LAMBDA_PATH', nil)
     end
 
+    # lambda_secret reads and returns the value of one environment variable.
+    #
+    # @note This is a public class method because the entire class ends up getting called in both class and instance
+    #   contexts, due to how detectors are built. The ideal state would be a private method, but that would require
+    #   changing how the class calls itself via the fetch method.
+    #
+    # @see Detector::MlCitation.expected_env?
+    # @see Detector::MlCitation.fetch
+    # @return String or nil
     def self.lambda_secret
       ENV.fetch('DETECTOR_LAMBDA_CHALLENGE_SECRET', nil)
     end
 
+    # lambda_url reads and returns the value of one environment variable.
+    #
+    # @note This is a public class method because the entire class ends up getting called in both class and instance
+    #   contexts, due to how detectors are built. The ideal state would be a private method, but that would require
+    #   changing how the class calls itself via the fetch method.
+    #
+    # @see Detector::MlCitation.expected_env?
+    # @see Detector::MlCitation.fetch
+    # @return String or nil
     def self.lambda_url
       ENV.fetch('DETECTOR_LAMBDA_URL', nil)
     end
