@@ -1,0 +1,106 @@
+/* Color Variables */
+
+// Core
+$blue-500: #0000FF;
+
+$purple-700: #990099;
+
+$white: #fff;
+$gray-100: #F2F2F2;
+$black: #111;
+
+@mixin focus-outline {
+    &:focus {
+        outline: 3px solid $blue-500;
+    }    
+}
+
+@mixin hover-transition {
+    transition: all .25s ease-in-out 0s;
+}
+
+// Semantic
+$color-suggestion-border: $purple-700;
+$color-suggestion-accent-text: $purple-700;
+
+/* Suggestion Panel */
+.mitlib-suggestion-panel {
+    border: 4px solid $color-suggestion-border;
+
+    display: flex;
+    column-gap: 24px;
+
+    padding: 20px 24px;
+    position: relative;
+
+    .panel-type {
+        color: $color-suggestion-accent-text;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    h3 {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.25;
+        margin-bottom: 8px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    ul.metadata {
+        font-size: 14px;
+        list-style: none inside;
+        padding-left: 0;
+        margin-bottom: 20px;
+    }
+    
+    // This would need to be extracted into an Icon Button in the future.
+    button.dismiss {
+        //Temporarily hiding until we can move to a prop
+        display: none;
+
+        width: 48px;
+        height: 48px;
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        background-color: $white;
+        border: none;
+        color: $black;
+        cursor: pointer;
+        font-weight: 600;
+
+	    @include hover-transition;
+
+        @include focus-outline;
+
+        &:hover {
+            background-color: $gray-100;
+        }
+    }
+}
+
+/* Button styles to be extracted into button component */
+.button.secondary {
+    border: 1px solid $black;
+    border-radius: 0;
+    display: inline-block;
+    padding: 6px 12px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+
+    @include hover-transition;
+
+    @include focus-outline;
+
+    &:hover {
+        color: $white;
+        background-color: $black;
+    }
+}
