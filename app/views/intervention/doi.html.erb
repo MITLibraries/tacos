@@ -1,50 +1,38 @@
 <% return unless @json.present? %>
 
-<div id="doi-fact" class="panel fact">
-  <div class="panel-body">
-    <div class="layout-1q3q layout-band">
-      <div class="col1q">
-        <% if @json[:journal_image].present? %>
-          <%= image_tag(@json[:journal_image], style: '  display: block;
-  margin-left: auto;
-  margin-right: auto;
-') %>
-        <% end %>
-      </div>
-
-      <div class="col3q">
-        <h3><%= @json[:title] %></h3>
-
-        <p>In: <%= @json[:journal_name] %></p>
-
+<aside class="mitlib-suggestion-panel">
+  <div class="image-wrapper">
+    <% if @json[:journal_image].present? %>
+      <%= image_tag(@json[:journal_image]) %>
+    <% end %>
+  </div>
+  <div class="panel-content">
+    <button aria-label="Dismiss suggestion" class="dismiss fa fa-times fa-lg"></button>
+    <p class="panel-type">Suggested resource</p>
+    <h3><%= @json[:title] %></h3>
+    <p><%= @json[:journal_name] %></p>
+    
+    <% if @json[:oa_status] || @json[:best_oa_location].present? || @json[:journal_link].present? %>
+      <ul class="metadata">
         <% if @json[:oa_status] %>
-        <p>
-          Open Access: 
-            <%= @json[:oa_status] %>
-        </p>
+          <li>
+            Open Access: 
+              <%= @json[:oa_status] %>
+          </li>
         <% end %>
-
 
         <% if @json[:best_oa_location].present? %>
-          <p><%= link_to('Open Access Link', @json[:best_oa_location]["url"]) %></p>
+          <li><%= link_to('Open Access Link', @json[:best_oa_location]["url"]) %></li>
         <% end %>
 
         <% if @json[:journal_link].present? %>
-          <p><%= link_to('Browse issues', @json[:journal_link]) %></p>
-        <% end %>
+          <li><%= link_to('Browse issues of this publication', @json[:journal_link]) %></li>
+        <% end %> 
+      </ul>
+    <% end %> 
 
-        <p>
-          <%= link_to('Check MIT Subscription Access', @json[:link_resolver_url], class: 'btn button-primary') %>
-        </p>
-
-      </div>
-    </div>
-
-   
-      
-
-
-      
-    </ul>
+    <%= link_to('Check MIT subscription access', @json[:link_resolver_url], class: 'button secondary') %>
   </div>
-</div>
+</aside>
+
+<% debug(@json) %>
