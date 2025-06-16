@@ -33,6 +33,11 @@ VCR.configure do |config|
     ENV.fetch('LIBKEY_ID', nil).to_s
   end
 
+  # Filter Detector Challenge Secret
+  config.filter_sensitive_data('FAKE_DETECTOR_CHALLENGE_SECRET') do
+    ENV.fetch('DETECTOR_LAMBDA_CHALLENGE_SECRET', nil).to_s
+  end
+
   config.before_record do |interaction|
     header = interaction.response&.headers&.[]('Report-To')
     header&.each do |redacted_text|

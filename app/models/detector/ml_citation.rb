@@ -101,7 +101,8 @@ class Detector
     def define_lambda
       Faraday.new(
         url: self.class.lambda_url,
-        params: {}
+        params: {},
+        headers: { 'Content-Type' => 'application/json' }
       )
     end
 
@@ -125,7 +126,7 @@ class Detector
       features[:apa] = features.delete :apa_volume_issue
       features[:year] = features.delete :year_parens
       features.delete :characters
-      features
+      features.sort.to_h
     end
 
     # Fetch handles the communication with the detector lambda: defining the connection, building the payload, and any
@@ -139,7 +140,7 @@ class Detector
       response = lambda.post(self.class.lambda_path, payload.to_json)
 
       if response.status == 200
-        JSON.parse(response.body)['response'] == 'true'
+        JSON.parse(response.body)['response'] == 'True'
       else
         Rails.logger.error(response.body)
         Sentry.set_extras({ body: response.body })

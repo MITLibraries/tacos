@@ -44,23 +44,34 @@ class Detector
     end
 
     # Class initalization
-    test 'lookup returns true when lambda running' do
+    test 'lookup returns false when a search is not a citation' do
       with_enabled_mlcitation do
-        # These cassettes should be regenerated once the lambda is running in AWS. For now it will need to be running
-        # on localhost should the cassettes need to be regenerated.
-        VCR.use_cassette('lambda running') do
+        VCR.use_cassette('lambda no citation') do
           prediction = Detector::MlCitation.new('ping')
 
           assert_instance_of Detector::MlCitation, prediction
 
-          assert(prediction.detections)
+          assert_equal(false, prediction.detections)
+        end
+      end
+    end
+
+    test 'lookup returns true when a search is a citation' do
+      with_enabled_mlcitation do
+        VCR.use_cassette('lambda citation') do
+          t = terms('citation')
+          prediction = Detector::MlCitation.new(t.phrase)
+
+          assert_instance_of Detector::MlCitation, prediction
+
+          assert_equal(true, prediction.detections)
         end
       end
     end
 
     test 'non 200 http status responses result in no detection' do
       with_enabled_mlcitation do
-        ClimateControl.modify DETECTOR_LAMBDA_CHALLENGE_SECRET: 'something wrong' do
+        ClimateControl.modify DETECTOR_LAMBDA_CHALLENGE_SECRET: 'wrong secret' do
           VCR.use_cassette('lambda with wrong secret') do
             prediction = Detector::MlCitation.new('oops')
 
@@ -100,7 +111,7 @@ class Detector
 
     test 'record respects changes to the DETECTOR_VERSION value' do
       with_enabled_mlcitation do
-        VCR.use_cassette('lambda citation', allow_playback_repeats: true) do
+        VCR.use_cassette('lambda citation sequence', allow_playback_repeats: true) do
           # Create a relevant detection
           Detector::MlCitation.record(terms('citation'))
 
