@@ -3,15 +3,7 @@
 // Core
 $blue-500: #0000FF;
 
-$purple-100: #FFE5FF;
-$purple-200: #FFCCFF;
-$purple-300: #FF99FF;
-$purple-400: #FF66FF;
-$purple-500: #FF33FF;
-$purple-600: #CC00CC;
 $purple-700: #990099;
-$purple-800: #660066;
-$purple-900: #330033;
 
 $white: #fff;
 $gray-100: #F2F2F2;
@@ -68,6 +60,9 @@ $color-suggestion-accent-text: $purple-700;
     
     // This would need to be extracted into an Icon Button in the future.
     button.dismiss {
+        //Temporarily hiding until we can move to a prop
+        display: none;
+
         width: 48px;
         height: 48px;
         position: absolute;
@@ -79,7 +74,6 @@ $color-suggestion-accent-text: $purple-700;
         color: $black;
         cursor: pointer;
         font-weight: 600;
-        // TODO: replace with fontawesome
 
 	    @include hover-transition;
 
