@@ -140,7 +140,7 @@ class Detector
       response = lambda.post(self.class.lambda_path, payload.to_json)
 
       if response.status == 200
-        JSON.parse(response.body)['response'] == 'True'
+        JSON.parse(response.body)['response'] == true
       else
         Rails.logger.error(response.body)
         Sentry.set_extras({ body: response.body })
