@@ -11,6 +11,7 @@
 #  flag                  :boolean
 #  fingerprint_id        :integer
 #  suggested_resource_id :integer
+#  label                 :boolean
 #
 require 'test_helper'
 
