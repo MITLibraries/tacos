@@ -43,7 +43,8 @@ namespace :search_events do
         term.label = nil
       end
       term.save
-      term.search_events.create!(source: args.source, created_at: row['created_at'])
+      source = row['source'] || args.source
+      term.search_events.create!(source: source, created_at: row['created_at'])
     end
   end
 end
