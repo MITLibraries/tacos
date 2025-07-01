@@ -30,14 +30,14 @@ class TermControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:basic)
     get terms_unconfirmed_path
 
-    assert_select 'p.wrap-filters', text: "View:\n  Categorized terms\n  All terms", count: 0
+    assert_select 'p.wrap-filters', text: "View: Categorized terms All terms", count: 0
   end
 
   test 'admin users see two confirmation options' do
     sign_in users(:admin)
     get terms_unconfirmed_path
 
-    assert_select 'p.wrap-filters', text: "View:\n  Categorized terms\n  All terms", count: 1
+    assert_select 'p.wrap-filters', text: "View: Categorized terms All terms", count: 1
   end
 
   test 'basic users cannot access the confirmation option for uncategorized terms' do
