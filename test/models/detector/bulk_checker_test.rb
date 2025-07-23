@@ -7,7 +7,7 @@ class Detector
     test 'citation_bulk_checker' do
       bulk = Detector::Citation.check_all_matches(output: true)
 
-      assert_equal(1, bulk.count)
+      assert_equal(2, bulk.count)
     end
 
     test 'journal_bulk_checker' do
@@ -25,7 +25,7 @@ class Detector
     test 'standard_identifier_bulk_checker' do
       bulk = Detector::StandardIdentifiers.check_all_matches(output: true)
 
-      assert_equal(6, bulk.count)
+      assert_equal(7, bulk.count)
     end
 
     test 'suggested_resources_bulk_checker' do

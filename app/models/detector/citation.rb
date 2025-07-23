@@ -27,7 +27,8 @@ class Detector
       year_parens: /\(\d{4}\)/,
       brackets: /\[.*?\]/,
       lastnames: /[A-Z][a-z]+[.,]/,
-      quotes: /&quot;.*?&quot;/
+      quotes: /&quot;.*?&quot;/,
+      quotation_marks: /".*"/
     }.freeze
 
     # The required score value is the threshold needed for a phrase to be officially recorded with a Detection via it's
@@ -85,11 +86,13 @@ class Detector
 
     # The record method first runs all of the parsers by running the initialize method. If the resulting score is higher
     # than the REQUIRED_SCORE value, then a Detection is registered.
+    #
     # @param term [Term]
-    # @return nil
+    #
+    # @return [Hash] a hash of features extracted from the Term
     def self.record(term)
       cit = Detector::Citation.new(term.phrase)
-      return unless cit.detection?
+      return cit.features unless cit.detection?
 
       Detection.find_or_create_by(
         term:,
@@ -97,7 +100,7 @@ class Detector
         detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
       )
 
-      nil
+      cit.features
     end
 
     private

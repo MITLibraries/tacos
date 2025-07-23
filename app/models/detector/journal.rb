@@ -45,7 +45,7 @@ class Detector
     # @note This does not care whether multiple matching journals are detected. If _any_ match is found, a Detection
     #       record is created. The uniqueness constraint on Detection records would make multiple detections irrelevant.
     #
-    # @return nil
+    # @return [Set of Journal] A set of ActiveRecord Journal records.
     def self.record(term)
       result = full_term_match(term.phrase)
       return unless result.any?
@@ -56,7 +56,7 @@ class Detector
         detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
       )
 
-      nil
+      result
     end
   end
 end
