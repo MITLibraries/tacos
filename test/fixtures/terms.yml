@@ -91,3 +91,6 @@ suggested_resource_with_category:
   phrase: 'categories are cool'
   fingerprint: suggested_resource_with_category
   suggested_resource: suggested_resource_with_category
+
+citation_with_all_the_things:
+  phrase: 'Lastname, F. M., & Lastname, F. M. (1999). Title of the work. Nature Medicine, 9(1), pages 1-10, pp. 1-10. 10.1016/j.physio.2010.12.004 vol. 9, no. 1 [12] :; &quot;thing&quot; 9781319145446 1075-8623 PMID: 38908367 39080678901234'

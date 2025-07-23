@@ -48,12 +48,16 @@ class Term < ApplicationRecord
   # The record_detections method is the one-stop method to call every Detector's record method that is defined within
   # the application.
   #
+  # @note This method is called by the calculate_categorizations method, so it is not necessary to call it separately.
+  # It is also called by the features method to ensure that the latest detections are always available if
+  # calculate_categorizations is not called first.
+  #
   # @return nil
   def record_detections
-    Detector::MlCitation.record(self) if Detector::MlCitation.expected_env?
-    Detector::Citation.record(self)
-    Detector::StandardIdentifiers.record(self)
-    Detector::Journal.record(self)
+    @ml_citation = Detector::MlCitation.record(self) if Detector::MlCitation.expected_env?
+    @citation_summary = Detector::Citation.record(self)
+    @std_identifiers = Detector::StandardIdentifiers.record(self)
+    @journal = Detector::Journal.record(self)
     Detector::Lcsh.record(self)
     @suggested_resource_category = Detector::SuggestedResource.record(self)
     @suggested_pattern_category = Detector::SuggestedResourcePattern.record(self)
@@ -89,6 +93,45 @@ class Term < ApplicationRecord
         )
       end
     end
+  end
+
+  # Extracted features from various detectors are returned as a hash. This method is used to provide a summary of
+  # the Term's features, which are used for machine learning and other purposes.
+  #
+  # @return [Hash] a hash of features extracted from the Term
+  #
+  # @note This method will call record_detections if the @citation_summary is not already populated.
+  #       This is to ensure that the features are always up-to-date with the latest detections.
+  def features
+    record_detections if @citation_summary.blank?
+    {
+      counts: {
+        apa_volume_issue: @citation_summary[:apa_volume_issue] || 0,
+        vol: @citation_summary[:vol] || 0,
+        no: @citation_summary[:no] || 0,
+        pages: @citation_summary[:pages] || 0,
+        pp: @citation_summary[:pp] || 0,
+        year_parens: @citation_summary[:year_parens] || 0,
+        brackets: @citation_summary[:brackets] || 0,
+        lastnames: @citation_summary[:lastnames] || 0,
+
+        characters: @citation_summary[:characters] || 0,
+        colons: @citation_summary[:colons] || 0,
+        commas: @citation_summary[:commas] || 0,
+        quotes: @citation_summary[:quotes] || 0,
+        periods: @citation_summary[:periods] || 0,
+        semicolons: @citation_summary[:semicolons] || 0,
+        words: @citation_summary[:words] || 0
+      },
+
+      barcode: @std_identifiers[:barcode],
+      doi: @std_identifiers[:doi],
+      isbn: @std_identifiers[:isbn],
+      issn: @std_identifiers[:issn],
+      pmid: @std_identifiers[:pmid],
+      journal: @journal&.first&.name,
+      ml_citation: @ml_citation
+    }
   end
 
   private

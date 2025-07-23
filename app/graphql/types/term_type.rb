@@ -5,6 +5,7 @@ module Types
     field :categories, [Types::CategoriesType], description: 'The list of categories linked to this term'
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :detectors, Types::DetectorsType
+    field :features, FeaturesType, null: true
     field :id, ID, null: false
     field :occurence_count, Integer
     field :phrase, String, null: false

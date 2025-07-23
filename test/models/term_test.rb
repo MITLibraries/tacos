@@ -21,7 +21,7 @@ class TermTest < ActiveSupport::TestCase
 
     post_create_count = Term.count
 
-    assert_equal((initial_count + 1), post_create_count)
+    assert_equal(initial_count + 1, post_create_count)
 
     assert_raises(ActiveRecord::RecordNotUnique) do
       Term.create!(phrase: 'popcorn')
@@ -55,7 +55,7 @@ class TermTest < ActiveSupport::TestCase
     term = terms('hi')
     term.destroy
 
-    assert_equal((term_pre_count - 1), Term.count)
+    assert_equal(term_pre_count - 1, Term.count)
     assert_operator(SearchEvent.count, :<, event_pre_count)
   end
 
@@ -66,7 +66,7 @@ class TermTest < ActiveSupport::TestCase
     term = terms('doi')
     term.destroy
 
-    assert_equal((term_pre_count - 1), Term.count)
+    assert_equal(term_pre_count - 1, Term.count)
     assert_operator(Detection.count, :<, detection_pre_count)
   end
 
@@ -77,7 +77,7 @@ class TermTest < ActiveSupport::TestCase
     term = terms('doi')
     term.destroy
 
-    assert_equal((term_pre_count - 1), Term.count)
+    assert_equal(term_pre_count - 1, Term.count)
     assert_operator(Categorization.count, :<, categorization_pre_count)
   end
 
@@ -237,18 +237,18 @@ class TermTest < ActiveSupport::TestCase
 
   test 'record_detections includes the external lambda with appropriate env defined' do
     # No new mlcitation is created without the lambda enabled.
-    mlcitation_before_count = Detection.where(detector_id: Detector.find_by(name: 'MlCitation').id ).count
+    mlcitation_before_count = Detection.where(detector_id: Detector.find_by(name: 'MlCitation').id).count
     t = terms('citation')
     t.record_detections
 
-    assert_equal mlcitation_before_count, Detection.where(detector_id: Detector.find_by(name: 'MlCitation').id ).count
+    assert_equal mlcitation_before_count, Detection.where(detector_id: Detector.find_by(name: 'MlCitation').id).count
 
     # However, with the lambda enabled, the same term triggers a detection.
     with_enabled_mlcitation do
       VCR.use_cassette('lambda citation') do
         t.record_detections
 
-        assert_operator mlcitation_before_count, :<, Detection.where(detector_id: Detector.find_by(name: 'MlCitation').id ).count
+        assert_operator mlcitation_before_count, :<, Detection.where(detector_id: Detector.find_by(name: 'MlCitation').id).count
       end
     end
   end
@@ -591,5 +591,108 @@ class TermTest < ActiveSupport::TestCase
     term.destroy
 
     assert_operator count, :-, 1, Term.count
+  end
+
+  test 'extracted features include doi' do
+    term = terms('doi')
+    features = term.features
+
+    assert_not_nil features[:doi]
+    assert_nil features[:isbn]
+    assert_nil features[:issn]
+    assert_nil features[:journal]
+    assert_nil features[:ml_citation]
+    assert_nil features[:pmid]
+  end
+
+  test 'extracted features include isbn' do
+    term = terms('isbn_9781319145446')
+    features = term.features
+
+    assert_nil features[:doi]
+    assert_not_nil features[:isbn]
+    assert_nil features[:issn]
+    assert_nil features[:journal]
+    assert_nil features[:ml_citation]
+    assert_nil features[:pmid]
+  end
+
+  test 'extracted features include issn' do
+    term = terms('issn_1075_8623')
+    features = term.features
+
+    assert_nil features[:doi]
+    assert_nil features[:isbn]
+    assert_not_nil features[:issn]
+    assert_nil features[:journal]
+    assert_nil features[:ml_citation]
+    assert_nil features[:pmid]
+  end
+
+  test 'extracted features include pmid' do
+    term = terms('pmid_38908367')
+    features = term.features
+
+    assert_nil features[:doi]
+    assert_nil features[:isbn]
+    assert_nil features[:issn]
+    assert_nil features[:journal]
+    assert_nil features[:ml_citation]
+    assert_not_nil features[:pmid]
+  end
+
+  test 'extracted features include journal' do
+    term = terms('journal_nature_medicine')
+    features = term.features
+
+    assert_nil features[:doi]
+    assert_nil features[:isbn]
+    assert_nil features[:issn]
+    assert_not_nil features[:journal]
+    assert_nil features[:ml_citation]
+    assert_nil features[:pmid]
+  end
+
+  test 'extracted features include barcode' do
+    term = terms('barcode')
+    features = term.features
+
+    assert_not_nil features[:barcode]
+    assert_nil features[:doi]
+    assert_nil features[:isbn]
+    assert_nil features[:issn]
+    assert_nil features[:journal]
+    assert_nil features[:ml_citation]
+    assert_nil features[:pmid]
+  end
+
+  test 'extracted features include citation components' do
+    term = terms('citation_with_all_the_things')
+    features = term.features
+
+    assert_nil features[:barcode]
+    assert_not_nil features[:doi]
+    assert_not_nil features[:isbn]
+    assert_not_nil features[:issn]
+    assert_nil features[:journal]
+    assert_nil features[:ml_citation]
+    assert_not_nil features[:pmid]
+
+    assert_predicate features[:counts][:apa_volume_issue], :positive?
+    assert_predicate features[:counts][:vol], :positive?
+    assert_predicate features[:counts][:no], :positive?
+    assert_predicate features[:counts][:pages], :positive?
+    assert_predicate features[:counts][:pp], :positive?
+    assert_predicate features[:counts][:year_parens], :positive?
+    assert_predicate features[:counts][:brackets], :positive?
+    assert_predicate features[:counts][:lastnames], :positive?
+
+    assert_predicate features[:counts][:characters], :positive?
+    assert_predicate features[:counts][:colons], :positive?
+    assert_predicate features[:counts][:commas], :positive?
+    assert_predicate features[:counts][:quotes], :positive?
+    assert_predicate features[:counts][:periods], :positive?
+    assert_predicate features[:counts][:semicolons], :positive?
+    assert_predicate features[:counts][:words], :positive?
   end
 end
