@@ -38,20 +38,22 @@ class Detector
     # If a positive result is received, a Detection is registered.
     #
     # @param term [Term]
-    # @return nil
+    # @return boolean
     def self.record(term)
       result = Detector::MlCitation.new(term.phrase)
-      return unless result.detection?
 
-      # Detections are registered to the "MlCitation" detector for now, but may end up replacing the "Citation" detector
-      # in a future step.
-      Detection.find_or_create_by(
-        term:,
-        detector: Detector.where(name: 'MlCitation').first,
-        detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
-      )
+      if result.detection?
 
-      nil
+        # Detections are registered to the "MlCitation" detector for now, but may end up replacing the "Citation" detector
+        # in a future step.
+        Detection.find_or_create_by(
+          term:,
+          detector: Detector.where(name: 'MlCitation').first,
+          detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
+        )
+      end
+
+      result
     end
 
     # lambda_path reads and returns the value of one environment variable.
