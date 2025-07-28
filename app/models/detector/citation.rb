@@ -27,8 +27,7 @@ class Detector
       year_parens: /\(\d{4}\)/,
       brackets: /\[.*?\]/,
       lastnames: /[A-Z][a-z]+[.,]/,
-      quotes: /&quot;.*?&quot;/,
-      quotation_marks: /".*"/
+      quotes: /&quot;.*?&quot;/
     }.freeze
 
     # The required score value is the threshold needed for a phrase to be officially recorded with a Detection via it's
