@@ -91,13 +91,14 @@ class Detector
     # @return [Hash] a hash of features extracted from the Term
     def self.record(term)
       cit = Detector::Citation.new(term.phrase)
-      return cit.features unless cit.detection?
 
-      Detection.find_or_create_by(
-        term:,
-        detector: Detector.where(name: 'Citation').first,
-        detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
-      )
+      if cit.detection?
+        Detection.find_or_create_by(
+          term:,
+          detector: Detector.where(name: 'Citation').first,
+          detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
+        )
+      end
 
       cit.features
     end
