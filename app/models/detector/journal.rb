@@ -48,13 +48,14 @@ class Detector
     # @return [Set of Journal] A set of ActiveRecord Journal records.
     def self.record(term)
       result = full_term_match(term.phrase)
-      return unless result.any?
 
-      Detection.find_or_create_by(
-        term:,
-        detector: Detector.where(name: 'Journal').first,
-        detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
-      )
+      if result.any?
+        Detection.find_or_create_by(
+          term:,
+          detector: Detector.where(name: 'Journal').first,
+          detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
+        )
+      end
 
       result
     end
