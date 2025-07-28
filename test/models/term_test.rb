@@ -597,6 +597,7 @@ class TermTest < ActiveSupport::TestCase
     term = terms('doi')
     features = term.features
 
+    assert_nil features[:barcode]
     assert_not_nil features[:doi]
     assert_nil features[:isbn]
     assert_nil features[:issn]
@@ -609,6 +610,7 @@ class TermTest < ActiveSupport::TestCase
     term = terms('isbn_9781319145446')
     features = term.features
 
+    assert_nil features[:barcode]
     assert_nil features[:doi]
     assert_not_nil features[:isbn]
     assert_nil features[:issn]
@@ -621,6 +623,7 @@ class TermTest < ActiveSupport::TestCase
     term = terms('issn_1075_8623')
     features = term.features
 
+    assert_nil features[:barcode]
     assert_nil features[:doi]
     assert_nil features[:isbn]
     assert_not_nil features[:issn]
@@ -633,6 +636,7 @@ class TermTest < ActiveSupport::TestCase
     term = terms('pmid_38908367')
     features = term.features
 
+    assert_nil features[:barcode]
     assert_nil features[:doi]
     assert_nil features[:isbn]
     assert_nil features[:issn]
@@ -645,6 +649,7 @@ class TermTest < ActiveSupport::TestCase
     term = terms('journal_nature_medicine')
     features = term.features
 
+    assert_nil features[:barcode]
     assert_nil features[:doi]
     assert_nil features[:isbn]
     assert_nil features[:issn]

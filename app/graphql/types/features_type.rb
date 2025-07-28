@@ -4,6 +4,7 @@ module Types
   class FeaturesType < Types::BaseObject
     description 'Features extracted from the input term. Useful for machine learning.'
 
+    field :barcode, String, null: true
     field :counts, CountsType, null: true
     field :doi, String, null: true
     field :isbn, String, null: true
