@@ -658,6 +658,23 @@ class TermTest < ActiveSupport::TestCase
     assert_nil features[:pmid]
   end
 
+  test 'extracted features include mlcitation' do
+    with_enabled_mlcitation do
+      VCR.use_cassette('lambda citation') do
+        term = terms('citation')
+        features = term.features
+
+        assert_nil features[:barcode]
+        assert_nil features[:doi]
+        assert_nil features[:isbn]
+        assert_nil features[:issn]
+        assert_nil features[:journal]
+        assert_not_nil features[:ml_citation]
+        assert_nil features[:pmid]
+      end
+    end
+  end
+
   test 'extracted features include barcode' do
     term = terms('barcode')
     features = term.features
@@ -672,32 +689,36 @@ class TermTest < ActiveSupport::TestCase
   end
 
   test 'extracted features include citation components' do
-    term = terms('citation_with_all_the_things')
-    features = term.features
+    with_enabled_mlcitation do
+      VCR.use_cassette('lambda citation all things') do
+        term = terms('citation_with_all_the_things')
+        features = term.features
 
-    assert_nil features[:barcode]
-    assert_not_nil features[:doi]
-    assert_not_nil features[:isbn]
-    assert_not_nil features[:issn]
-    assert_nil features[:journal]
-    assert_nil features[:ml_citation]
-    assert_not_nil features[:pmid]
+        assert_nil features[:barcode]
+        assert_not_nil features[:doi]
+        assert_not_nil features[:isbn]
+        assert_not_nil features[:issn]
+        assert_nil features[:journal]
+        assert_not_nil features[:ml_citation]
+        assert_not_nil features[:pmid]
 
-    assert_predicate features[:counts][:apa_volume_issue], :positive?
-    assert_predicate features[:counts][:vol], :positive?
-    assert_predicate features[:counts][:no], :positive?
-    assert_predicate features[:counts][:pages], :positive?
-    assert_predicate features[:counts][:pp], :positive?
-    assert_predicate features[:counts][:year_parens], :positive?
-    assert_predicate features[:counts][:brackets], :positive?
-    assert_predicate features[:counts][:lastnames], :positive?
+        assert_predicate features[:counts][:apa_volume_issue], :positive?
+        assert_predicate features[:counts][:vol], :positive?
+        assert_predicate features[:counts][:no], :positive?
+        assert_predicate features[:counts][:pages], :positive?
+        assert_predicate features[:counts][:pp], :positive?
+        assert_predicate features[:counts][:year_parens], :positive?
+        assert_predicate features[:counts][:brackets], :positive?
+        assert_predicate features[:counts][:lastnames], :positive?
 
-    assert_predicate features[:counts][:characters], :positive?
-    assert_predicate features[:counts][:colons], :positive?
-    assert_predicate features[:counts][:commas], :positive?
-    assert_predicate features[:counts][:quotes], :positive?
-    assert_predicate features[:counts][:periods], :positive?
-    assert_predicate features[:counts][:semicolons], :positive?
-    assert_predicate features[:counts][:words], :positive?
+        assert_predicate features[:counts][:characters], :positive?
+        assert_predicate features[:counts][:colons], :positive?
+        assert_predicate features[:counts][:commas], :positive?
+        assert_predicate features[:counts][:quotes], :positive?
+        assert_predicate features[:counts][:periods], :positive?
+        assert_predicate features[:counts][:semicolons], :positive?
+        assert_predicate features[:counts][:words], :positive?
+      end
+    end
   end
 end

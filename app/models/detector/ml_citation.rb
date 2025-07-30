@@ -53,7 +53,7 @@ class Detector
         )
       end
 
-      result
+      result.detections
     end
 
     # lambda_path reads and returns the value of one environment variable.
