@@ -271,6 +271,62 @@ class Detector
       end
     end
 
+    test 'record method returns features when detection is false' do
+      t = terms('hi')
+
+      # Confirm phrase is not a detection
+      assert_not Detector::Citation.new(t.phrase).detection?
+
+      # Confirm record method returns features
+      result = Detector::Citation.record(t)
+
+      # Confirm features are in the expected format and contain expected values
+      assert_kind_of Hash, result
+      assert_equal 11, result[:characters]
+      assert_equal 0, result[:colons]
+      assert_equal 0, result[:commas]
+      assert_equal 0, result[:periods]
+      assert_equal 0, result[:semicolons]
+      assert_equal 2, result[:words]
+      assert_equal 0, result[:apa_volume_issue]
+      assert_equal 0, result[:no]
+      assert_equal 0, result[:pages]
+      assert_equal 0, result[:pp]
+      assert_equal 0, result[:vol]
+      assert_equal 0, result[:year_parens]
+      assert_equal 0, result[:brackets]
+      assert_equal 0, result[:lastnames]
+      assert_equal 0, result[:quotes]
+    end
+
+    test 'record method returns features when detection is true' do
+      t = terms('citation')
+
+      # Confirm phrase is a detection
+      assert_predicate Detector::Citation.new(t.phrase), :detection?
+
+      # Confirm record method returns features
+      result = Detector::Citation.record(t)
+
+      # Confirm features are in the expected format and contain expected values
+      assert_kind_of Hash, result
+      assert_equal 265, result[:characters]
+      assert_equal 3, result[:colons]
+      assert_equal 7, result[:commas]
+      assert_equal 11, result[:periods]
+      assert_equal 2, result[:semicolons]
+      assert_equal 33, result[:words]
+      assert_equal 0, result[:apa_volume_issue]
+      assert_equal 1, result[:no]
+      assert_equal 0, result[:pages]
+      assert_equal 0, result[:pp]
+      assert_equal 1, result[:vol]
+      assert_equal 0, result[:year_parens]
+      assert_equal 2, result[:brackets]
+      assert_equal 4, result[:lastnames]
+      assert_equal 1, result[:quotes]
+    end
+
     test 'detections returns nil when score is lower than configured' do
       result = Detector::Citation.new('nothing here')
 

@@ -5,11 +5,16 @@ module Types
     field :categories, [Types::CategoriesType], description: 'The list of categories linked to term provided in this search'
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :detectors, Types::DetectorsType
+    field :features, FeaturesType, null: true
     field :id, ID, null: false
     field :phrase, String
     field :source, String
     field :term_id, Integer
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+
+    def features
+      @object.term.features
+    end
 
     def phrase
       @object.term.phrase

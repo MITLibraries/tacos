@@ -85,19 +85,22 @@ class Detector
 
     # The record method first runs all of the parsers by running the initialize method. If the resulting score is higher
     # than the REQUIRED_SCORE value, then a Detection is registered.
+    #
     # @param term [Term]
-    # @return nil
+    #
+    # @return [Hash] a hash of features extracted from the Term
     def self.record(term)
       cit = Detector::Citation.new(term.phrase)
-      return unless cit.detection?
 
-      Detection.find_or_create_by(
-        term:,
-        detector: Detector.where(name: 'Citation').first,
-        detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
-      )
+      if cit.detection?
+        Detection.find_or_create_by(
+          term:,
+          detector: Detector.where(name: 'Citation').first,
+          detector_version: ENV.fetch('DETECTOR_VERSION', 'unset')
+        )
+      end
 
-      nil
+      cit.features
     end
 
     private

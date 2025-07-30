@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3000/foo
+    body:
+      encoding: UTF-8
+      string: '{"action":"predict","features":{"apa":1,"brackets":1,"colons":2,"commas":7,"lastnames":3,"no":1,"pages":3,"periods":15,"pp":1,"quotes":1,"semicolons":3,"vol":1,"words":32,"year":1},"challenge_secret":"FAKE_DETECTOR_CHALLENGE_SECRET"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.12.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Werkzeug/3.0.6 Python/3.11.10
+      Date:
+      - Wed, 30 Jul 2025 15:38:30 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '18'
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"response": true}'
+  recorded_at: Wed, 30 Jul 2025 15:38:30 GMT
+recorded_with: VCR 6.3.1

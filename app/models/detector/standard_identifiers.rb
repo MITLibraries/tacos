@@ -32,7 +32,7 @@ class Detector
     #       a separate Detection record (although a single check finding multiple matches would still only result in one
     #       Detection for that check).
     #
-    # @return nil
+    # @return [Hash] a hash of standard identifiers extracted from the Term
     def self.record(term)
       si = Detector::StandardIdentifiers.new(term.phrase)
 
@@ -44,7 +44,7 @@ class Detector
         )
       end
 
-      nil
+      si.detections
     end
 
     private
