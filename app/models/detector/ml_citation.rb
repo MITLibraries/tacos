@@ -7,11 +7,15 @@ class Detector
     # For now the initialize method just needs to consult the external lambda.
     #
     #   @param phrase String. Often a `Term.phrase`.
-    #   @return Nothing intentional. Data is written to Hash `@detections` during processing.
+    #   @return Nothing intentional. Data is written to Boolean `@detections` during processing.
     def initialize(phrase)
+      @detections = false
       return unless self.class.expected_env?
 
-      response = fetch(phrase)
+      features = extract_features(phrase)
+      return unless enough_nonzero_values?(features)
+
+      response = fetch(features)
       @detections = response unless response == 'Error'
     end
 
@@ -111,10 +115,10 @@ class Detector
     # define_payload defines the Hash that will be sent to the lambda.
     #
     # @return Hash
-    def define_payload(phrase)
+    def define_payload(features)
       {
         action: 'predict',
-        features: extract_features(phrase),
+        features: features,
         challenge_secret: self.class.lambda_secret
       }
     end
@@ -135,9 +139,9 @@ class Detector
     # error handling with the response.
     #
     # @return Boolean or 'Error'
-    def fetch(phrase)
+    def fetch(features)
       lambda = define_lambda
-      payload = define_payload(phrase)
+      payload = define_payload(features)
 
       response = lambda.post(self.class.lambda_path, payload.to_json)
 
@@ -150,6 +154,14 @@ class Detector
 
         'Error'
       end
+    end
+
+    # Enough_nonzero_values? checks that a provided hash contains at least three values which are not zero.
+    #
+    # @param hash Hash
+    # @return Integer
+    def enough_nonzero_values?(hash)
+      hash.values.count { |v| v != 0 } >= 3
     end
   end
 end
