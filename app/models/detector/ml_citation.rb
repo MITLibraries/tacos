@@ -9,8 +9,9 @@ class Detector
     #   @param phrase String. Often a `Term.phrase`.
     #   @return Nothing intentional. Data is written to Boolean `@detections` during processing.
     def initialize(phrase)
-      @detections = false
       return unless self.class.expected_env?
+
+      @detections = false
 
       features = extract_features(phrase)
       return unless enough_nonzero_values?(features)
@@ -157,6 +158,11 @@ class Detector
     end
 
     # Enough_nonzero_values? checks that a provided hash contains at least three values which are not zero.
+    #
+    # @note We chose 3 as our value here after analyzing the behavior of the citation detector across nearly a year of
+    #   search traffic. For searches which had only one or two features that are not zero, we found no actual citations.
+    #   To see the analyses, look at the "Filtering results" and "Surprising predictions" notebooks at
+    #   https://github.com/MITLibraries/tacos-notebooks/tree/main/notebooks/explorations
     #
     # @param hash Hash
     # @return Integer
