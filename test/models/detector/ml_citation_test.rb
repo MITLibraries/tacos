@@ -77,9 +77,29 @@ class Detector
 
             assert_instance_of Detector::MlCitation, prediction
 
-            assert_nil(prediction.detections)
+            assert_equal(false, prediction.detections)
           end
         end
+      end
+    end
+
+    test 'lookup skips fetching a prediction for search phrases with less than three features' do
+      Detector::MlCitation.any_instance.expects(:fetch).never
+
+      with_enabled_mlcitation do
+        # This search phrase is expected to have only two non-zero feature values, which based on
+        # our analyses will never result in a predicted citation.
+        Detector::MlCitation.new('foobar (2025)')
+      end
+    end
+
+    test 'lookup does not skip fetching a prediction for search phrases with three or more features' do
+      Detector::MlCitation.any_instance.expects(:fetch).once
+
+      with_enabled_mlcitation do
+        # This search phrase is expected to have three non-zero feature values, which is the minimum
+        # number we expect to have any hope of a citation.
+        Detector::MlCitation.new('foobar (2025) 1234-76')
       end
     end
 
