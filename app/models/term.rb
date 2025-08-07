@@ -14,6 +14,7 @@
 #  flag                  :boolean
 #  fingerprint_id        :integer
 #  suggested_resource_id :integer
+#  label                 :boolean
 #
 class Term < ApplicationRecord
   has_many :search_events, dependent: :destroy
@@ -30,6 +31,10 @@ class Term < ApplicationRecord
   scope :categorized, -> { where.associated(:categorizations).distinct }
   scope :user_confirmed, -> { where.associated(:confirmations).distinct }
   scope :user_unconfirmed, -> { where.missing(:confirmations).distinct }
+
+  scope :labelled_true, -> { where(label: true) }
+  scope :labelled_false, -> { where(label: false) }
+  scope :labelled, -> { labelled_true.or(labelled_false) }
 
   # The fingerprint method returns the constructed fingerprint field from the related Fingerprint record. In the
   # rare condition when no Fingerprint record exists, this method returns Nil.
