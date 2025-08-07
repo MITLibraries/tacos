@@ -133,6 +133,7 @@ class Detector
       features[:apa] = features.delete :apa_volume_issue
       features[:year] = features.delete :year_parens
       features.delete :characters
+      features.delete :lastnames
       features.sort.to_h
     end
 

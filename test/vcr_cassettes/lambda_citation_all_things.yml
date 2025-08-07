@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:3000/foo
     body:
       encoding: UTF-8
-      string: '{"action":"predict","features":{"apa":1,"brackets":1,"colons":2,"commas":7,"lastnames":3,"no":1,"pages":3,"periods":15,"pp":1,"quotes":1,"semicolons":3,"vol":1,"words":32,"year":1},"challenge_secret":"FAKE_DETECTOR_CHALLENGE_SECRET"}'
+      string: '{"action":"predict","features":{"apa":1,"brackets":1,"colons":2,"commas":7,"no":1,"pages":3,"periods":15,"pp":1,"quotes":1,"semicolons":3,"vol":1,"words":32,"year":1},"challenge_secret":"FAKE_DETECTOR_CHALLENGE_SECRET"}'
     headers:
       Content-Type:
       - application/json
@@ -23,7 +23,7 @@ http_interactions:
       Server:
       - Werkzeug/3.0.6 Python/3.11.10
       Date:
-      - Wed, 30 Jul 2025 15:38:30 GMT
+      - Wed, 06 Aug 2025 19:37:58 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -33,5 +33,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"response": true}'
-  recorded_at: Wed, 30 Jul 2025 15:38:30 GMT
+  recorded_at: Wed, 06 Aug 2025 19:37:58 GMT
 recorded_with: VCR 6.3.1
