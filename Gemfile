@@ -87,6 +87,7 @@ gem 'stringex'
 # gem "image_processing", "~> 1.2"
 
 group :production do
+  gem 'connection_pool', '< 3'
   # Use postgres as the database for Active Record
   gem 'pg'
 end
@@ -128,6 +129,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'climate_control'
+  gem 'minitest', '< 6'
   gem 'mocha'
   gem 'selenium-webdriver'
   gem 'simplecov'
