@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TermController < ApplicationController
-  include Pagy::Backend
+  include Pagy::Method
 
   # This provides the list of terms that are awaiting confirmation. By default this shows only terms which have been
   # categorized automatically. Adding `type=all` to the querystring will show _all_ terms which the user has not yet

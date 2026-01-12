@@ -10,7 +10,7 @@ take you to the form for submitting this information.</p>
 </p>
 <% end %>
 
-<p><%== pagy_info(@pagy) %></p>
+<p><%== @pagy.info_tag %></p>
 
 <ul class="list-unbulleted">
 <% @records.each do |t| %>
@@ -18,4 +18,4 @@ take you to the form for submitting this information.</p>
 <% end %>
 </ul>
 
-<%== pagy_nav(@pagy) %>
+<%== @pagy.series_nav %>
