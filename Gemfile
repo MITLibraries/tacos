@@ -138,4 +138,4 @@ group :test do
   gem 'webmock'
 end
 
-gem 'administrate', '~> 0.20.1'
+gem 'administrate', '~> 1.0.0'
