@@ -129,7 +129,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'climate_control'
-  gem 'minitest', '< 6'
+  gem 'minitest', '< 7'
   gem 'mocha'
   gem 'selenium-webdriver'
   gem 'simplecov'
