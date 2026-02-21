@@ -106,7 +106,7 @@ GEM
     bigdecimal (4.0.1)
     bindata (2.5.0)
     bindex (0.8.1)
-    bootsnap (1.22.0)
+    bootsnap (1.23.0)
       msgpack (~> 1.2)
     builder (3.3.0)
     cancancan (3.6.1)
@@ -235,7 +235,7 @@ GEM
     matrix (0.4.2)
     mini_mime (1.1.5)
     minitest (5.27.0)
-    mocha (3.0.1)
+    mocha (3.0.2)
       ruby2_keywords (>= 0.0.5)
     msgpack (1.8.0)
     multi_json (1.15.0)
@@ -251,13 +251,13 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.5)
-    nokogiri (1.19.0-aarch64-linux-gnu)
+    nokogiri (1.19.1-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.19.0-arm64-darwin)
+    nokogiri (1.19.1-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.0-x86_64-darwin)
+    nokogiri (1.19.1-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.0-x86_64-linux-gnu)
+    nokogiri (1.19.1-x86_64-linux-gnu)
       racc (~> 1.4)
     omniauth (2.1.4)
       hashie (>= 3.4.6)
@@ -284,11 +284,12 @@ GEM
       validate_url
       webfinger (~> 2.0)
     orm_adapter (0.5.0)
-    pagy (43.2.9)
+    pagy (43.3.0)
       json
+      uri
       yaml
     parallel (1.27.0)
-    parser (3.3.10.1)
+    parser (3.3.10.2)
       ast (~> 2.4.1)
       racc
     pg (1.6.3-aarch64-linux)
@@ -306,7 +307,7 @@ GEM
     puma (7.2.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (3.2.4)
+    rack (3.2.5)
     rack-cors (3.0.0)
       logger
       rack (>= 3.0.14)
@@ -372,7 +373,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.4.4)
-    rubocop (1.84.1)
+    rubocop (1.84.2)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -389,7 +390,7 @@ GEM
     rubocop-capybara (2.22.1)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
-    rubocop-graphql (1.5.6)
+    rubocop-graphql (1.6.0)
       lint_roller (~> 1.1)
       rubocop (>= 1.72.1, < 2)
     rubocop-minitest (0.38.2)
@@ -417,21 +418,22 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    scout_apm (6.0.2)
+    scout_apm (6.1.1)
       parser
     securerandom (0.4.1)
-    selenium-webdriver (4.40.0)
+    selenium-webdriver (4.41.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
-    sentry-rails (6.3.0)
+    sentry-rails (6.3.1)
       railties (>= 5.2.0)
-      sentry-ruby (~> 6.3.0)
-    sentry-ruby (6.3.0)
+      sentry-ruby (~> 6.3.1)
+    sentry-ruby (6.3.1)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
+      logger
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -503,7 +505,7 @@ GEM
       nokogiri (~> 1.8)
     yaml (0.4.0)
     yard (0.9.38)
-    zeitwerk (2.7.4)
+    zeitwerk (2.7.5)
 
 PLATFORMS
   aarch64-linux
