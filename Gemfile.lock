@@ -549,7 +549,7 @@ DEPENDENCIES
   http
   importmap-rails
   jbuilder
-  minitest (< 6)
+  minitest (< 7)
   mitlibraries-theme!
   mocha
   omniauth
