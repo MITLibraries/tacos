@@ -83,7 +83,7 @@ GEM
       minitest (>= 5.1)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
-    addressable (2.8.8)
+    addressable (2.8.9)
       public_suffix (>= 2.0.2, < 8.0)
     administrate (1.0.0)
       actionpack (>= 6.0, < 9.0)
@@ -103,7 +103,7 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.20)
     benchmark (0.5.0)
-    bigdecimal (4.0.1)
+    bigdecimal (4.1.0)
     bindata (2.5.0)
     bindex (0.8.1)
     bootsnap (1.23.0)
@@ -205,7 +205,7 @@ GEM
       bindata
       faraday (~> 2.0)
       faraday-follow_redirects
-    json-schema (6.1.0)
+    json-schema (6.2.0)
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
     kaminari (1.2.2)
@@ -237,7 +237,7 @@ GEM
       net-smtp
     marcel (1.1.0)
     matrix (0.4.2)
-    mcp (0.7.1)
+    mcp (0.9.2)
       json-schema (>= 4.1)
     mini_mime (1.1.5)
     minitest (5.27.0)
@@ -309,7 +309,7 @@ GEM
     psych (5.3.1)
       date
       stringio
-    public_suffix (6.0.2)
+    public_suffix (7.0.5)
     puma (7.2.0)
       nio4r (~> 2.0)
     racc (1.8.1)
