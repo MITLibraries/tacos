@@ -87,7 +87,7 @@ gem 'stringex'
 # gem "image_processing", "~> 1.2"
 
 group :production do
-  gem 'connection_pool', '< 3'
+  gem 'connection_pool', '< 4'
   # Use postgres as the database for Active Record
   gem 'pg'
 end
