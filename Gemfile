@@ -32,7 +32,9 @@ gem 'importmap-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
-gem 'mitlibraries-theme', git: 'https://github.com/mitlibraries/mitlibraries-theme', tag: 'v1.4'
+gem 'mitlibraries-theme',
+  git: 'https://github.com/mitlibraries/mitlibraries-theme',
+  tag: 'v1.5'
 
 # Use OmniAuth as Touchstone middleware and include the OIDC strategy and CSRF protection gems
 gem 'omniauth'
@@ -52,7 +54,7 @@ gem 'puma', '>= 5.0'
 gem 'scout_apm'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.2.2'
+gem 'rails', '~> 8.0.0'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -87,7 +89,7 @@ gem 'stringex'
 # gem "image_processing", "~> 1.2"
 
 group :production do
-  gem 'connection_pool', '< 3'
+  gem 'connection_pool'
   # Use postgres as the database for Active Record
   gem 'pg'
 end
@@ -129,7 +131,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'climate_control'
-  gem 'minitest', '< 6'
+  gem 'minitest'
   gem 'mocha'
   gem 'selenium-webdriver'
   gem 'simplecov'
