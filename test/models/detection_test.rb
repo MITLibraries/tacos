@@ -5,11 +5,23 @@
 # Table name: detections
 #
 #  id               :integer          not null, primary key
-#  term_id          :integer          not null
-#  detector_id      :integer          not null
 #  detector_version :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  detector_id      :integer          not null
+#  term_id          :integer          not null
+#
+# Indexes
+#
+#  idx_on_detector_id_term_id_detector_version_2afa383b1f  (detector_id,term_id,detector_version) UNIQUE
+#  idx_on_term_id_detector_id_detector_version_03898e846f  (term_id,detector_id,detector_version) UNIQUE
+#  index_detections_on_detector_id                         (detector_id)
+#  index_detections_on_term_id                             (term_id)
+#
+# Foreign Keys
+#
+#  detector_id  (detector_id => detectors.id)
+#  term_id      (term_id => terms.id)
 #
 require 'test_helper'
 

@@ -5,10 +5,14 @@
 # Table name: journals
 #
 #  id              :integer          not null, primary key
-#  name            :string
 #  additional_info :json
+#  name            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_journals_on_name  (name)
 #
 
 # Journal is the list of academic journals which are known to TACOS. This list of records is referred to by the

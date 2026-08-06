@@ -3,11 +3,25 @@
 # Table name: confirmations
 #
 #  id          :integer          not null, primary key
-#  user_id     :integer          not null
-#  term_id     :integer          not null
-#  category_id :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  category_id :integer          not null
+#  term_id     :integer          not null
+#  user_id     :integer          not null
+#
+# Indexes
+#
+#  index_confirmations_on_category_id          (category_id)
+#  index_confirmations_on_term_id              (term_id)
+#  index_confirmations_on_term_id_and_user_id  (term_id,user_id) UNIQUE
+#  index_confirmations_on_user_id              (user_id)
+#  index_confirmations_on_user_id_and_term_id  (user_id,term_id) UNIQUE
+#
+# Foreign Keys
+#
+#  category_id  (category_id => categories.id)
+#  term_id      (term_id => terms.id)
+#  user_id      (user_id => users.id)
 #
 minimal:
   user: valid
