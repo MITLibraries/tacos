@@ -25,7 +25,7 @@ coverage: test # Run tests and open coverage report in default web browser
 #######################
 
 annotate: # update Rails models documentation header
-	bundle exec annotate --models
+	bundle exec annotaterb models
 
 docserver: # runs local documentation server
 	rm -rf .yardoc # Clears cache as it's sketchy af

@@ -109,7 +109,7 @@ end
 
 group :development do
   # Add annotations to model, test, fixtures when run
-  gem 'annotate'
+  gem 'annotaterb'
 
   # RuboCop is a Ruby static code analyzer (a.k.a. linter) and code formatter.
   gem 'rubocop', require: false
