@@ -134,7 +134,9 @@ apps; it should never be manually set or overridden in any environment.
 
 ### Annotations
 
-`make annotate` when making changes to models will update their internal documentation.
+`make annotate` will ensure that models have current internal documentation. This uses the [annotaterb](https://rubygems.org/gems/annotaterb) gem.
+
+Other options provided by this gem can be explored via `bundle exec annotaterb help`.
 
 ### Reference
 
