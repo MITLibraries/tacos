@@ -3,11 +3,16 @@
 # Table name: users
 #
 #  id         :integer          not null, primary key
-#  uid        :string           not null
+#  admin      :boolean          default(FALSE)
 #  email      :string           not null
+#  uid        :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  admin      :boolean          default(FALSE)
+#
+# Indexes
+#
+#  index_users_on_email  (email) UNIQUE
+#  index_users_on_uid    (uid) UNIQUE
 #
 
 # This model initially had no columns defined. If you add columns to the

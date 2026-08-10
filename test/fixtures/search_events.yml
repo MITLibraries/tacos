@@ -3,10 +3,15 @@
 # Table name: search_events
 #
 #  id         :integer          not null, primary key
-#  term_id    :integer
 #  source     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  term_id    :integer
+#
+# Indexes
+#
+#  index_search_events_on_source   (source)
+#  index_search_events_on_term_id  (term_id)
 #
 
 timdex_cool:

@@ -9,6 +9,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_detectors_on_name  (name) UNIQUE
+#
 require 'test_helper'
 
 class DetectorTest < ActiveSupport::TestCase

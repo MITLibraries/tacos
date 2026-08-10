@@ -9,6 +9,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  unique_fingerprint  (value) UNIQUE
+#
 class Fingerprint < ApplicationRecord
   has_many :terms, dependent: :nullify
 

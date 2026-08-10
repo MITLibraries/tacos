@@ -5,19 +5,19 @@
 # Table name: metrics_algorithms
 #
 #  id                       :integer          not null, primary key
-#  month                    :date
+#  barcode                  :integer
+#  citation                 :integer
 #  doi                      :integer
-#  issn                     :integer
 #  isbn                     :integer
+#  issn                     :integer
+#  journal_exact            :integer
+#  lcsh                     :integer
+#  month                    :date
 #  pmid                     :integer
+#  suggested_resource_exact :integer
 #  unmatched                :integer
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
-#  journal_exact            :integer
-#  suggested_resource_exact :integer
-#  lcsh                     :integer
-#  citation                 :integer
-#  barcode                  :integer
 #
 require 'test_helper'
 

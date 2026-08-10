@@ -19,6 +19,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_detectors_on_name  (name) UNIQUE
+#
 class Detector < ApplicationRecord
   has_many :detector_categories, dependent: :destroy
   has_many :categories, through: :detector_categories

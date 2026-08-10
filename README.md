@@ -132,6 +132,12 @@ apps; it should never be manually set or overridden in any environment.
 
 [Pattern Detection and Enhancement](docs/explanation/pattern_detection_and_enhancement.md)
 
+### Annotations
+
+`make annotate` will ensure that models have current internal documentation. This uses the [annotaterb](https://rubygems.org/gems/annotaterb) gem.
+
+Other options provided by this gem can be explored via `bundle exec annotaterb help`.
+
 ### Reference
 
 `make docserver` will start a `yard` server using the RDoc comments from the codebase. RDoc in this application is a work-in-progress and should improve over time. As of this writing, the index page generated contains broken links to our markdown documentation, but they "files" navigation displays them properly.

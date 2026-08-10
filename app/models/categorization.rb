@@ -13,12 +13,23 @@
 # Table name: categorizations
 #
 #  id               :integer          not null, primary key
-#  category_id      :integer          not null
-#  term_id          :integer          not null
 #  confidence       :float
 #  detector_version :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  category_id      :integer          not null
+#  term_id          :integer          not null
+#
+# Indexes
+#
+#  idx_on_term_id_category_id_confidence_detector_vers_2ed1c1cbf9  (term_id,category_id,confidence,detector_version) UNIQUE
+#  index_categorizations_on_category_id                            (category_id)
+#  index_categorizations_on_term_id                                (term_id)
+#
+# Foreign Keys
+#
+#  category_id  (category_id => categories.id)
+#  term_id      (term_id => terms.id)
 #
 class Categorization < ApplicationRecord
   belongs_to :term

@@ -5,12 +5,20 @@
 # Table name: suggested_resources
 #
 #  id          :integer          not null, primary key
+#  confidence  :float            default(0.9)
 #  title       :string
 #  url         :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :integer
-#  confidence  :float            default(0.9)
+#
+# Indexes
+#
+#  index_suggested_resources_on_category_id  (category_id)
+#
+# Foreign Keys
+#
+#  category_id  (category_id => categories.id) ON DELETE => nullify
 #
 class SuggestedResource < ApplicationRecord
   has_many :terms, dependent: :nullify
