@@ -70,6 +70,10 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 
 gem 'rack-cors'
 
+# Replace default logger with semantic logging
+gem 'rails_semantic_logger'
+gem 'amazing_print'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

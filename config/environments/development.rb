@@ -40,6 +40,14 @@ Rails.application.configure do
   # Set localhost to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
+  # Log configuration for rails_semantic_logger
+  config.rails_semantic_logger.appenders do |appenders|
+    appenders.add(file_name: "log/#{Rails.env}.log", formatter: :color)
+    appenders.add_server(
+      formatter: {color: {ap: {multiline: true}}}
+    )
+  end
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
