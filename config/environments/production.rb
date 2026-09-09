@@ -44,11 +44,6 @@ Rails.application.configure do
     appenders.add(io: $stdout, formatter: :json)
   end
 
-  # Log to STDOUT by default
-  config.logger = ActiveSupport::Logger.new(STDOUT)
-    .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
-    .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
-
   # Log to STDOUT with the current request id as a default log tag.
   config.log_tags = [ :request_id ]
 
