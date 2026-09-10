@@ -42,8 +42,9 @@ Rails.application.configure do
 
   # Log configuration for rails_semantic_logger
   config.rails_semantic_logger.appenders do |appenders|
+    multiline = ENV.fetch("SEMANTIC_LOGGER_MULTILINE", "true").downcase == "true"
     appenders.add_server(
-      formatter: {color: {ap: {multiline: true}}}
+      formatter: {color: {ap: {multiline: multiline}}}
     )
   end
 
