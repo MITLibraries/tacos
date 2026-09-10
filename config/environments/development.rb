@@ -42,7 +42,6 @@ Rails.application.configure do
 
   # Log configuration for rails_semantic_logger
   config.rails_semantic_logger.appenders do |appenders|
-    appenders.add(file_name: "log/#{Rails.env}.log", formatter: :color)
     appenders.add_server(
       formatter: {color: {ap: {multiline: true}}}
     )

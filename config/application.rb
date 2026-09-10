@@ -23,10 +23,5 @@ module Tacos
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
-    # This application leverages SemanticLogger for more useful logging and
-    # insights. The details of that implementation vary by environment, but
-    # certain configuration is the same everywhere.
-    SemanticLogger.application = ENV.fetch("RAILS_APP_NAME", "tacos")
   end
 end

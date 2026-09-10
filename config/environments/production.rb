@@ -40,6 +40,7 @@ Rails.application.configure do
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
   # Log configuration for rails_semantic_logger
+  SemanticLogger.application = ENV.fetch("RAILS_APP_NAME", "tacos")
   config.rails_semantic_logger.appenders do |appenders|
     appenders.add(io: $stdout, formatter: :json)
   end
