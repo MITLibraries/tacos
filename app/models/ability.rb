@@ -12,7 +12,7 @@ class Ability
     # Start of Rules for all authenticated user with no additional roles required
     return if user.blank?
 
-    # Allow all authenticated users to performa all CRUD actions on Suggested Resources
+    # Allow all authenticated users to performa all CRUD actions on Suggested Resource detectors
     can :manage, :detector__suggested_resource
     can :manage, Detector::SuggestedResource
 
@@ -37,10 +37,17 @@ class Ability
     can :manage, Confirmation
     # End of Rules for all authenticated user with no additional roles required
 
+    # Rules for suggestors
+    suggestor_abilities if user.suggestor?
+
     # Rules for admins
     return unless user.admin?
 
     can :confirm_uncategorized, Term
     can :manage, :all
+  end
+
+  def suggestor_abilities
+    can :manage, :suggestions
   end
 end
