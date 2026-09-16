@@ -13,6 +13,9 @@
             <% if can? :manage, Confirmation %>
               <%= link_to('Confirm terms', terms_unconfirmed_path, class: 'nav-item') %>
             <% end %>
+            <% if can? :manage, :suggestions %>
+              <%= link_to('Suggestions', suggestions_path, class: 'nav-item') %>
+            <% end %>
             <% if can? :index, Term %>
               <%= link_to('Admin', admin_root_path, class: 'nav-item') %>
             <% end %>

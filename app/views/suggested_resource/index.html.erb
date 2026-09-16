@@ -1,0 +1,35 @@
+<div class="wrap-outer-breadcrumb layout-band" role="navigation" aria-label="breadcrumbs">
+  <div class="breadcrumbs">
+    <a href="/" title="Home">Home</a>
+    »
+    <a href="/suggestions" title="Suggestions">Suggestions</a>
+    »
+    Resources
+  </div>
+</div>
+
+<h3>Suggested Resources</h3>
+
+<table class="table table-simplified table-cozy">
+  <thead>
+    <tr>
+      <th scope="col">Suggestion</th>
+      <th scope="col">URL</th>
+      <th scope="col">Terms</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @resources.each do |resource| %>
+    <tr>
+      <td><%= resource.title %></td>
+      <td><%= resource.url %></td>
+      <td><%= resource.terms.size %></td>
+    </tr>
+<% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3"><%= @resources.length %> total resources</td>
+    </tr>
+  </tfoot>
+</table>

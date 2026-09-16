@@ -35,6 +35,11 @@ Rails.application.routes.draw do
   get '/report', to: 'report#index'
   get '/report/algorithm_metrics', to: 'report#algorithm_metrics'
 
+  # Suggestion management interface
+  get '/suggestions', to: 'suggestion#index'
+  get '/suggestions/resources', to: 'suggested_resource#index', as: 'suggested_resource'
+  get '/suggestions/patterns', to: 'suggested_pattern#index', as: 'suggested_pattern'
+
   # Confirmation interface
   get '/terms/unconfirmed', to: 'term#unconfirmed', as: 'terms_unconfirmed'
   resources :terms do
