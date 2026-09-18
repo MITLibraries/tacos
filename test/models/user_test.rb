@@ -7,6 +7,7 @@
 #  id         :integer          not null, primary key
 #  admin      :boolean          default(FALSE)
 #  email      :string           not null
+#  suggestor  :boolean          default(FALSE)
 #  uid        :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -53,10 +54,19 @@ class UserTest < ActiveSupport::TestCase
     user = users(:admin)
 
     assert_predicate user, :admin?
+    assert_not_predicate user, :suggestor?
     assert_predicate user, :valid?
   end
 
-  test 'non-admin user is valid' do
+  test 'suggestor user is valid' do
+    user = users(:suggestor)
+
+    assert_not_predicate user, :admin?
+    assert_predicate user, :suggestor?
+    assert_predicate user, :valid?
+  end
+
+  test 'basic user is valid' do
     user = users(:basic)
 
     assert_not user.admin?
