@@ -1,0 +1,37 @@
+<div class="wrap-outer-breadcrumb layout-band">
+  <div class="breadcrumbs" role="navigation" aria-label="breadcrumbs">
+    <a href="/" title="Home">Home</a>
+    »
+    <a href="/suggestions" title="Suggestions">Suggestions</a>
+    »
+    Patterns
+  </div>
+</div>
+
+<h3>Suggested Patterns</h3>
+
+<table class="table table-simplified table-cozy">
+  <thead>
+    <tr>
+      <th scope="col">Suggestion</th>
+      <th scope="col">URL</th>
+      <th scope="col">Pattern</th>
+      <th scope="col">Shortcode</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @records.each do |record| %>
+    <tr>
+      <td><%= record.title %></td>
+      <td><%= record.url %></td>
+      <td><%= record.pattern %></td>
+      <td><%= record.shortcode %></td>
+    </tr>
+<% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4"><%= @records.count %> total patterns</td>
+    </tr>
+  </tfoot>
+</table>
