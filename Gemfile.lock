@@ -92,7 +92,7 @@ GEM
       activerecord (>= 6.0, < 9.0)
       kaminari (~> 1.2.2)
     aes_key_wrap (1.1.0)
-    amazing_print (2.0.0)
+    amazing_print (3.0.0)
     annotaterb (4.24.0)
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
