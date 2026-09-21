@@ -38,6 +38,10 @@ Rails.application.routes.draw do
   # Suggestion management interface
   get '/suggestions', to: 'suggestion#index'
   get '/suggestions/resources', to: 'suggested_resource#index', as: 'suggested_resource'
+  get '/suggestions/resources/new', to: 'suggested_resource#new', as: 'suggested_resource_new'
+  post '/suggestions/resources', to: 'suggested_resource#create', as: 'suggested_resource_create'
+  get '/suggestions/resources/:id', to: 'suggested_resource#edit', as: 'suggested_resource_edit'
+  patch '/suggestions/resources/:id', to: 'suggested_resource#update', as: 'suggested_resource_update'
   get '/suggestions/patterns', to: 'suggested_pattern#index', as: 'suggested_pattern'
 
   # Confirmation interface

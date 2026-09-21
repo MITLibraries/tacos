@@ -10,6 +10,8 @@
 
 <h3>Suggested Resources</h3>
 
+<p><%= link_to("New suggested resource", suggested_resource_new_path ) %></p>
+
 <table class="table table-simplified table-cozy">
   <thead>
     <tr>
@@ -21,7 +23,7 @@
   <tbody>
 <% @resources.each do |resource| %>
     <tr>
-      <td><%= resource.title %></td>
+      <td><%= link_to(resource.title, suggested_resource_edit_path(resource.id)) %></td>
       <td><%= resource.url %></td>
       <td><%= resource.terms.size %></td>
     </tr>

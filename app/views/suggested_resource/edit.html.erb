@@ -1,0 +1,36 @@
+<div class="wrap-outer-breadcrumb layout-band" role="navigation" aria-label="breadcrumbs">
+  <div class="breadcrumbs">
+    <a href="/" title="Home">Home</a>
+    »
+    <a href="/suggestions" title="Suggestions">Suggestions</a>
+    »
+    <%= link_to( "Resources", suggested_resource_path ) %>
+    »
+    <%= @resource.title %>
+  </div>
+</div>
+
+<h3>Edit Suggested Resource</h3>
+
+  <div class="field-wrap">
+    <%= f.label :title, class: "field-label" %>
+    <%= f.text_field :title, class: "field field-text wide" %>
+  </div>
+  <div class="field-wrap">
+    <%= f.label :url, class: "field-label" %>
+    <%= f.text_field :url, class: "field field-text wide" %>
+  </div>
+  <fieldset>
+    <legend>Search terms</legend>
+    <p>This resource is currently affiliated with the following search terms:</p>
+    <ul class="list-unbulleted">
+    <% @record.terms.each do |t| %>
+      <li class="well"><%= t.phrase %></li>
+    <% end %>
+    </ul>
+  </fieldset>
+  <div class="field-wrap">
+    <%= f.submit %>
+  </div>
+<%= form_with model: @resource, url: suggested_resource_update_path(@resource) do |f| %>
+<% end %>
