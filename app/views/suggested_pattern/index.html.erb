@@ -10,6 +10,8 @@
 
 <h3>Suggested Patterns</h3>
 
+<p><%= link_to("New suggested pattern", suggested_pattern_new_path ) %></p>
+
 <table class="table table-simplified table-cozy">
   <thead>
     <tr>
@@ -22,7 +24,7 @@
   <tbody>
 <% @resources.each do |resource| %>
     <tr>
-      <td><%= resource.title %></td>
+      <td><%= link_to(resource.title, suggested_pattern_edit_path(resource.id)) %></td>
       <td><%= resource.url %></td>
       <td><%= resource.pattern %></td>
       <td><%= resource.shortcode %></td>
