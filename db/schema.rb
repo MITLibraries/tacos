@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_16_202006) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_24_185125) do
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -133,9 +133,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_202006) do
     t.integer "category_id"
     t.float "confidence", default: 0.9
     t.datetime "created_at", null: false
-    t.string "title"
+    t.string "title", null: false
     t.datetime "updated_at", null: false
-    t.string "url"
+    t.string "url", null: false
     t.index ["category_id"], name: "index_suggested_resources_on_category_id"
   end
 

@@ -224,6 +224,49 @@ class SuggestedResourceControllerTest < ActionDispatch::IntegrationTest
   end
 
   # Functionality tests (all these tests use the "suggestor" role) -------------
+  test 'suggested resources cannot be created with nil values' do
+    sign_in users(:suggestor)
+
+    initial_record_count = SuggestedResource.count
+
+    post  suggested_resource_create_path,
+          params: {
+            suggested_resource: {
+              title: nil,
+              url: nil
+            }
+          }
+
+    assert_redirected_to suggested_resource_new_path
+    follow_redirect!
+
+    assert_includes @response.body, 'Suggested Resource "" could not be created'
+
+    assert_equal initial_record_count, SuggestedResource.count
+  end
+
+  test 'suggested resources cannot be updated to have nil values' do
+    sign_in users(:suggestor)
+
+    target_record = SuggestedResource.last
+
+    assert_not_equal target_record.title, nil
+
+    patch suggested_resource_update_path(target_record.id),
+          params: {
+            suggested_resource: {
+              title: nil,
+              url: nil
+            }
+          }
+
+    assert_redirected_to suggested_resource_path
+    follow_redirect!
+
+    assert_includes @response.body, "Suggested Resource \"#{target_record.title}\" could not be updated"
+    assert_equal target_record, SuggestedResource.last
+  end
+
   test 'suggested resources can be created with a term' do
     sign_in users(:suggestor)
 

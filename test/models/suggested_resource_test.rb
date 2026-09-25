@@ -6,8 +6,8 @@
 #
 #  id          :integer          not null, primary key
 #  confidence  :float            default(0.9)
-#  title       :string
-#  url         :string
+#  title       :string           not null
+#  url         :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :integer
