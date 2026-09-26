@@ -16,8 +16,6 @@ Rails.application.routes.draw do
     resources :detector_categories
     resources :categories
     resources :categorizations, only: [:index, :show]
-    resources :suggested_patterns
-    resources :suggested_resources
 
     # Search activity models
     resources :search_events, only: [:index, :show]
@@ -34,6 +32,19 @@ Rails.application.routes.draw do
   get 'playground', to: 'static#playground'
   get '/report', to: 'report#index'
   get '/report/algorithm_metrics', to: 'report#algorithm_metrics'
+
+  # Suggestion management interface
+  get '/suggestions', to: 'suggestion#index'
+  get '/suggestions/resources', to: 'suggested_resource#index', as: 'suggested_resource'
+  get '/suggestions/resources/new', to: 'suggested_resource#new', as: 'suggested_resource_new'
+  post '/suggestions/resources', to: 'suggested_resource#create', as: 'suggested_resource_create'
+  get '/suggestions/resources/:id', to: 'suggested_resource#edit', as: 'suggested_resource_edit'
+  patch '/suggestions/resources/:id', to: 'suggested_resource#update', as: 'suggested_resource_update'
+  get '/suggestions/patterns', to: 'suggested_pattern#index', as: 'suggested_pattern'
+  get '/suggestions/patterns/new', to: 'suggested_pattern#new', as: 'suggested_pattern_new'
+  post '/suggestions/patterns', to: 'suggested_pattern#create', as: 'suggested_pattern_create'
+  get '/suggestions/patterns/:id', to: 'suggested_pattern#edit', as: 'suggested_pattern_edit'
+  patch '/suggestions/patterns/:id', to: 'suggested_pattern#update', as: 'suggested_pattern_update'
 
   # Confirmation interface
   get '/terms/unconfirmed', to: 'term#unconfirmed', as: 'terms_unconfirmed'

@@ -1,0 +1,17 @@
+<div class="wrap-outer-breadcrumb layout-band" role="navigation" aria-label="breadcrumbs">
+  <div class="breadcrumbs">
+    <a href="/" title="Home">Home</a>
+    »
+    <a href="/suggestions" title="Suggestions">Suggestions</a>
+    »
+    <%= link_to( "Resources", suggested_resource_path ) %>
+    »
+    New suggested resource
+  </div>
+</div>
+
+<h3>New Suggested Resource</h3>
+
+<%= form_with model: @resource, url: suggested_resource_create_path do |f| %>
+  <%= render 'form', { f: f } %>
+<% end %>

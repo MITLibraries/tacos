@@ -6,8 +6,8 @@
 #
 #  id          :integer          not null, primary key
 #  confidence  :float            default(0.9)
-#  title       :string
-#  url         :string
+#  title       :string           not null
+#  url         :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :integer
@@ -21,6 +21,9 @@
 #  category_id  (category_id => categories.id) ON DELETE => nullify
 #
 class SuggestedResource < ApplicationRecord
+  validates :title, presence: true
+  validates :url, presence: true, url: true
+
   has_many :terms, dependent: :nullify
   has_many :fingerprints, through: :terms, dependent: :nullify
 

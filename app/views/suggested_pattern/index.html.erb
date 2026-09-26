@@ -1,0 +1,39 @@
+<div class="wrap-outer-breadcrumb layout-band" role="navigation" aria-label="breadcrumbs">
+  <div class="breadcrumbs">
+    <a href="/" title="Home">Home</a>
+    »
+    <a href="/suggestions" title="Suggestions">Suggestions</a>
+    »
+    Patterns
+  </div>
+</div>
+
+<h3>Suggested Patterns</h3>
+
+<p><%= link_to("New suggested pattern", suggested_pattern_new_path ) %></p>
+
+<table class="table table-simplified table-cozy">
+  <thead>
+    <tr>
+      <th scope="col">Suggestion</th>
+      <th scope="col">URL</th>
+      <th scope="col">Pattern</th>
+      <th scope="col">Shortcode</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @resources.each do |resource| %>
+    <tr>
+      <td><%= link_to(resource.title, suggested_pattern_edit_path(resource.id)) %></td>
+      <td><%= resource.url %></td>
+      <td><%= resource.pattern %></td>
+      <td><%= resource.shortcode %></td>
+    </tr>
+<% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4"><%= @resources.length %> total patterns</td>
+    </tr>
+  </tfoot>
+</table>

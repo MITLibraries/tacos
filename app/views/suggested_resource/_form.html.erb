@@ -1,0 +1,25 @@
+  <div class="field-wrap">
+    <%= f.label :title, class: "field-label" %>
+    <%= f.text_field :title, class: "field field-text wide" %>
+  </div>
+  <div class="field-wrap">
+    <%= f.label :url, class: "field-label" %>
+    <%= f.text_field :url, class: "field field-text wide" %>
+  </div>
+  <fieldset data-controller="term-fields">
+    <legend>Search terms</legend>
+    <p>This resource is currently affiliated with the following search terms:</p>
+    <template data-term-fields-target="template">
+      <%= render 'term_field_new', { index: nil, phrase: nil } %>
+    </template>
+    <ul class="list-unbulleted" data-term-fields-target="container">
+    <% @resource.terms.each do |t| %>
+      <%# initial field rendered here, not in template %>
+      <%= render 'term_field_existing', { id: t.id, phrase: t.phrase } %>
+    <% end %>
+    </ul>
+    <button type="button" data-action="term-fields#add" class="btn button-primary">Add another term</button>
+  </fieldset>
+  <div class="field-wrap">
+    <%= f.submit %>
+  </div>
