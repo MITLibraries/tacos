@@ -247,6 +247,52 @@ class SuggestedPatternControllerTest < ActionDispatch::IntegrationTest
     assert_equal initial_record_count, SuggestedPattern.count
   end
 
+  test 'suggested patterns cannot be created with malicious urls' do
+    sign_in users(:suggestor)
+
+    initial_record_count = SuggestedPattern.count
+
+    post  suggested_pattern_create_path,
+          params: {
+            suggested_pattern: {
+              title: 'malicious',
+              url: 'javascript://console.log("malicious");',
+              shortcode: 'malicious',
+              pattern: '[\s\S]*'
+            }
+          }
+
+    assert_redirected_to suggested_pattern_new_path
+    follow_redirect!
+
+    assert_includes @response.body, 'Suggested Pattern "malicious" could not be created'
+
+    assert_equal initial_record_count, SuggestedPattern.count
+  end
+
+  test 'suggested patterns must have valid regular expressions' do
+    sign_in users(:suggestor)
+
+    initial_record_count = SuggestedPattern.count
+
+    post  suggested_pattern_create_path,
+          params: {
+            suggested_pattern: {
+              title: 'malformed',
+              url: 'https://example.org',
+              shortcode: 'malformed',
+              pattern: '[\s\\'
+            }
+          }
+
+    assert_redirected_to suggested_pattern_new_path
+    follow_redirect!
+
+    assert_includes @response.body, 'Suggested Pattern "malformed" could not be created'
+
+    assert_equal initial_record_count, SuggestedPattern.count
+  end
+
   test 'suggested patterns cannot be updated to have nil values' do
     sign_in users(:suggestor)
 

@@ -22,7 +22,7 @@
 #
 class SuggestedResource < ApplicationRecord
   validates :title, presence: true
-  validates :url, presence: true
+  validates :url, presence: true, url: true
 
   has_many :terms, dependent: :nullify
   has_many :fingerprints, through: :terms, dependent: :nullify

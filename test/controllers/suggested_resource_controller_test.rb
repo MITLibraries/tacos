@@ -245,6 +245,27 @@ class SuggestedResourceControllerTest < ActionDispatch::IntegrationTest
     assert_equal initial_record_count, SuggestedResource.count
   end
 
+  test 'suggested resources cannot be created with malicious urls' do
+    sign_in users(:suggestor)
+
+    initial_record_count = SuggestedResource.count
+
+    post  suggested_resource_create_path,
+          params: {
+            suggested_resource: {
+              title: 'malicious',
+              url: 'javascript://console.log("malicious");'
+            }
+          }
+
+    assert_redirected_to suggested_resource_new_path
+    follow_redirect!
+
+    assert_includes @response.body, 'Suggested Resource "malicious" could not be created'
+
+    assert_equal initial_record_count, SuggestedResource.count
+  end
+
   test 'suggested resources cannot be updated to have nil values' do
     sign_in users(:suggestor)
 
