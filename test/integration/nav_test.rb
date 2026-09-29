@@ -44,8 +44,6 @@ class NavTest < ActionDispatch::IntegrationTest
       assert_select 'a[href=?]', root_path
       assert_select 'a[href=?]', suggestions_path
       assert_select 'a[href=?]', admin_root_path
-
-      # Suggestors do not see:
     end
   end
 
@@ -57,8 +55,6 @@ class NavTest < ActionDispatch::IntegrationTest
       assert_select 'a[href=?]', root_path
       assert_select 'a[href=?]', suggestions_path
       assert_select 'a[href=?]', admin_root_path
-
-      # Admins do not see:
     end
   end
 end

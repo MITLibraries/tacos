@@ -42,6 +42,10 @@ class SuggestedPatternTest < ActiveSupport::TestCase
 
     assert_predicate sp, :valid?
 
+    sp.url = 'https://example.com/standards'
+
+    assert_predicate sp, :valid?
+
     sp.url = 'http://example.com/standards'
 
     assert_predicate sp, :valid?
@@ -69,7 +73,7 @@ class SuggestedPatternTest < ActiveSupport::TestCase
     assert_not_predicate sp, :valid?
   end
 
-  test 'pattern is must be a parsable regex' do
+  test 'pattern must be a parsable regex' do
     sp = suggested_patterns('astm')
 
     assert_predicate sp, :valid?
