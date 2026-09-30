@@ -3,6 +3,8 @@
 class SuggestedPatternController < ApplicationController
   before_action :authorize
 
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   def authorize
     authorize! :manage, :suggestions
   end
@@ -47,7 +49,23 @@ class SuggestedPatternController < ApplicationController
     end
   end
 
+  # We are using delete instead of destroy because this application doesn't implement any of the hooks or guardrails
+  # from which a destroy operation would benefit.
+  def delete
+    resource = SuggestedPattern.find(params.expect(:id))
+    resource.delete
+
+    flash[:success] = "Suggested Pattern \"#{resource.title}\" deleted"
+
+    redirect_to suggested_pattern_path
+  end
+
   private
+
+  def not_found
+    flash[:error] = "Requested Suggested Pattern (id: #{params[:id]}) not found"
+    redirect_back_or_to suggested_pattern_path
+  end
 
   def suggested_pattern_params
     params.expect(suggested_pattern: %i[title url pattern shortcode])

@@ -33,3 +33,7 @@
     <%= f.submit "Update Suggested Pattern", class: "btn button-primary" %>
   </div>
 <% end %>
+
+<%= form_with model: @resource, url: suggested_pattern_delete_path(@resource), method: "delete" do |f| %>
+  <%= f.submit( class: "btn button-primary warn", value: "Delete \"#{@resource.title}\" (id: #{@resource.id})" ) %>
+<% end %>

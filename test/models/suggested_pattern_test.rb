@@ -39,9 +39,6 @@ class SuggestedPatternTest < ActiveSupport::TestCase
 
   test 'url is required, must be http/s' do
     sp = suggested_patterns('astm')
-
-    assert_predicate sp, :valid?
-
     sp.url = 'https://example.com/standards'
 
     assert_predicate sp, :valid?

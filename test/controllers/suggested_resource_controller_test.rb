@@ -23,6 +23,10 @@ class SuggestedResourceControllerTest < ActionDispatch::IntegrationTest
           }
   end
 
+  def delete_record(id)
+    delete suggested_resource_delete_path(id)
+  end
+
   # Access tests for different user types --------------------------------------
   # - Suggested resource list
   test 'suggested resource list is not accessible without authentication' do
@@ -223,6 +227,67 @@ class SuggestedResourceControllerTest < ActionDispatch::IntegrationTest
     assert_equal initial_record_count, SuggestedResource.count
   end
 
+  # - Suggested resource delete action
+  test 'suggested resources cannot be deleted by basic users' do
+    sign_in users(:basic)
+
+    initial_record_count = SuggestedResource.count
+
+    last_record = SuggestedResource.last
+
+    delete_record(last_record.id)
+
+    assert_redirected_to '/'
+    follow_redirect!
+
+    assert_select 'div.alert', text: 'Not authorized.', count: 1
+    assert_equal initial_record_count, SuggestedResource.count
+  end
+
+  test 'suggested resources can be deleted by suggestors' do
+    sign_in users(:suggestor)
+
+    initial_record_count = SuggestedResource.count
+    initial_term_count = Term.count
+
+    last_record = SuggestedResource.last
+
+    # Confirm that this record has a term
+    assert_operator last_record.terms.count, :>, 0
+
+    delete_record(last_record.id)
+
+    follow_redirect!
+
+    assert_equal path, suggested_resource_path
+    assert_includes @response.body, "Suggested Resource \"#{last_record.title}\" deleted"
+    # One fewer Suggested Resource, no fewer terms
+    assert_equal initial_record_count - 1, SuggestedResource.count
+    assert_equal initial_term_count, Term.count
+  end
+
+  test 'suggested resources can be deleted by admins' do
+    sign_in users(:admin)
+
+    initial_record_count = SuggestedResource.count
+    initial_term_count = Term.count
+
+    last_record = SuggestedResource.last
+
+    # Confirm that this record has a term
+    assert_operator last_record.terms.count, :>, 0
+
+    delete_record(last_record.id)
+
+    follow_redirect!
+
+    assert_equal path, suggested_resource_path
+    assert_includes @response.body, "Suggested Resource \"#{last_record.title}\" deleted"
+    # One fewer Suggested Resource, no fewer terms
+    assert_equal initial_record_count - 1, SuggestedResource.count
+    assert_equal initial_term_count, Term.count
+  end
+
   # Functionality tests (all these tests use the "suggestor" role) -------------
   test 'suggested resources cannot be created with nil values' do
     sign_in users(:suggestor)
@@ -243,6 +308,25 @@ class SuggestedResourceControllerTest < ActionDispatch::IntegrationTest
     assert_includes @response.body, 'Suggested Resource "" could not be created'
 
     assert_equal initial_record_count, SuggestedResource.count
+  end
+
+  test 'requesting edit forms for non-existent records is caught and redirected' do
+    sign_in users(:suggestor)
+
+    # Make sure we're actually looking for a non-existent record
+    last_record = SuggestedResource.last
+
+    missing_id = last_record.id + 1
+    missing = SuggestedResource.find_by(id: missing_id)
+
+    assert_nil missing
+
+    get suggested_resource_edit_path(missing_id)
+
+    assert_redirected_to suggested_resource_path
+    follow_redirect!
+
+    assert_includes @response.body, "Requested Suggested Resource (id: #{missing_id}) not found"
   end
 
   test 'suggested resources cannot be created with malicious urls' do

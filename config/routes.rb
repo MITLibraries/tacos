@@ -40,11 +40,13 @@ Rails.application.routes.draw do
   post '/suggestions/resources', to: 'suggested_resource#create', as: 'suggested_resource_create'
   get '/suggestions/resources/:id', to: 'suggested_resource#edit', as: 'suggested_resource_edit'
   patch '/suggestions/resources/:id', to: 'suggested_resource#update', as: 'suggested_resource_update'
+  delete '/suggestions/resources/:id', to: 'suggested_resource#delete', as: 'suggested_resource_delete'
   get '/suggestions/patterns', to: 'suggested_pattern#index', as: 'suggested_pattern'
   get '/suggestions/patterns/new', to: 'suggested_pattern#new', as: 'suggested_pattern_new'
   post '/suggestions/patterns', to: 'suggested_pattern#create', as: 'suggested_pattern_create'
   get '/suggestions/patterns/:id', to: 'suggested_pattern#edit', as: 'suggested_pattern_edit'
   patch '/suggestions/patterns/:id', to: 'suggested_pattern#update', as: 'suggested_pattern_update'
+  delete '/suggestions/patterns/:id', to: 'suggested_pattern#delete', as: 'suggested_pattern_delete'
 
   # Confirmation interface
   get '/terms/unconfirmed', to: 'term#unconfirmed', as: 'terms_unconfirmed'

@@ -3,6 +3,8 @@
 class SuggestedResourceController < ApplicationController
   before_action :authorize
 
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   def authorize
     authorize! :manage, :suggestions
   end
@@ -59,6 +61,17 @@ class SuggestedResourceController < ApplicationController
     end
   end
 
+  # We are using delete instead of destroy because this application doesn't implement any of the hooks or guardrails
+  # from which a destroy operation would benefit.
+  def delete
+    resource = SuggestedResource.find(params.expect(:id))
+    resource.delete
+
+    flash[:success] = "Suggested Resource \"#{resource.title}\" deleted"
+
+    redirect_to suggested_resource_path
+  end
+
   private
 
   def update_term_associations(resource, params)
@@ -75,6 +88,11 @@ class SuggestedResourceController < ApplicationController
     end
 
     resource
+  end
+
+  def not_found
+    flash[:error] = "Requested Suggested Resource (id: #{params[:id]}) not found"
+    redirect_back_or_to suggested_resource_path
   end
 
   def suggested_resource_params

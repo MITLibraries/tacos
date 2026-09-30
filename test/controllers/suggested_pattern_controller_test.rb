@@ -27,6 +27,10 @@ class SuggestedPatternControllerTest < ActionDispatch::IntegrationTest
           }
   end
 
+  def delete_record(id)
+    delete suggested_pattern_delete_path(id)
+  end
+
   # Access tests for different user types --------------------------------------
   # - Suggested pattern list
   test 'suggested pattern list is not accessible without authentication' do
@@ -223,6 +227,55 @@ class SuggestedPatternControllerTest < ActionDispatch::IntegrationTest
     assert_equal initial_record_count, SuggestedPattern.count
   end
 
+  # - Suggested pattern delete action
+  test 'suggested patterns cannot be deleted by basic users' do
+    sign_in users(:basic)
+
+    initial_record_count = SuggestedPattern.count
+
+    last_record = SuggestedPattern.last
+
+    delete_record(last_record.id)
+
+    assert_redirected_to '/'
+    follow_redirect!
+
+    assert_select 'div.alert', text: 'Not authorized.', count: 1
+    assert_equal initial_record_count, SuggestedPattern.count
+  end
+
+  test 'suggested patterns can be deleted by suggestors' do
+    sign_in users(:suggestor)
+
+    initial_record_count = SuggestedPattern.count
+
+    last_record = SuggestedPattern.last
+
+    delete_record(last_record.id)
+
+    follow_redirect!
+
+    assert_equal path, suggested_pattern_path
+    assert_includes @response.body, "Suggested Pattern \"#{last_record.title}\" deleted"
+    assert_equal initial_record_count - 1, SuggestedPattern.count
+  end
+
+  test 'suggested patterns can be deleted by admins' do
+    sign_in users(:admin)
+
+    initial_record_count = SuggestedPattern.count
+
+    last_record = SuggestedPattern.last
+
+    delete_record(last_record.id)
+
+    follow_redirect!
+
+    assert_equal path, suggested_pattern_path
+    assert_includes @response.body, "Suggested Pattern \"#{last_record.title}\" deleted"
+    assert_equal initial_record_count - 1, SuggestedPattern.count
+  end
+
   # Functionality tests (all these tests use the "suggestor" role) -------------
   test 'suggested patterns cannot be created with nil values' do
     sign_in users(:suggestor)
@@ -245,6 +298,25 @@ class SuggestedPatternControllerTest < ActionDispatch::IntegrationTest
     assert_includes @response.body, 'Suggested Pattern "" could not be created'
 
     assert_equal initial_record_count, SuggestedPattern.count
+  end
+
+  test 'requesting edit form for non-existent record is caught and redirected' do
+    sign_in users(:suggestor)
+
+    # Make sure we're actually looking for a non-existent record
+    last_record = SuggestedPattern.last
+
+    missing_id = last_record.id + 1
+    missing = SuggestedPattern.find_by(id: missing_id)
+
+    assert_nil missing
+
+    get suggested_pattern_edit_path(missing_id)
+
+    assert_redirected_to suggested_pattern_path
+    follow_redirect!
+
+    assert_includes @response.body, "Requested Suggested Pattern (id: #{missing_id}) not found"
   end
 
   test 'suggested patterns cannot be created with malicious urls' do
