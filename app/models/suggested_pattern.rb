@@ -26,8 +26,8 @@
 #
 class SuggestedPattern < ApplicationRecord
   validates :title, presence: true
-  validates :url, presence: true
-  validates :pattern, presence: true, uniqueness: true
+  validates :url, presence: true, url: true
+  validates :pattern, presence: true, uniqueness: true, regex: true
   validates :shortcode, presence: true, uniqueness: true
 
   belongs_to :category, optional: true

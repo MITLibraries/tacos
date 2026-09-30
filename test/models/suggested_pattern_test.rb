@@ -37,12 +37,25 @@ class SuggestedPatternTest < ActiveSupport::TestCase
     assert_not_predicate sp, :valid?
   end
 
-  test 'url is required' do
+  test 'url is required, must be http/s' do
     sp = suggested_patterns('astm')
+    sp.url = 'https://example.com/standards'
+
+    assert_predicate sp, :valid?
+
+    sp.url = 'http://example.com/standards'
 
     assert_predicate sp, :valid?
 
     sp.url = nil
+
+    assert_not_predicate sp, :valid?
+
+    sp.url = 'what'
+
+    assert_not_predicate sp, :valid?
+
+    sp.url = 'javascript://console.log("nefarious");'
 
     assert_not_predicate sp, :valid?
   end
@@ -53,6 +66,16 @@ class SuggestedPatternTest < ActiveSupport::TestCase
     assert_predicate sp, :valid?
 
     sp.pattern = nil
+
+    assert_not_predicate sp, :valid?
+  end
+
+  test 'pattern must be a parsable regex' do
+    sp = suggested_patterns('astm')
+
+    assert_predicate sp, :valid?
+
+    sp.pattern = '[foo'
 
     assert_not_predicate sp, :valid?
   end

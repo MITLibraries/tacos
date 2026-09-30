@@ -7,6 +7,7 @@
 #  id         :integer          not null, primary key
 #  admin      :boolean          default(FALSE)
 #  email      :string           not null
+#  suggestor  :boolean          default(FALSE)
 #  uid        :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

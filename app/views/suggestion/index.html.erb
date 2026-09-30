@@ -1,0 +1,33 @@
+<div class="wrap-outer-breadcrumb layout-band" role="navigation" aria-label="breadcrumbs">
+  <div class="breadcrumbs">
+    <a href="/" title="Home">Home</a>
+    »
+    Suggestions
+  </div>
+</div>
+
+<h3>Suggested Responses</h3>
+
+<p>TACOS provides for two types of suggested responses: Resources and Patterns.</p>
+
+<div class="inline-action well">
+  <div class="message">
+    <h4 class="title">Suggested Resources</h4>
+    <p>Suggestions based on specific search terms: <em>aerospace research central</em></p>
+  </div>
+  <div class="actions">
+    <a class="button button-primary" href="/suggestions/resources"><%= @resources %> items</a>
+  </div>
+</div>
+
+<div class="gridband">
+  <div class="inline-action well">
+    <div class="message">
+      <h4 class="title">Suggested Patterns</h4>
+      <p>Suggestions based on regular expressions: <em>(ASCE|asce)(\s)(\d)</em></p>
+    </div>
+    <div class="actions">
+      <a class="button button-primary" href="/suggestions/patterns"><%= @patterns %> items</a>
+    </div>
+  </div>
+</div>
