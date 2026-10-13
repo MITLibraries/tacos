@@ -5,6 +5,7 @@
 #  id         :integer          not null, primary key
 #  admin      :boolean          default(FALSE)
 #  email      :string           not null
+#  suggestor  :boolean          default(FALSE)
 #  uid        :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -27,8 +28,16 @@ basic:
   uid: "basic@example.org"
   email: "basic@example.org"
   admin: false
+  suggestor: false
+
+suggestor:
+  uid: "suggestor@example.org"
+  email: "suggestor@example.org"
+  admin: false
+  suggestor: true
 
 admin:
   uid: "admin@example.org"
   email: "admin@example.org"
   admin: true
+  suggestor: false

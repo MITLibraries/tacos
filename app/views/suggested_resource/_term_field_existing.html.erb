@@ -1,0 +1,11 @@
+<% # This template is used to render associated terms as delete-only options for
+   # terms that exist when the form is loaded.
+%>
+<li class="well field-wrap" data-term-fields-target="field">
+  <strong>Search term</strong><br>
+  <%= label_tag nil, class: "field-label" do %>
+    <%= checkbox_tag "term[delete][]", value: id %>
+    <%= phrase %>
+    <span class="btn button-secondary warn">Remove this term</span>
+  <% end %>
+</li>

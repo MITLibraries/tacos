@@ -1,0 +1,21 @@
+<div class="wrap-outer-breadcrumb layout-band" role="navigation" aria-label="breadcrumbs">
+  <div class="breadcrumbs">
+    <a href="/" title="Home">Home</a>
+    »
+    <a href="/suggestions" title="Suggestions">Suggestions</a>
+    »
+    <%= link_to( "Resources", suggested_resource_path ) %>
+    »
+    <%= @resource.title %>
+  </div>
+</div>
+
+<h3>Edit Suggested Resource</h3>
+
+<%= form_with model: @resource, url: suggested_resource_update_path(@resource) do |f| %>
+  <%= render 'form', { f: f } %>
+<% end %>
+
+<%= form_with model: @resource, url: suggested_resource_delete_path(@resource), method: "delete" do |f| %>
+  <%= f.submit( class: "btn button-primary warn", value: "Delete \"#{@resource.title}\" (id: #{@resource.id})" ) %>
+<% end %>

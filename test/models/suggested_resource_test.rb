@@ -6,8 +6,8 @@
 #
 #  id          :integer          not null, primary key
 #  confidence  :float            default(0.9)
-#  title       :string
-#  url         :string
+#  title       :string           not null
+#  url         :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :integer
@@ -23,6 +23,30 @@
 require 'test_helper'
 
 class SuggestedResourceTest < ActiveSupport::TestCase
+  test 'urls are only valid if http or https' do
+    resource = {
+      title: 'Sample'
+    }
+
+    assert_not_predicate(SuggestedResource.new(resource), :valid?)
+
+    resource[:url] = 'string'
+
+    assert_not_predicate(SuggestedResource.new(resource), :valid?)
+
+    resource[:url] = 'javascript://console.log("nefarious");'
+
+    assert_not_predicate(SuggestedResource.new(resource), :valid?)
+
+    resource[:url] = 'http://example.org'
+
+    assert_predicate(SuggestedResource.new(resource), :valid?)
+
+    resource[:url] = 'https://example.org'
+
+    assert_predicate(SuggestedResource.new(resource), :valid?)
+  end
+
   test 'fingerprints are generated with new terms' do
     resource = {
       title: 'Our latest resource',

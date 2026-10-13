@@ -1,0 +1,12 @@
+<% # This template is used to render text inputs for terms that should be added
+   # to the record.
+%>
+<li class="well field-wrap" data-term-fields-target="field">
+  <%= label_tag nil,
+                class: "field-label" do %>
+    Search term
+    <%= text_field_tag "term[append][]",
+                       phrase,
+                       class: "field field-text wide" %>
+  <% end %>
+</li>
