@@ -1,3 +1,3 @@
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
-ARG RUBY_VERSION=3.4.10@sha256:deffb4e6de73422dfe0b93384f6a82e530040048e2df4256aa0f6b22a4cffdff
+ARG RUBY_VERSION=3.4.13@sha256:f3003cc4c595a6ba61ecf1fc733df1e0b07ace3266512473d3f7e96f0b4b325d
 FROM ghcr.io/rails/devcontainer/images/ruby:$RUBY_VERSION
